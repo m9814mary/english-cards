@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Phrase Diary</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --bg2: #EFECE5;
+    --bg3: #E5E1D8;
+    --ink: #1A1814;
+    --ink2: #4A4640;
+    --ink3: #7A7570;
+    --accent: #C8602A;
+    --accent2: #8B3A1C;
+    --gold: #B8942A;
+    --border: #D8D3C8;
+    --card: #FDFCF9;
+    --tag-casual: #2A6B4A;
+    --tag-formal: #2A4A8B;
+    --tag-textbook: #6B4A2A;
+    --tag-native: #C8602A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--accent);
+  }
+  .site-header .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    letter-spacing: 0.04em;
+    color: var(--bg);
+  }
+  .site-header .logo span { color: var(--accent); }
+  .date-badge {
+    font-size: 0.75rem;
+    color: var(--ink3);
+    background: #2A2825;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* TODAY'S NOTE */
+  .today-note {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 1.25rem 2rem;
+    border-bottom: 1px solid #333;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .today-note .note-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    font-weight: 600;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+  .today-note .note-text {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #C8C4BE;
+    font-style: italic;
+  }
+  .today-note .note-en {
+    font-size: 0.8rem;
+    color: #888480;
+    margin-top: 4px;
+  }
+
+  /* SPEED SELECTOR */
+  .controls-bar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0.6rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .controls-bar label {
+    font-size: 0.75rem;
+    color: var(--ink3);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .speed-group { display: flex; gap: 4px; }
+  .speed-btn {
+    background: none;
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    cursor: pointer;
+    color: var(--ink2);
+    transition: all 0.15s;
+  }
+  .speed-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .speed-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+  /* TAB NAVIGATION */
+  .tab-nav-wrapper {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tab-nav-wrapper::-webkit-scrollbar { display: none; }
+  .tab-nav {
+    display: flex;
+    gap: 0;
+    min-width: max-content;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    padding: 1rem 1.25rem;
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: var(--ink3);
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    position: relative;
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .tab-btn .tab-num {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.6rem;
+    color: var(--ink3);
+    font-weight: 500;
+    margin-bottom: 2px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .tab-btn.active .tab-num { color: var(--accent2); }
+
+  /* MAIN CONTENT */
+  .main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  .phrase-panel { display: none; animation: fadeIn 0.3s ease; }
+  .phrase-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* PHRASE HERO */
+  .phrase-hero {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem 2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .phrase-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+  }
+  .phrase-hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .phrase-hero h1 .phrase-num {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+  .phrase-meaning-short {
+    font-size: 0.95rem;
+    color: var(--ink2);
+    line-height: 1.6;
+  }
+
+  /* SECTION CARDS */
+  .section-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--bg2);
+    padding: 0.875rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--ink);
+  }
+  .section-icon { font-size: 1.1rem; }
+  .section-body { padding: 1.5rem; }
+
+  /* NUANCE BOX */
+  .nuance-box {
+    background: var(--bg2);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--ink2);
+  }
+  .nuance-box strong { color: var(--ink); }
+
+  /* PATTERN LIST */
+  .pattern-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--bg3);
+  }
+  .pattern-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .pattern-en {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+  .pattern-en .blank {
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent);
+    padding: 0 2px;
+  }
+  .pattern-ja {
+    font-size: 0.8rem;
+    color: var(--ink3);
+    margin-bottom: 0.4rem;
+  }
+  .pattern-note {
+    font-size: 0.8rem;
+    color: var(--ink2);
+    background: var(--bg2);
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  /* EXAMPLE SENTENCE */
+  .example-item {
+    padding: 1.1rem 0;
+    border-bottom: 1px dashed var(--bg3);
+  }
+  .example-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .example-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .example-en {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--ink);
+    flex: 1;
+  }
+  .example-en strong { color: var(--accent2); font-weight: 600; }
+  .example-ja {
+    font-size: 0.8rem;
+    color: var(--ink3);
+    margin-top: 0.35rem;
+    line-height: 1.55;
+  }
+  .speak-btn {
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    color: var(--ink3);
+    margin-top: 2px;
+  }
+  .speak-btn:hover { border-color: var(--accent); color: var(--accent); background: #FFF5F0; }
+  .speak-btn.playing { border-color: var(--accent); color: var(--accent); animation: pulse 0.6s infinite alternate; }
+  @keyframes pulse { from { opacity: 1; } to { opacity: 0.4; } }
+
+  /* TAGS */
+  .alt-item {
+    padding: 1.1rem 0;
+    border-bottom: 1px dashed var(--bg3);
+  }
+  .alt-item:last-child { border-bottom: none; }
+  .alt-phrase {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.5rem; }
+  .tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .tag-casual { background: #E8F4EE; color: var(--tag-casual); }
+  .tag-formal { background: #E8EEF4; color: var(--tag-formal); }
+  .tag-textbook { background: #F4EEE8; color: var(--tag-textbook); }
+  .tag-native { background: #FEF0E8; color: var(--tag-native); }
+  .alt-diff {
+    font-size: 0.82rem;
+    color: var(--ink2);
+    line-height: 1.6;
+    padding-left: 0.5rem;
+    border-left: 3px solid var(--bg3);
+    margin-top: 0.5rem;
+  }
+  .pin { color: var(--accent); font-weight: 600; }
+  .alt-example {
+    margin-top: 0.6rem;
+    background: var(--bg2);
+    border-radius: 6px;
+    padding: 0.6rem 0.75rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+  .alt-example-text { flex: 1; }
+  .alt-example-en {
+    font-size: 0.85rem;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .alt-example-en strong { color: var(--accent2); font-weight: 600; }
+  .alt-example-ja {
+    font-size: 0.75rem;
+    color: var(--ink3);
+    margin-top: 0.2rem;
+    line-height: 1.5;
+  }
+
+  /* TIP BOX */
+  .tip-box {
+    background: linear-gradient(135deg, #FFFAF5, #FFF5EC);
+    border: 1px solid #F0D8C0;
+    border-radius: 8px;
+    padding: 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.75;
+    color: var(--ink2);
+  }
+  .tip-box h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.95rem;
+    color: var(--accent2);
+    margin-bottom: 0.6rem;
+  }
+  .tip-item { margin-bottom: 0.5rem; padding-left: 1rem; position: relative; }
+  .tip-item::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
+
+  /* PATTERN HEADER */
+  .pattern-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink3);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--bg3);
+  }
+
+  /* DIVIDER */
+  .mini-divider {
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+    margin: 1rem 0;
+  }
+
+  /* SCROLL PROGRESS */
+  .progress-bar {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.1s;
+    z-index: 99;
+  }
+
+  @media (max-width: 600px) {
+    .site-header { padding: 0 1rem; }
+    .today-note { padding: 1rem; }
+    .controls-bar { padding: 0.6rem 1rem; }
+    .tab-nav-wrapper { padding: 0 0.75rem; }
+    .main { padding: 1.25rem 1rem 3rem; }
+    .phrase-hero { padding: 1.5rem 1.25rem 1.25rem; }
+    .phrase-hero h1 { font-size: 1.75rem; }
+    .section-body { padding: 1.1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<header class="site-header">
+  <div class="logo">English <span>Phrase</span> Diary</div>
+  <div class="date-badge">2025 · May · 11</div>
+</header>
+
+<div class="today-note">
+  <div class="note-label">📓 Today's Note</div>
+  <div>
+    <div class="note-text">今日は割と早く起きられたけど、英語の勉強もプログラミングもジムも全部できなかった。まあ、そういう日もある。</div>
+    <div class="note-en">Woke up pretty early today — but had no time to study English, no time to code, and couldn't make it to the gym either. Well, at least I made it through the day.</div>
+  </div>
+</div>
+
+<div class="controls-bar">
+  <label>🔊 Speed</label>
+  <div class="speed-group">
+    <button class="speed-btn" data-rate="0.7" onclick="setSpeed(0.7, this)">遅め</button>
+    <button class="speed-btn active" data-rate="1.0" onclick="setSpeed(1.0, this)">普通</button>
+    <button class="speed-btn" data-rate="1.25" onclick="setSpeed(1.25, this)">速め</button>
+  </div>
+</div>
+
+<div class="tab-nav-wrapper">
+  <nav class="tab-nav" id="tabNav"></nav>
+</div>
+
+<main class="main" id="main"></main>
+
+<script>
+const phrases = [
+  {
+    id: 1,
+    phrase: "have nothing to do with ~",
+    short: "〜と全く関係ない・〜とは無関係だ",
+    panels: [
+      {
+        title: "意味・ニュアンス",
+        icon: "📖",
+        content: `
+          <div class="nuance-box">
+            <strong>「〜とは一切関係ない」</strong>という強い否定・切り離し。単なる「関係ない」ではなく、
+            <strong>「そもそも関わりがない」「結びつきがゼロ」</strong>というニュアンス。<br><br>
+            怒りや防衛のトーンを含むことも多く、<em>「俺には関係ない話だ」「巻き込まないでくれ」</em>という場面でよく使われる。
+            逆に客観的に「Aの原因はBとは無関係だ」と説明するときにも使える。
+          </div>
+        `
+      },
+      {
+        title: "よく使うパターン",
+        icon: "🔧",
+        content: `
+          <div class="pattern-label">構文バリエーション</div>
+          ${pat("A has nothing to do with B", "A と B は全く無関係だ", "原因・理由を否定するとき")}
+          ${pat("It has nothing to do with you.", "あなたには関係ない話だ", "相手を切り離すとき（やや強め）")}
+          ${pat("This injury has nothing to do with last week's match.", "この怪我は先週の試合とは無関係だ", "スポーツ文脈での用例")}
+          ${pat("His comeback has nothing to do with money.", "彼の復帰はお金とは関係ない", "動機・理由を否定するとき")}
+        `
+      },
+      {
+        title: "会話例・日記文",
+        icon: "✍️",
+        content: `
+          ${ex("His late-game decision <strong>had nothing to do with</strong> tactics — it was pure instinct.", "後半の彼の判断は戦術とは無関係だった。純粋な本能だよ。")}
+          ${ex("I don't understand why people say Kendrick's beef <strong>has nothing to do with</strong> the music. It IS the music.", "ケンドリックのビーフは音楽と関係ないって言う人がいるけど、それ自体が音楽だろって思う。")}
+          ${ex("My slump in the morning <strong>has nothing to do with</strong> not going to the gym — I just need a better routine.", "朝のダメさはジムに行けないこととは関係ない。ルーティンを見直すべきだな。")}
+          ${ex("That detective novel I read last night — the murderer's motive <strong>had nothing to do with</strong> money at all.", "昨夜読んだ探偵小説、犯人の動機は金とは全く無関係だった。")}
+        `
+      },
+      {
+        title: "似た表現・言い換え",
+        icon: "🔄",
+        content: `
+          ${alt("be unrelated to ~", ["tag-formal"], "〜と無関係だ", "have nothing to do withよりフォーマルで書き言葉向き。感情的なニュアンスが薄い。", "His injury is <strong>unrelated to</strong> the training load last month.", "彼の怪我は先月のトレーニング負荷とは無関係だ。")}
+          ${alt("have no connection to ~", ["tag-formal"], "〜と繋がりがない", "「繋がり・接点がない」という意味。組織・人物関係の説明に多い。", "The producer <strong>has no connection to</strong> that label anymore.", "そのプロデューサーはもうあのレーベルとは繋がりがない。")}
+          ${alt("not related to ~", ["tag-casual"], "〜と関係ない（口語）", "もっとカジュアルで日常的。ただし have nothing to do with ほど強い切り離し感はない。", "My bad mood this morning is <strong>not related to</strong> missing the gym.", "今朝の不機嫌はジムに行けなかったこととは関係ない。")}
+          ${alt("That's not my problem.", ["tag-native"], "俺には関係ない（強い拒絶）", "have nothing to do with より直接的な突き放し。面倒事を断るとき。", "He looked at the mess and said, '<strong>That's not my problem.</strong>'", "彼はそのめちゃくちゃな状況を見て「俺には関係ない」と言った。")}
+        `
+      },
+      {
+        title: "使い分けのコツ",
+        icon: "💡",
+        content: `
+          <div class="tip-box">
+            <h3>使い分けガイド</h3>
+            <div class="tip-item">感情を込めて「俺には関係ない」と言いたいとき → <strong>have nothing to do with</strong></div>
+            <div class="tip-item">論文・レポートで「AとBは無関係である」と書くとき → <strong>be unrelated to</strong></div>
+            <div class="tip-item">会話で軽く「関係ないよ」と言うとき → <strong>not related to / not about</strong></div>
+            <div class="tip-item">面倒を断るとき → <strong>That's not my problem.</strong></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    id: 2,
+    phrase: "have trouble doing",
+    short: "〜するのに苦労する・うまくできない",
+    panels: [
+      {
+        title: "意味・ニュアンス",
+        icon: "📖",
+        content: `
+          <div class="nuance-box">
+            <strong>「〜するのが難しい・うまくいかない」</strong>という苦労・困難のニュアンス。
+            「できない」という完全な否定ではなく、<strong>「やろうとしているけどうまくいかない」</strong>というプロセスの難しさを表す。<br><br>
+            <em>have trouble + 動詞ing</em> の形が基本。試験・仕事・日常生活どんな場面でも使いやすい表現。
+          </div>
+        `
+      },
+      {
+        title: "よく使うパターン",
+        icon: "🔧",
+        content: `
+          <div class="pattern-label">構文バリエーション</div>
+          ${pat("I have trouble doing ~.", "〜するのに苦労している（現在）", "今まさに困っていることを話すとき")}
+          ${pat("He had trouble sleeping.", "彼は眠れなかった（過去）", "過去の困難を語るとき")}
+          ${pat("I'm having trouble focusing.", "集中するのが難しい（今この瞬間）", "今現在の状態を伝えるとき")}
+          ${pat("Do you have trouble with ~?", "〜で苦労してない？", "相手に共感や確認するとき")}
+          ${pat("have a lot of trouble / have no trouble", "かなり苦労する / 全く苦労しない", "程度を変えられる")}
+        `
+      },
+      {
+        title: "会話例・日記文",
+        icon: "✍️",
+        content: `
+          ${ex("I <strong>had trouble waking up</strong> this morning even though I slept early. My body just won't cooperate.", "早く寝たのに今朝は起きるのに苦労した。体が言うことを聞かない。")}
+          ${ex("LeBron's team seemed to <strong>have trouble defending</strong> in the fourth quarter last night.", "昨夜の試合、レブロンのチームは第4Q の守備に苦労してたな。")}
+          ${ex("I always <strong>have trouble keeping up with</strong> J. Cole's lyrics — they're so dense.", "J. Coleの歌詞についていくのはいつも大変。密度が高すぎる。")}
+          ${ex("The detective in that novel I'm reading <strong>had trouble trusting</strong> anyone — even his own instincts.", "読んでる小説の探偵、誰も信用できなくて苦労してた。自分の直感さえも。")}
+        `
+      },
+      {
+        title: "似た表現・言い換え",
+        icon: "🔄",
+        content: `
+          ${alt("struggle to do ~", ["tag-native"], "〜しようと格闘する", "have troubleより動的・劇的なイメージ。もがいている感が強い。", "Harden <strong>struggled to find</strong> his rhythm in the first half.", "ハーデンは前半リズムを掴もうと苦しんでいた。")}
+          ${alt("find it hard to do ~", ["tag-casual", "tag-native"], "〜するのが難しいと感じる", "主観的な難しさ。「自分には難しい」というニュアンス。", "I <strong>find it hard to focus</strong> on coding when I haven't slept enough.", "十分に寝ていないとコーディングに集中するのが難しい。")}
+          ${alt("have difficulty (in) doing ~", ["tag-formal", "tag-textbook"], "〜することに困難がある", "フォーマル。ビジネスや書き言葉でよく使う。", "The team <strong>had difficulty maintaining</strong> their press in the second half.", "チームは後半プレスを維持することに苦労した。")}
+          ${alt("can't seem to ~", ["tag-casual"], "どうしても〜できない感じがする", "「やろうとしてもなぜかできない」という日常的な言い方。", "I <strong>can't seem to</strong> get into a routine, no matter what I try.", "何をやっても、どうしてもルーティンに入れない感じがする。")}
+        `
+      },
+      {
+        title: "使い分けのコツ",
+        icon: "💡",
+        content: `
+          <div class="tip-box">
+            <h3>使い分けガイド</h3>
+            <div class="tip-item">日常会話で「〜で苦労してる」→ <strong>have trouble doing</strong>（最も汎用的）</div>
+            <div class="tip-item">もっと強くもがいている感 → <strong>struggle to do</strong></div>
+            <div class="tip-item">フォーマルな文章 → <strong>have difficulty doing</strong></div>
+            <div class="tip-item">「なぜかできない感」を軽く → <strong>can't seem to</strong></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    id: 3,
+    phrase: "have no time to do",
+    short: "〜する時間がない",
+    panels: [
+      {
+        title: "意味・ニュアンス",
+        icon: "📖",
+        content: `
+          <div class="nuance-box">
+            <strong>「〜する時間がない」</strong>という時間的な制約・余裕のなさ。
+            単に忙しいだけでなく、<strong>「優先順位として割けない」</strong>というニュアンスも含む。<br><br>
+            <em>I didn't have time to ~</em>（時間がなかった）と過去形で使うと「言い訳」にもなるし、
+            <em>I have no time to lose</em>（一刻も無駄にできない）のような強調表現にも発展する。
+          </div>
+        `
+      },
+      {
+        title: "よく使うパターン",
+        icon: "🔧",
+        content: `
+          <div class="pattern-label">構文バリエーション</div>
+          ${pat("I had no time to ~.", "〜する時間がなかった（今日の出来事）", "日記で最もよく使うパターン")}
+          ${pat("There's no time to ~.", "〜している時間はない（客観的）", "状況として時間的余裕がないとき")}
+          ${pat("I have no time to lose.", "一刻の猶予もない", "緊迫した状況・スポーツの終盤など")}
+          ${pat("barely have time to ~", "〜するのがやっとの時間しかない", "かろうじて間に合う感")}
+        `
+      },
+      {
+        title: "会話例・日記文",
+        icon: "✍️",
+        content: `
+          ${ex("Today I woke up early but <strong>had no time to</strong> study English or hit the gym. Typical.", "今日は早く起きたのに、英語の勉強もジムも行く時間がなかった。いつものことだ。")}
+          ${ex("Arsenal were down in the 88th minute — <strong>no time to</strong> waste, they had to push forward.", "アーセナルは88分で負けていた。無駄にできる時間はない、前に出るしかなかった。")}
+          ${ex("Nas really <strong>had no time to</strong> waste on that album — every bar hit differently.", "ナズのあのアルバム、1バーも無駄がない。全部刺さる。")}
+          ${ex("The detective <strong>had no time to</strong> think — the killer was already at the door.", "探偵には考える時間がなかった。殺人犯はすでにドアの前にいた。")}
+        `
+      },
+      {
+        title: "似た表現・言い換え",
+        icon: "🔄",
+        content: `
+          ${alt("not have time to ~", ["tag-casual"], "〜する時間がない（口語）", "have no time to よりライトな言い方。意味はほぼ同じ。", "I <strong>didn't have time to</strong> check the score — what happened?", "スコアを確認する時間がなかった。何があった？")}
+          ${alt("be too busy to ~", ["tag-casual", "tag-native"], "忙しすぎて〜できない", "「忙しさ」が原因であることを明示。have no time より理由を語る感じ。", "I was <strong>too busy to</strong> even eat properly today.", "今日は食事をまともにとれないくらい忙しかった。")}
+          ${alt("couldn't find the time to ~", ["tag-native"], "〜する時間を見つけられなかった", "「時間は潜在的にあったかもしれないけど見つけられなかった」というネイティブっぽい表現。", "I <strong>couldn't find the time to</strong> finish that hardboiled novel this week.", "今週はそのハードボイルド小説を読み終える時間を見つけられなかった。")}
+          ${alt("didn't get around to ~ing", ["tag-native"], "結局〜できなかった", "「やろうと思っていたけど結局できなかった」というニュアンス。後悔や言い訳のトーン。", "I <strong>didn't get around to</strong> going to the gym again today.", "今日もジムに行くことができなかった。")}
+        `
+      },
+      {
+        title: "使い分けのコツ",
+        icon: "💡",
+        content: `
+          <div class="tip-box">
+            <h3>使い分けガイド</h3>
+            <div class="tip-item">シンプルに「時間がなかった」→ <strong>had no time to / didn't have time to</strong></div>
+            <div class="tip-item">「忙しかったから」という理由を含めたいとき → <strong>was too busy to</strong></div>
+            <div class="tip-item">ネイティブっぽく「気づいたらできてなかった」→ <strong>didn't get around to ~ing</strong></div>
+            <div class="tip-item">「一刻の猶予もない」緊迫感 → <strong>have no time to lose</strong></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    id: 4,
+    phrase: "at first",
+    short: "最初は・はじめのうちは",
+    panels: [
+      {
+        title: "意味・ニュアンス",
+        icon: "📖",
+        content: `
+          <div class="nuance-box">
+            <strong>「最初は〜だった（けど、後で変わった）」</strong>という時間的な変化の前半部分を表す。
+            <em>but then / but now / however</em> などの「転換」を伴うことが多い。<br><br>
+            重要なポイント：<strong>at first は「結果的に変わった」という前提が含まれる</strong>。
+            変化がない場合は <em>at the beginning</em> や <em>initially</em> の方が自然なことも。
+          </div>
+        `
+      },
+      {
+        title: "よく使うパターン",
+        icon: "🔧",
+        content: `
+          <div class="pattern-label">構文バリエーション</div>
+          ${pat("At first, I didn't like ~. But now ~.", "最初は好きじゃなかった。でも今は〜。", "最もよくある変化パターン")}
+          ${pat("At first glance, ~.", "一見すると〜", "「ぱっと見の印象」を述べるとき（慣用句的）")}
+          ${pat("It was confusing at first.", "最初は混乱した", "文末に置くパターン")}
+          ${pat("At first I thought ~, but I was wrong.", "最初は〜と思ったが、違った", "思い込みを訂正するとき")}
+        `
+      },
+      {
+        title: "会話例・日記文",
+        icon: "✍️",
+        content: `
+          ${ex("<strong>At first</strong>, I thought Salah was overrated. Now I'd build a team around him.", "最初はサラーは過大評価だと思っていた。今なら彼を中心にチームを作りたい。")}
+          ${ex("<strong>At first</strong> I wasn't into J Dilla's beats — too abstract. But now I can't listen to anything else.", "最初はJ Dillaのビートが苦手だった。抽象的すぎて。でも今は他のものが聴けない。")}
+          ${ex("Woke up early today — <strong>at first</strong> I thought I'd be productive, but the morning slipped away fast.", "今日は早く起きた。最初は生産的な朝になると思ったけど、あっという間に過ぎてしまった。")}
+          ${ex("The detective seemed like the killer <strong>at first</strong>. Classic misdirection.", "探偵が最初は犯人に見えた。典型的なミスリードだ。")}
+        `
+      },
+      {
+        title: "似た表現・言い換え",
+        icon: "🔄",
+        content: `
+          ${alt("at the beginning", ["tag-textbook"], "最初のうちは（時期・段階を強調）", "変化の「前提」がなくても使える。物語の始まりを語るとき自然。at first より客観的。", "<strong>At the beginning</strong> of the season, nobody expected them to be top four.", "シーズンの序盤、誰も彼らがトップ4に入るとは思っていなかった。")}
+          ${alt("initially", ["tag-formal"], "当初は（フォーマル）", "ビジネス・報告書向き。感情的なトーンが薄い。", "<strong>Initially</strong>, I had no interest in MMA — now I watch every card.", "当初、MMAには全く興味がなかった。今は毎大会観ている。")}
+          ${alt("first off / to start with", ["tag-casual", "tag-native"], "まず最初に（口語）", "「順序の最初」を示す。at first と違い「変化」の前提はない。", "<strong>First off</strong>, let me say that album was way better than I expected.", "まず言いたいのは、あのアルバムは思ってたより全然よかったってこと。")}
+          ${alt("at first glance", ["tag-native"], "一見すると", "「表面的な第一印象」という特化した意味。慣用句的。", "<strong>At first glance</strong>, the play looked like an accident — but it was deliberate.", "一見すると偶発的なプレーに見えたが、意図的なものだった。")}
+        `
+      },
+      {
+        title: "使い分けのコツ",
+        icon: "💡",
+        content: `
+          <div class="tip-box">
+            <h3>使い分けガイド</h3>
+            <div class="tip-item">「最初は〜だったが変わった」→ <strong>at first</strong>（変化の前提が必要）</div>
+            <div class="tip-item">変化なく「最初の時期に」と言うとき → <strong>at the beginning / initially</strong></div>
+            <div class="tip-item">「ぱっと見は〜」という印象 → <strong>at first glance</strong></div>
+            <div class="tip-item">口語で「まず〜から言うと」→ <strong>first off / to start with</strong></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    id: 5,
+    phrase: "at least",
+    short: "少なくとも・せめて・まあ〜だけは",
+    panels: [
+      {
+        title: "意味・ニュアンス",
+        icon: "📖",
+        content: `
+          <div class="nuance-box">
+            <strong>「少なくとも〜は」「せめて〜だけは」</strong>という最低ラインの保証・慰め。
+            <em>at most</em>（多くても）の対義語。<br><br>
+            ポジティブな文脈では「最低でもこれだけある」という確認。
+            ネガティブな文脈では「最悪の中でも唯一の救い」という<strong>自己慰め・銀の裏打ち（silver lining）</strong>として頻出。
+            日記では「まあ〜だけはできた」という文脈で非常に使いやすい。
+          </div>
+        `
+      },
+      {
+        title: "よく使うパターン",
+        icon: "🔧",
+        content: `
+          <div class="pattern-label">構文バリエーション</div>
+          ${pat("At least I ~.", "少なくとも〜はした", "自己慰め・silver lining")}
+          ${pat("at least [数字]", "少なくとも〜個・〜回", "数量の最低ラインを示す")}
+          ${pat("at least you didn't ~", "少なくとも〜はしなかったじゃないか", "相手を慰めるとき")}
+          ${pat("it's not perfect, but at least ~", "完璧じゃないけど少なくとも〜", "妥協・受け入れのニュアンス")}
+        `
+      },
+      {
+        title: "会話例・日記文",
+        icon: "✍️",
+        content: `
+          ${ex("I couldn't study or go to the gym today — but <strong>at least</strong> I woke up early. That counts, right?", "今日は勉強もジムもできなかった。でも少なくとも早起きはした。それで十分だよな？")}
+          ${ex("City lost, but <strong>at least</strong> they kept a clean sheet in the first half.", "シティは負けた。でも少なくとも前半はクリーンシートを保った。")}
+          ${ex("The new Kendrick track isn't as strong as GNX, but <strong>at least</strong> he's still putting work in.", "新曲はGNXほどじゃないけど、少なくとも彼はまだ仕事してる。")}
+          ${ex("The detective had no leads — <strong>at least</strong>, none that made sense yet.", "探偵には手がかりがなかった。少なくとも、まだ意味をなすものは何も。")}
+        `
+      },
+      {
+        title: "似た表現・言い換え",
+        icon: "🔄",
+        content: `
+          ${alt("at the very least", ["tag-native"], "少なくとも・最低でも（強調）", "at least を強調した形。「これだけは絶対に」という感じ。", "You should, <strong>at the very least</strong>, watch the second half — it was wild.", "少なくとも後半だけは観るべきだよ。すごいことになってたから。")}
+          ${alt("if nothing else", ["tag-native"], "他に何もなくても〜だけは", "「唯一の救い・価値」を強調するネイティブ的表現。", "<strong>If nothing else</strong>, today taught me that rest days matter too.", "他に何もなくても、今日は休息日も大事だということを学んだ。")}
+          ${alt("anyway / anyways", ["tag-casual"], "まあとにかく（口語）", "「ともかく」という流れで使う。at leastより意味が軽い。", "I didn't get much done today — <strong>anyway</strong>, tomorrow is a fresh start.", "今日はあまり何もできなかった。まあとにかく、明日はリセットだ。")}
+          ${alt("fortunately", ["tag-formal", "tag-textbook"], "幸いなことに", "ポジティブな側面を述べるとき。at leastより楽観的なトーン。", "<strong>Fortunately</strong>, the injury wasn't as bad as it looked on the replay.", "幸いなことに、リプレイで見たほど怪我はひどくなかった。")}
+        `
+      },
+      {
+        title: "使い分けのコツ",
+        icon: "💡",
+        content: `
+          <div class="tip-box">
+            <h3>使い分けガイド</h3>
+            <div class="tip-item">「まあ〜だけはよかった」という日常の銀の裏打ち → <strong>at least</strong></div>
+            <div class="tip-item">「これだけは絶対に言える」という強調 → <strong>at the very least</strong></div>
+            <div class="tip-item">「唯一の価値・救い」を言いたいとき → <strong>if nothing else</strong></div>
+            <div class="tip-item">フォーマルな文章でポジティブな側面を述べる → <strong>fortunately</strong></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    id: 6,
+    phrase: "at most",
+    short: "多くても・せいぜい〜",
+    panels: [
+      {
+        title: "意味・ニュアンス",
+        icon: "📖",
+        content: `
+          <div class="nuance-box">
+            <strong>「多くても〜」「せいぜい〜」</strong>という上限・最大ラインを示す表現。<em>at least</em> の対義語。<br><br>
+            「その程度しかない」という<strong>控えめな見積もりや、期待値を下げる</strong>ときに使う。
+            試合時間・金額・距離・回数など、数量と一緒に使うことが多い。
+            「たかが〜程度」という少しネガティブなニュアンスになることもある。
+          </div>
+        `
+      },
+      {
+        title: "よく使うパターン",
+        icon: "🔧",
+        content: `
+          <div class="pattern-label">構文バリエーション</div>
+          ${pat("at most [数字]", "多くても〜", "数量の上限を示す最頻出パターン")}
+          ${pat("It'll take at most an hour.", "多くても1時間かかる", "時間の上限見積もり")}
+          ${pat("There were at most ten people there.", "多くても10人はいた", "人数・規模の見積もり")}
+          ${pat("at most, I can do ~", "精一杯でも〜しかできない", "自分の限界を示すとき")}
+        `
+      },
+      {
+        title: "会話例・日記文",
+        icon: "✍️",
+        content: `
+          ${ex("The match was one-sided — Spurs had <strong>at most</strong> two real chances the entire game.", "試合は一方的だった。スパーズに本当のチャンスは試合を通じて多くても2回だった。")}
+          ${ex("I probably read <strong>at most</strong> two pages of that hardboiled novel today — not my best day.", "今日はハードボイルド小説を多くても2ページしか読めなかったな。最悪の日だ。")}
+          ${ex("He drops <strong>at most</strong> one album every three years, but every one is a statement.", "彼は多くても3年に1枚しか出さないけど、毎回意味のある作品だ。")}
+          ${ex("The drive took <strong>at most</strong> twenty minutes, but it felt like an hour in that silence.", "ドライブは多くても20分だったが、あの沈黙の中では1時間に感じた。")}
+        `
+      },
+      {
+        title: "似た表現・言い換え",
+        icon: "🔄",
+        content: `
+          ${alt("no more than ~", ["tag-native"], "〜以上ではない・せいぜい〜", "at mostとほぼ同義。「それを超えない」という明確な上限。", "He played <strong>no more than</strong> fifteen minutes before being subbed off.", "彼は15分も経たないうちに交代させられた。")}
+          ${alt("tops", ["tag-casual", "tag-native"], "せいぜい〜（口語）", "カジュアルな口語。'Two hours, tops.' のように文末に置く。", "The commute takes thirty minutes, <strong>tops</strong>.", "通勤は長くても30分だ。")}
+          ${alt("at best", ["tag-native"], "よくても〜（やや否定的）", "「最善の場合でも〜程度」。at mostより期待の低さが出る。", "<strong>At best</strong>, they'll finish mid-table this season.", "よくて今シーズンは中位でフィニッシュだろう。")}
+          ${alt("maximum", ["tag-formal"], "最大〜（フォーマル）", "書類・仕様書・技術文書向き。", "The session should last ninety minutes <strong>maximum</strong>.", "セッションは最大90分とすること。")}
+        `
+      },
+      {
+        title: "使い分けのコツ",
+        icon: "💡",
+        content: `
+          <div class="tip-box">
+            <h3>使い分けガイド</h3>
+            <div class="tip-item">「多くても〜」という上限見積もり → <strong>at most</strong></div>
+            <div class="tip-item">口語で「せいぜい2時間くらいだよ」→ <strong>Two hours, tops.</strong></div>
+            <div class="tip-item">「〜以上はない」という明確な制限 → <strong>no more than</strong></div>
+            <div class="tip-item">「よくてもその程度」という諦め感 → <strong>at best</strong></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    id: 7,
+    phrase: "anything else",
+    short: "他に何か・他には？",
+    panels: [
+      {
+        title: "意味・ニュアンス",
+        icon: "📖",
+        content: `
+          <div class="nuance-box">
+            <strong>「他に何か（ありますか・必要ですか・言いたいことは）？」</strong>という確認・問いかけ。<br><br>
+            サービス業の決まり文句（<em>Anything else?</em>）として有名だが、
+            日常会話でも<strong>「他に何か言いたいことある？」「他に気になることは？」</strong>という形で幅広く使える。
+            否定文では <em>nothing else</em>（他には何も〜ない）として使う。
+          </div>
+        `
+      },
+      {
+        title: "よく使うパターン",
+        icon: "🔧",
+        content: `
+          <div class="pattern-label">構文バリエーション</div>
+          ${pat("Anything else?", "他に何か？（最短形）", "サービス業・会話の確認で最頻出")}
+          ${pat("Is there anything else I can do?", "他に何かできることはある？", "丁寧な申し出")}
+          ${pat("I can't think of anything else.", "他には思いつかない", "リスト・考えの締めくくり")}
+          ${pat("Nothing else matters.", "他のことはどうでもいい", "こだわりや優先順位を強調（有名なメタリカの曲名でもある）")}
+        `
+      },
+      {
+        title: "会話例・日記文",
+        icon: "✍️",
+        content: `
+          ${ex("I didn't study, didn't code, didn't go to the gym. <strong>Anything else</strong> I missed today? Oh right — lunch.", "勉強もコードも書かなかったしジムにも行かなかった。今日他に何か忘れた？そうだ、昼飯も食べなかった。")}
+          ${ex("After the match, the interviewer asked, '<strong>Anything else</strong> you'd like to say to the fans?' He just smiled.", "試合後、インタビュアーが「ファンに他に何か言いたいことはありますか？」と聞いた。彼はただ微笑んだだけだった。")}
+          ${ex("When that rapper drops a verse like that, <strong>nothing else</strong> sounds good for a while.", "あのラッパーがあんなバースを落としたあとは、しばらく他の曲が聴けなくなる。")}
+          ${ex("The dame walked in and said, 'Find my husband.' I asked if there was <strong>anything else</strong>. There always is.", "その女が入ってきて「夫を探してくれ」と言った。他に何かあるかと聞いた。いつもそうだ。")}
+        `
+      },
+      {
+        title: "似た表現・言い換え",
+        icon: "🔄",
+        content: `
+          ${alt("something else", ["tag-casual"], "別の何か・他のもの", "anything else は疑問・否定文に。something else は肯定文に。", "I need <strong>something else</strong> to listen to — this album isn't hitting today.", "今日はこのアルバムじゃない。別の何かが聴きたい。")}
+          ${alt("besides that / other than that", ["tag-casual", "tag-native"], "それ以外には・それに加えて", "「それ以外では〜」と続けるとき。まとめ・確認で使う。", "I didn't study and skipped the gym. <strong>Other than that</strong>, great day.", "勉強もしなかったしジムもサボった。それ以外は最高の一日だった。")}
+          ${alt("on top of that", ["tag-casual", "tag-native"], "それに加えて（さらに悪いことに）", "ネガティブな要素を追加するとき。文脈によって驚きや不満を含む。", "They conceded late, and <strong>on top of that</strong>, lost a key player to injury.", "終盤に失点して、さらに主力選手が怪我で離脱した。")}
+          ${alt("Is that everything?", ["tag-native"], "それで全部？（確認）", "anything else? と同様の確認表現。", "He scanned the room and asked, '<strong>Is that everything?</strong>' It wasn't.", "彼は部屋を見渡して「それで全部か？」と聞いた。そうではなかった。")}
+        `
+      },
+      {
+        title: "使い分けのコツ",
+        icon: "💡",
+        content: `
+          <div class="tip-box">
+            <h3>使い分けガイド</h3>
+            <div class="tip-item">「他に何かある？」と確認 → <strong>Anything else?</strong>（疑問・否定文で）</div>
+            <div class="tip-item">「別の何か」を示す肯定文 → <strong>something else</strong></div>
+            <div class="tip-item">「それ以外には〜」と締める → <strong>other than that / besides that</strong></div>
+            <div class="tip-item">「さらに悪いことが重なった」→ <strong>on top of that</strong></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    id: 8,
+    phrase: "by all means",
+    short: "ぜひ・どうぞ・もちろん",
+    panels: [
+      {
+        title: "意味・ニュアンス",
+        icon: "📖",
+        content: `
+          <div class="nuance-box">
+            <strong>「もちろん」「どうぞ」「ぜひ」</strong>という快い許可・強い肯定。<br><br>
+            <em>Sure</em> や <em>Of course</em> より<strong>フォーマルで礼儀正しい</strong>。
+            誰かの依頼・提案に対して「どうぞお気になさらず・ぜひそうしてください」と答えるとき。
+            副詞的に「どんな手を使ってでも・ぜひとも」という強調でも使える（例：<em>Try it by all means.</em>）。
+          </div>
+        `
+      },
+      {
+        title: "よく使うパターン",
+        icon: "🔧",
+        content: `
+          <div class="pattern-label">構文バリエーション</div>
+          ${pat('"By all means." (単独)', "「もちろんどうぞ」という返答", "許可・同意を示す最もシンプルな形")}
+          ${pat("By all means, go ahead.", "どうぞ、進めてください", "行動を促すとき")}
+          ${pat("Feel free to ~ by all means.", "ぜひ遠慮なく〜してください", "相手に自由を与えるとき")}
+          ${pat("Try it by all means.", "ぜひ試してみてください", "推奨・強い勧めのとき")}
+        `
+      },
+      {
+        title: "会話例・日記文",
+        icon: "✍️",
+        content: `
+          ${ex("If you want to watch the Premier League match instead of studying — <strong>by all means</strong>. No judgment.", "勉強の代わりにプレミアリーグを観たいなら、ぜひどうぞ。責めたりしない。")}
+          ${ex("A: 'Can I borrow your Chandler novel?' — B: '<strong>By all means.</strong> It's one of the best.'", "「チャンドラーの小説を借りていい？」「もちろんどうぞ。一番好きな一冊だ。」")}
+          ${ex("If Kanye wants to keep making controversial music, <strong>by all means</strong> — but don't expect me to be surprised.", "カニエが物議を醸す音楽を作り続けたいならぜひどうぞ。でも驚かないように。")}
+          ${ex("If you want to wake up early and still do nothing — <strong>by all means</strong>, I've mastered that art myself.", "早起きして何もしないのが好きなら、ぜひどうぞ。自分もその道を極めた。")}
+        `
+      },
+      {
+        title: "似た表現・言い換え",
+        icon: "🔄",
+        content: `
+          ${alt("of course", ["tag-casual", "tag-native"], "もちろん（最も一般的）", "by all means より軽い。カジュアルから丁寧まで幅広く使える最頻出表現。", "'Can I borrow your playlist?' — '<strong>Of course</strong>, it's all Kendrick anyway.'", "「プレイリスト借りていい？」「もちろん、どうせ全部ケンドリックだから。」")}
+          ${alt("sure / absolutely", ["tag-casual"], "もちろん（口語）", "会話での快諾。by all means よりカジュアル。", "'You watching the match tonight?' — '<strong>Absolutely.</strong> Wouldn't miss it.'", "「今夜試合観る？」「もちろん。絶対観る。」")}
+          ${alt("please do", ["tag-formal"], "どうぞ（丁寧な許可）", "「ぜひそうしてください」という礼儀正しい許可。", "'Mind if I take a look at the lineup?' — '<strong>Please do.</strong>'", "「ラインナップを見てもいいですか？」「どうぞ。」")}
+          ${alt("feel free to ~", ["tag-native"], "遠慮なく〜してください", "相手に自由に行動する許可を与える表現。", "<strong>Feel free to</strong> skip the intro — the good part starts at chapter three.", "遠慮なくイントロは飛ばしていい。面白くなるのは3章からだ。")}
+        `
+      },
+      {
+        title: "使い分けのコツ",
+        icon: "💡",
+        content: `
+          <div class="tip-box">
+            <h3>使い分けガイド</h3>
+            <div class="tip-item">丁寧・フォーマルに「どうぞ」→ <strong>by all means</strong>（少し格式張った場面に最適）</div>
+            <div class="tip-item">日常会話で気軽に「もちろん」→ <strong>of course / sure / absolutely</strong></div>
+            <div class="tip-item">「遠慮なく〜して」と相手に自由を → <strong>feel free to ~</strong></div>
+            <div class="tip-item">メールや改まった返事で → <strong>please do / by all means</strong></div>
+          </div>
+        `
+      }
+    ]
+  }
+];
+
+// ────── HELPERS ──────
+function pat(en, ja, note) {
+  const highlighted = en.replace(/~/g, '<span class="blank">___</span>');
+  return `<div class="pattern-item">
+    <div class="pattern-en">${highlighted}</div>
+    <div class="pattern-ja">${ja}</div>
+    <span class="pattern-note">💬 ${note}</span>
+  </div>`;
+}
+
+function ex(en, ja) {
+  return `<div class="example-item">
+    <div class="example-row">
+      <button class="speak-btn" onclick="speak(this)" data-text="${en.replace(/<[^>]+>/g,'').replace(/"/g,'&quot;')}">▶</button>
+      <div>
+        <div class="example-en">${en}</div>
+        <div class="example-ja">${ja}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function alt(phrase, tags, meaning, diff, exEn, exJa) {
+  const tagHTML = tags.map(t => {
+    const labels = { 'tag-casual': '🗣️カジュアル', 'tag-formal': '💼フォーマル', 'tag-textbook': '📚教科書', 'tag-native': '🌍ネイティブ的' };
+    return `<span class="tag ${t}">${labels[t]||t}</span>`;
+  }).join('');
+  const plainEx = exEn ? exEn.replace(/<[^>]+>/g,'').replace(/"/g,"'") : '';
+  const exHTML = exEn ? `
+    <div class="alt-example">
+      <button class="speak-btn" onclick="speak(this)" data-text="${plainEx}">▶</button>
+      <div class="alt-example-text">
+        <div class="alt-example-en">${exEn}</div>
+        <div class="alt-example-ja">${exJa}</div>
+      </div>
+    </div>` : '';
+  return `<div class="alt-item">
+    <div class="alt-phrase">${phrase}</div>
+    <div class="tag-row">${tagHTML}</div>
+    <div class="pattern-ja">${meaning}</div>
+    <div class="alt-diff"><span class="pin">📌</span> ${diff}</div>
+    ${exHTML}
+  </div>`;
+}
+
+// ────── SPEECH ──────
+let currentRate = 1.0;
+let currentUtterance = null;
+
+function setSpeed(rate, btn) {
+  currentRate = rate;
+  document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function speak(btn) {
+  if (currentUtterance) {
+    speechSynthesis.cancel();
+    document.querySelectorAll('.speak-btn.playing').forEach(b => {
+      b.classList.remove('playing');
+      b.textContent = '▶';
+    });
+    if (btn.classList.contains('was-playing')) {
+      btn.classList.remove('was-playing');
+      return;
+    }
+  }
+
+  const text = btn.getAttribute('data-text');
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  utter.rate = currentRate;
+
+  const voices = speechSynthesis.getVoices();
+  const samantha = voices.find(v => v.name === 'Samantha');
+  const googleUS = voices.find(v => v.name === 'Google US English');
+  if (samantha) utter.voice = samantha;
+  else if (googleUS) utter.voice = googleUS;
+
+  utter.onstart = () => { btn.classList.add('playing'); btn.textContent = '■'; };
+  utter.onend = () => { btn.classList.remove('playing'); btn.textContent = '▶'; currentUtterance = null; };
+  utter.onerror = () => { btn.classList.remove('playing'); btn.textContent = '▶'; currentUtterance = null; };
+
+  btn.classList.add('was-playing');
+  setTimeout(() => btn.classList.remove('was-playing'), 300);
+
+  currentUtterance = utter;
+  speechSynthesis.speak(utter);
+}
+
+// ────── TABS & PANELS ──────
+const tabNav = document.getElementById('tabNav');
+const mainEl = document.getElementById('main');
+
+phrases.forEach((p, i) => {
+  // Tab button
+  const btn = document.createElement('button');
+  btn.className = 'tab-btn' + (i === 0 ? ' active' : '');
+  btn.innerHTML = `<span class="tab-num">${String(i+1).padStart(2,'0')}</span>${p.phrase}`;
+  btn.onclick = () => switchTab(i);
+  tabNav.appendChild(btn);
+
+  // Panel
+  const panel = document.createElement('div');
+  panel.className = 'phrase-panel' + (i === 0 ? ' active' : '');
+  panel.id = `panel-${i}`;
+
+  let html = `
+    <div class="phrase-hero">
+      <h1><span class="phrase-num">Phrase ${String(i+1).padStart(2,'0')}</span>${p.phrase}</h1>
+      <div class="phrase-meaning-short">${p.short}</div>
+    </div>
+  `;
+
+  p.panels.forEach(sec => {
+    html += `
+      <div class="section-card">
+        <div class="section-header">
+          <span class="section-icon">${sec.icon}</span>
+          <h2>${sec.title}</h2>
+        </div>
+        <div class="section-body">${sec.content}</div>
+      </div>
+    `;
+  });
+
+  panel.innerHTML = html;
+  mainEl.appendChild(panel);
+});
+
+function switchTab(idx) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+  document.querySelectorAll('.phrase-panel').forEach((p,i) => p.classList.toggle('active', i===idx));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Progress bar
+window.addEventListener('scroll', () => {
+  const d = document.documentElement;
+  const progress = (d.scrollTop / (d.scrollHeight - d.clientHeight)) * 100;
+  document.getElementById('progressBar').style.width = progress + '%';
+});
+
+// Voice load
+speechSynthesis.onvoiceschanged = () => {};
+</script>
+</body>
+</html>
