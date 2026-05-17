@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Diary Vocab — May 15</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --bg2: #EFEDE7;
+    --bg3: #E6E2D9;
+    --ink: #1C1A16;
+    --ink2: #4A4640;
+    --ink3: #8A857C;
+    --accent: #C4571A;
+    --accent2: #E8A87C;
+    --accent-pale: #F5E6D8;
+    --gold: #B8912A;
+    --gold-pale: #F5EDD5;
+    --green: #3A6B4A;
+    --green-pale: #DFF0E5;
+    --blue: #2A4B7C;
+    --blue-pale: #D8E6F5;
+    --border: #D8D4CC;
+    --shadow: 0 2px 12px rgba(28,26,22,0.08);
+    --shadow-lg: 0 8px 32px rgba(28,26,22,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 28px 32px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .site-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .site-header .date-tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+  .header-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .speed-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    color: #9A9590;
+  }
+  .speed-btn {
+    background: transparent;
+    border: 1px solid #3A3830;
+    color: #C8C4BC;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.04em;
+  }
+  .speed-btn.active,
+  .speed-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* ── TODAY'S NOTE ── */
+  .todays-note {
+    background: var(--gold-pale);
+    border-left: 3px solid var(--gold);
+    margin: 24px 28px 0;
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+  }
+  .todays-note .note-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .todays-note p {
+    font-size: 0.88rem;
+    color: var(--ink2);
+    line-height: 1.65;
+  }
+
+  /* ── WORD TABS ── */
+  .tabs-wrapper {
+    padding: 24px 28px 0;
+  }
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    padding: 10px 22px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    color: var(--ink3);
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── WORD PANEL ── */
+  .word-panel {
+    display: none;
+    padding: 28px 28px 60px;
+    max-width: 860px;
+    animation: fadeSlide 0.25s ease;
+  }
+  .word-panel.active { display: block; }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .word-hero {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .word-hero h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .word-hero .phonetic {
+    font-size: 0.9rem;
+    color: var(--ink3);
+    font-style: italic;
+  }
+  .speak-word-btn {
+    margin-left: 4px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: transform 0.15s, background 0.15s;
+    flex-shrink: 0;
+  }
+  .speak-word-btn:hover { background: #A84510; transform: scale(1.08); }
+
+  /* ── SECTION CARD ── */
+  .section-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin-top: 18px;
+    box-shadow: var(--shadow);
+  }
+  .section-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    color: var(--ink);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-card h3 .icon { font-size: 1.1rem; }
+
+  /* ── MEANING ── */
+  .pos-block { margin-bottom: 14px; }
+  .pos-block:last-child { margin-bottom: 0; }
+  .pos-tag {
+    display: inline-block;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 3px;
+    color: var(--ink2);
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  .meaning-main {
+    font-size: 1rem;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .meaning-note {
+    font-size: 0.83rem;
+    color: var(--ink3);
+    margin-top: 4px;
+    padding-left: 10px;
+    border-left: 2px solid var(--border);
+  }
+
+  /* ── PATTERN (構文) ── */
+  .pattern-item {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--bg3);
+  }
+  .pattern-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .pattern-formula {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--blue);
+    background: var(--blue-pale);
+    padding: 6px 12px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .pattern-scene {
+    font-size: 0.78rem;
+    color: var(--ink3);
+    margin-bottom: 5px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── EXAMPLE SENTENCE ── */
+  .example-block {
+    background: var(--bg2);
+    border-radius: 7px;
+    padding: 13px 15px;
+    margin-top: 8px;
+    position: relative;
+  }
+  .en-toggle-btn {
+    background: var(--accent);
+    border: none;
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 5px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s, opacity 0.15s;
+  }
+  .en-toggle-btn.all-hidden { background: #3A3830; color: #9A9590; }
+  .en-toggle-btn:hover { opacity: 0.85; }
+
+  /* ── PER-SENTENCE EN TOGGLE ── */
+  .example-en {
+    font-size: 0.9rem;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .example-en-mask {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+  }
+  .en-reveal-btn {
+    flex-shrink: 0;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--ink3);
+    padding: 2px 8px;
+    cursor: pointer;
+    transition: background 0.13s, color 0.13s;
+    white-space: nowrap;
+  }
+  .en-reveal-btn:hover { background: var(--accent-pale); color: var(--accent); }
+  .en-reveal-btn.revealed { background: var(--accent-pale); color: var(--accent); border-color: var(--accent2); }
+  .example-en-text {
+    transition: filter 0.18s, opacity 0.18s;
+  }
+  .example-en-text.masked {
+    opacity: 0.15;
+    filter: blur(5px);
+    user-select: none;
+  }
+  .example-ja {
+    font-size: 0.8rem;
+    color: var(--ink3);
+    margin-top: 4px;
+    line-height: 1.55;
+  }
+  .speak-btn {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: var(--bg3);
+    border: none;
+    border-radius: 50%;
+    width: 26px; height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: background 0.15s, transform 0.12s;
+    color: var(--ink2);
+  }
+  .speak-btn:hover { background: var(--accent2); transform: scale(1.1); }
+  .speak-btn.speaking { background: var(--accent); color: #fff; }
+
+  /* ── IDIOM ── */
+  .idiom-item {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--bg3);
+  }
+  .idiom-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .idiom-phrase {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--green);
+  }
+  .idiom-nuance {
+    font-size: 0.8rem;
+    color: var(--ink3);
+    margin: 3px 0 6px;
+    font-style: italic;
+  }
+
+  /* ── SYNONYM ── */
+  .synonym-item {
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .synonym-word {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .syn-tag {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .tag-casual { background: #FFE8D6; color: #9A4510; }
+  .tag-formal { background: #E0EAF8; color: #2A4B7C; }
+  .tag-textbook { background: #F0EAF8; color: #5A3A8A; }
+  .tag-native { background: #D6F0E0; color: #1A6B3A; }
+  .syn-diff {
+    font-size: 0.82rem;
+    color: var(--ink2);
+    margin: 6px 0 4px;
+  }
+  .syn-diff strong { color: var(--accent); }
+  .syn-pattern {
+    font-size: 0.8rem;
+    color: var(--ink3);
+    margin-top: 4px;
+  }
+  .syn-pattern span {
+    display: inline-block;
+    background: var(--bg2);
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-family: 'DM Serif Display', serif;
+    color: var(--blue);
+    font-size: 0.82rem;
+  }
+
+  /* ── USAGE TIP ── */
+  .tip-box {
+    background: var(--accent-pale);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 18px;
+  }
+  .tip-box p { font-size: 0.88rem; color: var(--ink2); line-height: 1.7; }
+  .tip-box p + p { margin-top: 8px; }
+  .tip-highlight { font-weight: 600; color: var(--accent); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .site-header { padding: 18px 16px 14px; gap: 12px; }
+    .tabs-wrapper, .todays-note { padding-left: 16px; padding-right: 16px; margin-left: 0; margin-right: 0; }
+    .tabs-wrapper { padding-top: 16px; }
+    .word-panel { padding: 20px 16px 50px; }
+    .word-hero h2 { font-size: 2.2rem; }
+    .section-card { padding: 16px; }
+    .tab-btn { padding: 10px 14px; font-size: 0.95rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div>
+    <div class="date-tag">May 15, 2026 — English Diary Vocab</div>
+    <h1>今日の5単語</h1>
+  </div>
+  <div class="header-right">
+    <button class="en-toggle-btn" id="enToggleBtn" title="英文を一括表示/非表示">全部表示</button>
+    <span class="speed-label">Speed</span>
+    <button class="speed-btn active" data-rate="0.75">遅め</button>
+    <button class="speed-btn" data-rate="1.0">普通</button>
+    <button class="speed-btn" data-rate="1.3">速め</button>
+  </div>
+</header>
+
+<!-- TODAY'S NOTE -->
+<div class="todays-note">
+  <div class="note-label">📓 Today's Note</div>
+  <p>仕事も勉強も両方こなせた初日。でも「これが続くか不安」って気持ち、英語にするとどう言う？<br>
+  <em>I'm not sure if I can keep this up</em> — "keep up" をこの5単語でも自然に使っていこう。テレアポでキレられる日も、<em>just relax and let it go</em> でいこう。</p>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrapper">
+  <div class="tabs" id="tabs">
+    <button class="tab-btn active" data-word="recommend">recommend</button>
+    <button class="tab-btn" data-word="repair">repair</button>
+    <button class="tab-btn" data-word="bake">bake</button>
+    <button class="tab-btn" data-word="relax">relax</button>
+    <button class="tab-btn" data-word="let">let</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     WORD: RECOMMEND
+═══════════════════════════════════════ -->
+<div class="word-panel active" id="panel-recommend">
+  <div class="word-hero">
+    <h2>recommend</h2>
+    <span class="phonetic">/ˌrekəˈmend/</span>
+    <button class="speak-word-btn" onclick="speakText('recommend')">🔊</button>
+  </div>
+
+  <!-- 1. 意味 -->
+  <div class="section-card">
+    <h3><span class="icon">📖</span> 基本の意味</h3>
+    <div class="pos-block">
+      <span class="pos-tag">動詞</span>
+      <div class="meaning-main">〜を勧める、推薦する</div>
+      <div class="meaning-note">「自分の経験や判断から、これがいいよ」と伝えるニュアンス。単なる紹介ではなく、<strong>責任を持った提案</strong>。</div>
+    </div>
+    <div class="pos-block">
+      <span class="pos-tag">⚠️ 注意</span>
+      <div class="meaning-note"><strong>recommend that + 主語 + 動詞の原形</strong>（仮定法現在）が正式。<br>
+      ✅ I recommend that you watch the game.<br>
+      ❌ I recommend you to watch the game.（×）— suggest/adviseと混同しやすい！</div>
+    </div>
+  </div>
+
+  <!-- 2. 構文 -->
+  <div class="section-card">
+    <h3><span class="icon">🔧</span> よく使う構文</h3>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">recommend + 名詞</div>
+      <div class="pattern-scene">場面：友人に本・店・映画を勧めるとき</div>
+      <div class="example-block">
+        <div class="example-en">After the Arsenal match last night, I'd recommend Jaylen Brown's interview on ESPN — his mental game is next level.</div>
+        <div class="example-ja">昨夜のアーセナル戦のあと、ESPNのジェイレン・ブラウンのインタビューを勧めたい — メンタルが次元違う。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'After the Arsenal match last night, I\'d recommend Jaylen Brown\'s interview on ESPN — his mental game is next level.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">recommend + -ing</div>
+      <div class="pattern-scene">場面：行動・やり方を勧めるとき（日常会話で最頻出）</div>
+      <div class="example-block">
+        <div class="example-en">When life feels heavy, I recommend reading a Chandler novel. It grounds you fast.</div>
+        <div class="example-ja">気持ちが重いときは、チャンドラーの小説を読むのを勧める。すぐに地に足がつく。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'When life feels heavy, I recommend reading a Chandler novel. It grounds you fast.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">recommend that + S + 動詞原形</div>
+      <div class="pattern-scene">場面：フォーマルな提案・メール・報告書</div>
+      <div class="example-block">
+        <div class="example-en">My manager recommended that I keep a daily log of cold calls — angry customers included.</div>
+        <div class="example-ja">上司は、キレた客も含めて電話営業の日誌をつけるよう勧めた。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'My manager recommended that I keep a daily log of cold calls — angry customers included.')">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. イディオム -->
+  <div class="section-card">
+    <h3><span class="icon">💬</span> イディオム・定番表現</h3>
+    <div class="idiom-item">
+      <div class="idiom-phrase">highly recommend</div>
+      <div class="idiom-nuance">「強くお勧め」— レビューやSNSで最もよく見る形。recommendの前にhighlyをつけるだけで熱量が伝わる。</div>
+      <div class="example-block">
+        <div class="example-en">I highly recommend the new Kendrick Lamar documentary if you haven't seen it yet.</div>
+        <div class="example-ja">まだ観てないならケンドリック・ラマーの新ドキュメンタリー、超お勧め。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'I highly recommend the new Kendrick Lamar documentary if you haven\'t seen it yet.')">🔊</button>
+      </div>
+    </div>
+    <div class="idiom-item">
+      <div class="idiom-phrase">can't recommend ... enough</div>
+      <div class="idiom-nuance">「いくら勧めても足りない」— 最高の褒め言葉。英語ネイティブが熱量を表すときの定番表現。</div>
+      <div class="example-block">
+        <div class="example-en">I can't recommend Nujabes' music enough — perfect for studying English at night.</div>
+        <div class="example-ja">ヌジャベスの音楽はいくら勧めても足りない — 夜の英語勉強に最高。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'I can\'t recommend Nujabes\' music enough — perfect for studying English at night.')">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 類語 -->
+  <div class="section-card">
+    <h3><span class="icon">🔀</span> 類語と使い分け</h3>
+
+    <div class="synonym-item">
+      <div class="synonym-word">suggest <span class="syn-tag tag-casual">🗣️ カジュアル</span> <span class="syn-tag tag-native">🌍 ネイティブ的</span></div>
+      <div class="syn-diff">📌 <strong>recommend</strong> は「私はこれがベストだと思う」という責任感がある。<strong>suggest</strong> は「こういうのはどう？」と軽く提案するだけ。</div>
+      <div class="syn-pattern">よく使う構文: <span>suggest + -ing</span> <span>suggest that + S + do</span> <span>suggest + 名詞</span></div>
+      <div class="example-block">
+        <div class="example-en">She suggested we grab ramen after the UFC fight — nothing formal, just a vibe.</div>
+        <div class="example-ja">UFCの試合のあとにラーメン食おうよって、彼女がさらっと言った。特に深い意味はない感じで。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'She suggested we grab ramen after the UFC fight — nothing formal, just a vibe.')">🔊</button>
+      </div>
+      <div class="idiom-nuance" style="margin-top:10px;">💬 定番表現・イディオム</div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px;">suggest itself（自然に思い浮かぶ）</div>
+      <div class="example-block">
+        <div class="example-en">A solution suggested itself while I was listening to J Dilla on the commute home.</div>
+        <div class="example-ja">帰りの電車でJ・ディラを聴いていたら、自然と解決策が浮かんできた。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'A solution suggested itself while I was listening to J Dilla on the commute home.')">🔊</button>
+      </div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px; margin-top:8px;">just a suggestion（あくまで提案だけど）</div>
+      <div class="example-block">
+        <div class="example-en">Just a suggestion, but watching film before the match could help you predict their press.</div>
+        <div class="example-ja">あくまで提案だけど、試合前にフィルムを観ると相手のプレスを読めるようになるかも。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Just a suggestion, but watching film before the match could help you predict their press.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="synonym-item">
+      <div class="synonym-word">advise <span class="syn-tag tag-formal">💼 フォーマル</span></div>
+      <div class="syn-diff">📌 <strong>recommend</strong> は好みや経験から「お勧め」。<strong>advise</strong> は立場や専門知識から「アドバイスする」— より権威的。</div>
+      <div class="syn-pattern">よく使う構文: <span>advise + 人 + to do</span> <span>advise against + -ing</span> <span>advise on ~</span></div>
+      <div class="example-block">
+        <div class="example-en">The coach advised him to rest the ankle — that's an order, not just a recommendation.</div>
+        <div class="example-ja">コーチは足首を休めるよう指示した — 単なる提案じゃなく、専門家としての判断だ。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'The coach advised him to rest the ankle — that\'s an order, not just a recommendation.')">🔊</button>
+      </div>
+      <div class="idiom-nuance" style="margin-top:10px;">💬 定番表現・イディオム</div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px;">advise against ~（〜に反対する・やめた方がいいと言う）</div>
+      <div class="example-block">
+        <div class="example-en">Everyone advised against the trade, but the GM went ahead anyway. Classic.</div>
+        <div class="example-ja">みんながそのトレードには反対したのに、GMは強行した。典型的すぎる。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Everyone advised against the trade, but the GM went ahead anyway. Classic.')">🔊</button>
+      </div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px; margin-top:8px;">ill-advised（無謀な・軽率な）</div>
+      <div class="example-block">
+        <div class="example-en">That late-night tattoo was ill-advised. Still, she pulls it off somehow.</div>
+        <div class="example-ja">深夜にタトゥーを入れたのは軽率だった。でも、なぜか似合っている。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'That late-night tattoo was ill-advised. Still, she pulls it off somehow.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="synonym-item">
+      <div class="synonym-word">endorse <span class="syn-tag tag-formal">💼 フォーマル</span></div>
+      <div class="syn-diff">📌 <strong>recommend</strong> は個人的な推薦。<strong>endorse</strong> は公式・公的に支持する（スポンサー契約、政治的支持など）。</div>
+      <div class="syn-pattern">よく使う構文: <span>endorse + 人/商品</span> <span>officially endorse</span> <span>endorse a view</span></div>
+      <div class="example-block">
+        <div class="example-en">Nike endorsed LeBron decades ago; I'm just recommending his shoes to a friend.</div>
+        <div class="example-ja">ナイキはレブロンを何十年も前から公式スポンサーにした。俺は友達にシューズを勧めてるだけ。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Nike endorsed LeBron decades ago; I\'m just recommending his shoes to a friend.')">🔊</button>
+      </div>
+      <div class="idiom-nuance" style="margin-top:10px;">💬 定番表現・イディオム</div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px;">endorsement deal（スポンサー契約）</div>
+      <div class="example-block">
+        <div class="example-en">The rapper's endorsement deal with the sneaker brand earned him more than the album.</div>
+        <div class="example-ja">そのラッパーのスニーカーブランドとのスポンサー契約は、アルバムより稼いだ。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'The rapper\'s endorsement deal with the sneaker brand earned him more than the album.')">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 使い分けのコツ -->
+  <div class="section-card">
+    <h3><span class="icon">🎯</span> 使い分けのコツ</h3>
+    <div class="tip-box">
+      <p><span class="tip-highlight">recommend</span> は「私が責任を持って勧める」という重みがある。だから <em>I recommend you to ~</em> は使えない（to は advise と混同するエラー）。</p>
+      <p>日記で使うなら <strong>I recommend + 名詞</strong> か <strong>I recommend + -ing</strong> が自然でシンプル。</p>
+      <p>テレアポで怒られた日は "I recommend <em>letting it go</em>" と自分に言い聞かせよう。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     WORD: REPAIR
+═══════════════════════════════════════ -->
+<div class="word-panel" id="panel-repair">
+  <div class="word-hero">
+    <h2>repair</h2>
+    <span class="phonetic">/rɪˈpɛr/</span>
+    <button class="speak-word-btn" onclick="speakText('repair')">🔊</button>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">📖</span> 基本の意味</h3>
+    <div class="pos-block">
+      <span class="pos-tag">動詞</span>
+      <div class="meaning-main">〜を修理する、修復する</div>
+      <div class="meaning-note">物理的な修理から、関係・評判の「修復」まで幅広く使える。<strong>fix</strong> より少しフォーマル寄り。</div>
+    </div>
+    <div class="pos-block">
+      <span class="pos-tag">名詞</span>
+      <div class="meaning-main">修理、修繕 → in need of repair（修理が必要な状態）</div>
+      <div class="meaning-note">名詞形もよく使う。<em>under repair</em>（工事中）、<em>beyond repair</em>（修復不可能）は定番フレーズ。</div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">🔧</span> よく使う構文</h3>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">repair + 名詞（物）</div>
+      <div class="pattern-scene">場面：壊れたものを直す</div>
+      <div class="example-block">
+        <div class="example-en">Had to repair my old turntable today. There's something meditative about fixing things with your hands.</div>
+        <div class="example-ja">今日は古いターンテーブルを修理した。手で物を直すのって、なんか瞑想みたいだ。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Had to repair my old turntable today. There\'s something meditative about fixing things with your hands.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">repair + 関係・評判</div>
+      <div class="pattern-scene">場面：人間関係・信頼・チームの雰囲気を修復するとき</div>
+      <div class="example-block">
+        <div class="example-en">Chelsea needs to repair the team chemistry if they want to mount a title challenge next season.</div>
+        <div class="example-ja">チェルシーは来シーズンのタイトル争いのために、チームケミストリーを修復する必要がある。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Chelsea needs to repair the team chemistry if they want to mount a title challenge next season.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">beyond repair</div>
+      <div class="pattern-scene">場面：物・関係が「もう直せない」状態を表す</div>
+      <div class="example-block">
+        <div class="example-en">After a brutal loss like that, some fans think the confidence is beyond repair — but I've seen comebacks before.</div>
+        <div class="example-ja">あんな惨敗のあと、自信は修復不可能だという声もある — でも俺は巻き返しを見てきた。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'After a brutal loss like that, some fans think the confidence is beyond repair — but I\'ve seen comebacks before.')">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">💬</span> イディオム・定番表現</h3>
+    <div class="idiom-item">
+      <div class="idiom-phrase">in (good / bad) repair</div>
+      <div class="idiom-nuance">「〜の状態にある」— 主に建物や機械の維持状態を表す。フォーマルでやや文語的。</div>
+      <div class="example-block">
+        <div class="example-en">The gym was in terrible repair — cracked floor, broken mirrors — but the fighters trained there like it was the Garden.</div>
+        <div class="example-ja">ジムはひどい状態だった — 割れた床、壊れた鏡 — でもそこの選手たちはマジソン・スクエア・ガーデンみたいに練習していた。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'The gym was in terrible repair — cracked floor, broken mirrors — but the fighters trained there like it was the Garden.')">🔊</button>
+      </div>
+    </div>
+    <div class="idiom-item">
+      <div class="idiom-phrase">repair (to a place)</div>
+      <div class="idiom-nuance">「〜へ向かう、移動する」— 古風・文学的な用法。ハードボイルド小説でよく目にする表現。</div>
+      <div class="example-block">
+        <div class="example-en">After the interrogation, Marlowe repaired to the nearest bar and ordered a double without a word.</div>
+        <div class="example-ja">尋問のあと、マーロウは一番近いバーに向かい、一言も言わずにダブルを注文した。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'After the interrogation, Marlowe repaired to the nearest bar and ordered a double without a word.')">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">🔀</span> 類語と使い分け</h3>
+    <div class="synonym-item">
+      <div class="synonym-word">fix <span class="syn-tag tag-casual">🗣️ カジュアル</span> <span class="syn-tag tag-native">🌍 ネイティブ的</span></div>
+      <div class="syn-diff">📌 <strong>repair</strong> はやや公式・丁寧。<strong>fix</strong> は日常会話で最も自然。ほぼ同じ意味だが、感情・問題・食事にも使えるのは fix。</div>
+      <div class="syn-pattern">よく使う構文: <span>fix + 名詞</span> <span>fix dinner</span> <span>fix someone up</span></div>
+      <div class="example-block">
+        <div class="example-en">I'll fix the playlist tonight. Repair sounds way too formal for a vibe session.</div>
+        <div class="example-ja">今夜プレイリストを直す。repairだとセッションには堅すぎる。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'I\'ll fix the playlist tonight. Repair sounds way too formal for a vibe session.')">🔊</button>
+      </div>
+      <div class="idiom-nuance" style="margin-top:10px;">💬 定番表現・イディオム</div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px;">quick fix（応急処置・その場しのぎ）</div>
+      <div class="example-block">
+        <div class="example-en">The manager tried a quick fix with a formation change, but the defense was leaking all night.</div>
+        <div class="example-ja">監督はフォーメーション変更でその場しのぎを試みたが、守備は終始崩れっぱなしだった。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'The manager tried a quick fix with a formation change, but the defense was leaking all night.')">🔊</button>
+      </div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px; margin-top:8px;">fix someone up（誰かを助ける・引き合わせる・手当てする）</div>
+      <div class="example-block">
+        <div class="example-en">The trainer fixed him up at ringside — swollen eye, but he came out for round four anyway.</div>
+        <div class="example-ja">トレーナーがリング際で手当てした — 目が腫れていたが、それでも4ラウンド目に出てきた。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'The trainer fixed him up at ringside — swollen eye, but he came out for round four anyway.')">🔊</button>
+      </div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px; margin-top:8px;">fix + 人 + with a look（視線で制する）</div>
+      <div class="example-block">
+        <div class="example-en">She fixed me with a look that said everything without saying a word. Classic noir.</div>
+        <div class="example-ja">彼女は一言も言わずに全てを語る眼差しで俺を見た。典型的なノワールだ。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'She fixed me with a look that said everything without saying a word. Classic noir.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="synonym-item">
+      <div class="synonym-word">restore <span class="syn-tag tag-formal">💼 フォーマル</span></div>
+      <div class="syn-diff">📌 <strong>repair</strong> は「壊れたものを直す」。<strong>restore</strong> は「元の良い状態に戻す」— 復元・復活のニュアンスが強い。</div>
+      <div class="syn-pattern">よく使う構文: <span>restore + 名詞</span> <span>restore A to B</span> <span>fully restored</span></div>
+      <div class="example-block">
+        <div class="example-en">Winning the away leg restored some faith in the squad. You could see it in their eyes.</div>
+        <div class="example-ja">アウェーの第1戦を制して、チームへの信頼がいくらか戻った。選手たちの目を見ればわかった。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Winning the away leg restored some faith in the squad. You could see it in their eyes.')">🔊</button>
+      </div>
+      <div class="idiom-nuance" style="margin-top:10px;">💬 定番表現・イディオム</div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px;">restore order（秩序を取り戻す）</div>
+      <div class="example-block">
+        <div class="example-en">The new head coach came in and restored order within two weeks. The locker room drama stopped cold.</div>
+        <div class="example-ja">新ヘッドコーチが来て2週間で秩序を取り戻した。ロッカールームの混乱がぴたっと止まった。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'The new head coach came in and restored order within two weeks. The locker room drama stopped cold.')">🔊</button>
+      </div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px; margin-top:8px;">restore one's faith in ~（〜への信頼を取り戻す）</div>
+      <div class="example-block">
+        <div class="example-en">That last-minute winner restored my faith in the Premier League. Pure drama.</div>
+        <div class="example-ja">あのロスタイムのゴールでプレミアリーグへの信頼が戻った。純粋なドラマだ。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'That last-minute winner restored my faith in the Premier League. Pure drama.')">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">🎯</span> 使い分けのコツ</h3>
+    <div class="tip-box">
+      <p>日常会話では <span class="tip-highlight">fix</span> がほとんどの場面をカバーする。<span class="tip-highlight">repair</span> は少しフォーマルで、書き言葉・関係修復・ニュース英語でよく出る。</p>
+      <p>ハードボイルド小説を読んでいると <em>repaired to</em>（〜へ向かった）という古風な用法が出てくる。意味が全然違うので要注意。</p>
+      <p>テレアポで心が折れたあと → "Time to <strong>repair</strong> the mood with some good music."</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     WORD: BAKE
+═══════════════════════════════════════ -->
+<div class="word-panel" id="panel-bake">
+  <div class="word-hero">
+    <h2>bake</h2>
+    <span class="phonetic">/beɪk/</span>
+    <button class="speak-word-btn" onclick="speakText('bake')">🔊</button>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">📖</span> 基本の意味</h3>
+    <div class="pos-block">
+      <span class="pos-tag">動詞</span>
+      <div class="meaning-main">（オーブンで）焼く、（太陽・熱で）焼けるように熱い</div>
+      <div class="meaning-note"><strong>bake</strong> はオーブン調理が基本。fry（フライパン）、grill（グリル・焼き網）と区別しよう。<br>
+      比喩的に「太陽でじりじり焼ける」という意味でも日常的に使う。</div>
+    </div>
+    <div class="pos-block">
+      <span class="pos-tag">名詞</span>
+      <div class="meaning-main">焼き菓子、ベイク（料理イベントとしても）</div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">🔧</span> よく使う構文</h3>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">bake + 食べ物</div>
+      <div class="pattern-scene">場面：パン・お菓子・料理を作るとき</div>
+      <div class="example-block">
+        <div class="example-en">She baked a lemon cake while I had the NBA playoffs on in the background. Best Sunday ever.</div>
+        <div class="example-ja">NBAプレイオフを流しながら、彼女がレモンケーキを焼いてくれた。最高の日曜日。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'She baked a lemon cake while I had the NBA playoffs on in the background. Best Sunday ever.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">be baking (比喩：暑い)</div>
+      <div class="pattern-scene">場面：天気・場所の暑さを表現するとき（口語）</div>
+      <div class="example-block">
+        <div class="example-en">Tokyo is absolutely baking today — couldn't focus on my English diary until the sun went down.</div>
+        <div class="example-ja">今日の東京は焼け死ぬような暑さ — 日が落ちるまで英語日記に集中できなかった。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Tokyo is absolutely baking today — couldn\'t focus on my English diary until the sun went down.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">bake ... into ~（比喩：組み込む）</div>
+      <div class="pattern-scene">場面：システム・計画・習慣に何かを組み込む（フォーマルな文脈でも使う）</div>
+      <div class="example-block">
+        <div class="example-en">I want to bake English study into my daily routine, not treat it as an extra task.</div>
+        <div class="example-ja">英語学習を特別なタスクじゃなく、日課に組み込みたい。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'I want to bake English study into my daily routine, not treat it as an extra task.')">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">💬</span> イディオム・定番表現</h3>
+    <div class="idiom-item">
+      <div class="idiom-phrase">half-baked</div>
+      <div class="idiom-nuance">「生焼けの → 不十分な・詰めが甘い」— アイデアや計画が未熟なときに使う比喩。批判的なニュアンス。</div>
+      <div class="example-block">
+        <div class="example-en">That team's defensive scheme looked half-baked — like they drew it up in the locker room five minutes before tip-off.</div>
+        <div class="example-ja">あのチームの守備プランは詰めが甘かった — ティップオフ5分前にロッカーで描いたみたいだ。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'That team\'s defensive scheme looked half-baked — like they drew it up in the locker room five minutes before tip-off.')">🔊</button>
+      </div>
+    </div>
+    <div class="idiom-item">
+      <div class="idiom-phrase">that's the way the cookie crumbles</div>
+      <div class="idiom-nuance">「それが現実ってもんだ」— bake系の定番イディオム。思い通りにならないことへの諦め・受け入れを表す。</div>
+      <div class="example-block">
+        <div class="example-en">Got hung up on again during cold calls today. That's the way the cookie crumbles, I guess.</div>
+        <div class="example-ja">今日もまたテレアポでガチャ切りされた。まあ、そんなもんだよな。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Got hung up on again during cold calls today. That\'s the way the cookie crumbles, I guess.')">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">🔀</span> 類語と使い分け</h3>
+    <div class="synonym-item">
+      <div class="synonym-word">roast <span class="syn-tag tag-native">🌍 ネイティブ的</span></div>
+      <div class="syn-diff">📌 <strong>bake</strong> はパン・ケーキなど（水分・生地もの）。<strong>roast</strong> は肉・野菜など（より高温・乾燥した焼き方）。また roast には「人をいじる・こき下ろす」という口語的な意味もある。</div>
+      <div class="syn-pattern">よく使う構文: <span>roast + 肉/野菜</span> <span>roast + 人（いじる）</span> <span>get roasted</span></div>
+      <div class="example-block">
+        <div class="example-en">After the loss, the fans absolutely roasted the manager on social media. No mercy.</div>
+        <div class="example-ja">敗戦後、ファンたちはSNSで監督を徹底的にこき下ろした。容赦なかった。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'After the loss, the fans absolutely roasted the manager on social media. No mercy.')">🔊</button>
+      </div>
+      <div class="idiom-nuance" style="margin-top:10px;">💬 定番表現・イディオム</div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px;">roast（お笑いのいじり合いイベント）</div>
+      <div class="example-block">
+        <div class="example-en">A good roast needs thick skin. Same as cold calling, honestly.</div>
+        <div class="example-ja">いいロースト（いじり合い）には鉄の神経が必要だ。正直、テレアポと同じだ。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'A good roast needs thick skin. Same as cold calling, honestly.')">🔊</button>
+      </div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px; margin-top:8px;">coffee roast（コーヒーの焙煎）— light / medium / dark roast</div>
+      <div class="example-block">
+        <div class="example-en">I switched to a dark roast this month — bolder flavor for early mornings before cold calls.</div>
+        <div class="example-ja">今月はダークローストに変えた — テレアポ前の朝に、もっと力強い味が欲しかった。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'I switched to a dark roast this month — bolder flavor for early mornings before cold calls.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="synonym-item">
+      <div class="synonym-word">toast <span class="syn-tag tag-casual">🗣️ カジュアル</span></div>
+      <div class="syn-diff">📌 <strong>bake</strong> より短時間・高温で表面を焼く。パンのトースト、また乾杯の "toast" も同じ語。</div>
+      <div class="syn-pattern">よく使う構文: <span>toast + パン/種実</span> <span>propose a toast</span> <span>toast to ~</span></div>
+      <div class="example-block">
+        <div class="example-en">I toasted some bread, made black coffee, and rewatched the Spurs match. Quiet night in.</div>
+        <div class="example-ja">パンをトーストして、ブラックコーヒーを淹れて、スパーズの試合を見直した。静かな夜。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'I toasted some bread, made black coffee, and rewatched the Spurs match. Quiet night in.')">🔊</button>
+      </div>
+      <div class="idiom-nuance" style="margin-top:10px;">💬 定番表現・イディオム</div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px;">raise a toast to ~（〜に乾杯する）</div>
+      <div class="example-block">
+        <div class="example-en">We raised a toast to day one. Small wins matter.</div>
+        <div class="example-ja">初日に乾杯した。小さな勝利も大事だ。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'We raised a toast to day one. Small wins matter.')">🔊</button>
+      </div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px; margin-top:8px;">be toast（終わりだ・やばい）</div>
+      <div class="example-block">
+        <div class="example-en">If they concede one more, they're toast. The season's over.</div>
+        <div class="example-ja">あと1点取られたら終わりだ。シーズンが終わる。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'If they concede one more, they\'re toast. The season\'s over.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="synonym-item">
+      <div class="synonym-word">grill <span class="syn-tag tag-casual">🗣️ カジュアル</span> <span class="syn-tag tag-native">🌍 ネイティブ的</span></div>
+      <div class="syn-diff">📌 <strong>bake</strong> はオーブン調理。<strong>grill</strong> は直火・グリル網で焼く。比喩で「激しく問い詰める」という意味もある。</div>
+      <div class="syn-pattern">よく使う構文: <span>grill + 肉/魚</span> <span>grill + 人（問い詰める）</span></div>
+      <div class="example-block">
+        <div class="example-en">The detective grilled him for two hours. The guy never cracked — cool as Marlowe.</div>
+        <div class="example-ja">刑事は2時間彼を問い詰めた。男は崩れなかった — マーロウみたいに冷静だった。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'The detective grilled him for two hours. The guy never cracked — cool as Marlowe.')">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">🎯</span> 使い分けのコツ</h3>
+    <div class="tip-box">
+      <p>料理動詞は「熱源と食材の組み合わせ」で選ぶ。<span class="tip-highlight">bake</span>＝オーブン＋生地もの が基本セット。</p>
+      <p>比喩として <em>"bake … into"</em> は「習慣化する・組み込む」文脈でビジネス英語でも使える。今日から英語習慣を bake in しよう。</p>
+      <p><em>half-baked</em> は日記で「詰めの甘い計画を反省する」文脈でも使いやすい。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     WORD: RELAX
+═══════════════════════════════════════ -->
+<div class="word-panel" id="panel-relax">
+  <div class="word-hero">
+    <h2>relax</h2>
+    <span class="phonetic">/rɪˈlæks/</span>
+    <button class="speak-word-btn" onclick="speakText('relax')">🔊</button>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">📖</span> 基本の意味</h3>
+    <div class="pos-block">
+      <span class="pos-tag">動詞（自動詞）</span>
+      <div class="meaning-main">リラックスする、くつろぐ、緊張を解く</div>
+    </div>
+    <div class="pos-block">
+      <span class="pos-tag">動詞（他動詞）</span>
+      <div class="meaning-main">〜を緩める、〜を和らげる（ルール・規制なども）</div>
+      <div class="meaning-note">自動詞（自分がリラックスする）と他動詞（何かを緩める）の両方がある。<br>
+      <em>relax the rules</em>（規則を緩める）はニュースでよく使われる。</div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">🔧</span> よく使う構文</h3>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">relax（自動詞）</div>
+      <div class="pattern-scene">場面：仕事後・試合後に気を抜く</div>
+      <div class="example-block">
+        <div class="example-en">Finally relaxed after a long first day of balancing work and study. Put on some old-school HIPHOP and just breathed.</div>
+        <div class="example-ja">仕事と勉強を両立した長い初日が終わって、ようやくリラックスできた。昔のヒップホップをかけて、ただ息をした。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Finally relaxed after a long first day of balancing work and study. Put on some old-school HIPHOP and just breathed.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">relax + 名詞（他動詞）</div>
+      <div class="pattern-scene">場面：筋肉・ルール・態度などを緩めるとき</div>
+      <div class="example-block">
+        <div class="example-en">The referee told both fighters to relax their grip. It was getting dangerous in the clinch.</div>
+        <div class="example-ja">レフェリーは両選手にグリップを緩めるよう指示した。クリンチで危険になっていた。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'The referee told both fighters to relax their grip. It was getting dangerous in the clinch.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">Relax!（命令形）</div>
+      <div class="pattern-scene">場面：誰かを落ち着かせる・焦りを制止する</div>
+      <div class="example-block">
+        <div class="example-en">"Relax," I told myself after the third angry customer in a row. "This is just day one."</div>
+        <div class="example-ja">「落ち着け」と3人連続でキレた客のあとに自分に言い聞かせた。「まだ初日だ」と。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Relax, I told myself after the third angry customer in a row. This is just day one.')">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">💬</span> イディオム・定番表現</h3>
+    <div class="idiom-item">
+      <div class="idiom-phrase">kick back and relax</div>
+      <div class="idiom-nuance">「足を伸ばしてくつろぐ」— kick back だけでもリラックスの意味。セットで使うことも多い。カジュアルで口語的。</div>
+      <div class="example-block">
+        <div class="example-en">No plans tonight. Just kick back, relax, and rewatch the Arsenal highlights from the weekend.</div>
+        <div class="example-ja">今夜は予定なし。のんびり足を伸ばして、週末のアーセナルのハイライトを見直す。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'No plans tonight. Just kick back, relax, and rewatch the Arsenal highlights from the weekend.')">🔊</button>
+      </div>
+    </div>
+    <div class="idiom-item">
+      <div class="idiom-phrase">relax and let ... flow</div>
+      <div class="idiom-nuance">「力を抜いて〜が流れるままにする」— アスリートやアーティストが「ゾーン」に入るときの表現。</div>
+      <div class="example-block">
+        <div class="example-en">The best rappers always say the same thing: relax and let the words flow.</div>
+        <div class="example-ja">一流のラッパーはみんな同じことを言う。力を抜いて、言葉が流れるままにしろ、と。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'The best rappers always say the same thing: relax and let the words flow.')">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">🔀</span> 類語と使い分け</h3>
+    <div class="synonym-item">
+      <div class="synonym-word">unwind <span class="syn-tag tag-native">🌍 ネイティブ的</span> <span class="syn-tag tag-casual">🗣️ カジュアル</span></div>
+      <div class="syn-diff">📌 <strong>relax</strong> より「張り詰めた糸が解けていく」イメージが強い。仕事・ストレス後に使いやすい。</div>
+      <div class="syn-pattern">よく使う構文: <span>unwind after ~</span> <span>need to unwind</span> <span>help sb unwind</span></div>
+      <div class="example-block">
+        <div class="example-en">After cold calls where people just hang up on you, I need at least an hour to unwind.</div>
+        <div class="example-ja">ガチャ切りされ続けるテレアポのあとは、最低1時間は頭を切らないと無理。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'After cold calls where people just hang up on you, I need at least an hour to unwind.')">🔊</button>
+      </div>
+      <div class="idiom-nuance" style="margin-top:10px;">💬 定番表現・イディオム</div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px;">unwind with ~（〜でリラックスする）</div>
+      <div class="example-block">
+        <div class="example-en">I unwind best with Nujabes on low volume and a cold drink. Works every time.</div>
+        <div class="example-ja">ヌジャベスを小さめの音量でかけて冷たい飲み物があれば一番リラックスできる。毎回効く。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'I unwind best with Nujabes on low volume and a cold drink. Works every time.')">🔊</button>
+      </div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px; margin-top:8px;">wound up → unwind の対義イメージ（「張り詰めている」状態）</div>
+      <div class="example-block">
+        <div class="example-en">I was so wound up by the end of the day, I couldn't even read. Just stared at the ceiling.</div>
+        <div class="example-ja">1日の終わりには張り詰めすぎて、読書もできなかった。ただ天井を見ていた。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'I was so wound up by the end of the day, I couldn\'t even read. Just stared at the ceiling.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="synonym-item">
+      <div class="synonym-word">chill (out) <span class="syn-tag tag-casual">🗣️ カジュアル</span> <span class="syn-tag tag-native">🌍 ネイティブ的</span></div>
+      <div class="syn-diff">📌 <strong>relax</strong> の超カジュアル版。HIPHOP文化では特に自然。年上・フォーマルな場では使わない。形容詞（chill = 落ち着いた）としても使える。</div>
+      <div class="syn-pattern">よく使う構文: <span>just chill</span> <span>chill at home</span> <span>chill with ~</span> <span>a chill vibe（形容詞）</span></div>
+      <div class="example-block">
+        <div class="example-en">Chilling at home with Lo-Fi beats on after the match. No plans, no pressure. Pure chill.</div>
+        <div class="example-ja">試合のあとにLo-Fiをかけて家でまったり。予定なし、プレッシャーなし。完全にリラックス。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Chilling at home with Lo-Fi beats on after the match. No plans, no pressure. Pure chill.')">🔊</button>
+      </div>
+      <div class="idiom-nuance" style="margin-top:10px;">💬 定番表現・イディオム</div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px;">chill pill（「落ち着けよ」的な表現）→ take a chill pill</div>
+      <div class="example-block">
+        <div class="example-en">"Take a chill pill," my friend texted after I sent five messages about the Arsenal result.</div>
+        <div class="example-ja">「落ち着けよ」とアーセナルの結果について5通送ったあとに友達からテキストが来た。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Take a chill pill, my friend texted after I sent five messages about the Arsenal result.')">🔊</button>
+      </div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px; margin-top:8px;">Netflix and chill（ネットフリックスを観てまったりする）</div>
+      <div class="example-block">
+        <div class="example-en">Too tired to go out. Netflix and chill sounded better than anything else.</div>
+        <div class="example-ja">外出する気力もなかった。ネトフリでまったりが何より良かった。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Too tired to go out. Netflix and chill sounded better than anything else.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="synonym-item">
+      <div class="synonym-word">decompress <span class="syn-tag tag-formal">💼 フォーマル</span></div>
+      <div class="syn-diff">📌 プレッシャーから解放されるイメージ。宇宙飛行士・医療系・ビジネスの文脈でも使われるやや上品な表現。</div>
+      <div class="syn-pattern">よく使う構文: <span>decompress after ~</span> <span>need time to decompress</span></div>
+      <div class="example-block">
+        <div class="example-en">After a brutal week of cold calls, I need the weekend just to decompress. No work talk, no targets.</div>
+        <div class="example-ja">テレアポの過酷な1週間のあとは、週末は頭を空にするだけに使いたい。仕事の話も、目標の話もなしで。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'After a brutal week of cold calls, I need the weekend just to decompress. No work talk, no targets.')">🔊</button>
+      </div>
+      <div class="idiom-nuance" style="margin-top:10px;">💬 定番表現・イディオム</div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px;">decompression time（頭を切り替えるための時間）</div>
+      <div class="example-block">
+        <div class="example-en">I block out thirty minutes of decompression time after work. It's non-negotiable now.</div>
+        <div class="example-ja">仕事後に30分の頭を切り替える時間をブロックしている。今や絶対に譲れないルーティンだ。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'I block out thirty minutes of decompression time after work. It\'s non-negotiable now.')">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">🎯</span> 使い分けのコツ</h3>
+    <div class="tip-box">
+      <p>日記で使うなら <span class="tip-highlight">relax</span> が万能。友達との会話なら <em>chill</em>、仕事ストレス後は <em>unwind</em> がよりリアルに聞こえる。</p>
+      <p>自分へのメンタルケアとして "I need to <strong>relax</strong> and not let one bad day define the whole journey." と書いてみよう。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     WORD: LET
+═══════════════════════════════════════ -->
+<div class="word-panel" id="panel-let">
+  <div class="word-hero">
+    <h2>let</h2>
+    <span class="phonetic">/lɛt/</span>
+    <button class="speak-word-btn" onclick="speakText('let')">🔊</button>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">📖</span> 基本の意味</h3>
+    <div class="pos-block">
+      <span class="pos-tag">動詞（使役）</span>
+      <div class="meaning-main">〜に〜させる（許可・容認）</div>
+      <div class="meaning-note"><strong>let + 人/物 + 動詞原形</strong> が基本形。<em>make</em>（強制）・<em>have</em>（手配）との違いを整理しよう。<br>
+      <strong>let</strong>＝自然に/許可して起こさせる　<strong>make</strong>＝強制する　<strong>have</strong>＝段取りして誰かにやってもらう</div>
+    </div>
+    <div class="pos-block">
+      <span class="pos-tag">名詞</span>
+      <div class="meaning-main">（テニス・スポーツ）レット（やり直し）、（英国）賃貸</div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">🔧</span> よく使う構文</h3>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">let + 人 + 動詞原形（許可）</div>
+      <div class="pattern-scene">場面：誰かに何かをさせる・許す</div>
+      <div class="example-block">
+        <div class="example-en">Let the game come to you. That's what the best point guards always say.</div>
+        <div class="example-ja">ゲームを自分に来させろ。最高のポイントガードたちはいつもそう言う。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Let the game come to you. That\'s what the best point guards always say.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">let ... go / let go of ~</div>
+      <div class="pattern-scene">場面：手放す・忘れる・気にしないようにする（感情・過去・怒りを）</div>
+      <div class="example-block">
+        <div class="example-en">Three angry callers today. I had to remind myself to let it go before dinner, or it ruins the whole evening.</div>
+        <div class="example-ja">今日もキレた客が3人。夕飯前に手放さないと夜全部が台無しになると自分に言い聞かせた。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Three angry callers today. I had to remind myself to let it go before dinner, or it ruins the whole evening.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">Let me + 動詞原形</div>
+      <div class="pattern-scene">場面：会話の申し出・提案・考えを整理するとき（最頻出フレーズのひとつ）</div>
+      <div class="example-block">
+        <div class="example-en">Let me think about it. I want to make sure I'm building a habit, not just a one-day rush.</div>
+        <div class="example-ja">ちょっと考えさせて。一日限りのダッシュじゃなく、ちゃんと習慣を作りたい。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Let me think about it. I want to make sure I\'m building a habit, not just a one-day rush.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="pattern-item">
+      <div class="pattern-formula">let alone ~</div>
+      <div class="pattern-scene">場面：「〜はおろか」— Aも難しいのに、Bなんて言わずもがな。否定文と一緒に使う。</div>
+      <div class="example-block">
+        <div class="example-en">I can barely keep my work streak going, let alone a daily English quota.</div>
+        <div class="example-ja">仕事の連続を続けるだけでやっとなのに、毎日英語のノルマなんてとてもとても。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'I can barely keep my work streak going, let alone a daily English quota.')">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">💬</span> イディオム・定番表現</h3>
+    <div class="idiom-item">
+      <div class="idiom-phrase">let it ride</div>
+      <div class="idiom-nuance">「そのままにしておく、流れに任せる」— 賭けの用語から来ているが、日常で「強引に変えず様子を見る」ときに使う。</div>
+      <div class="example-block">
+        <div class="example-en">The coach made a risky substitution in the 70th minute but decided to let it ride. It paid off.</div>
+        <div class="example-ja">コーチは70分にリスキーな交代をしたが、そのまま流れに任せた。それが功を奏した。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'The coach made a risky substitution in the 70th minute but decided to let it ride. It paid off.')">🔊</button>
+      </div>
+    </div>
+    <div class="idiom-item">
+      <div class="idiom-phrase">don't let me down</div>
+      <div class="idiom-nuance">「がっかりさせないで」— 強い期待と少しの圧。スポーツ・友人関係でよく使われる。</div>
+      <div class="example-block">
+        <div class="example-en">I told myself: don't let me down this time. Day one of the new routine. Make it count.</div>
+        <div class="example-ja">自分に言い聞かせた。今回はがっかりさせるな。新しいルーティンの初日だ。意味あるものにしろ、と。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'I told myself: don\'t let me down this time. Day one of the new routine. Make it count.')">🔊</button>
+      </div>
+    </div>
+    <div class="idiom-item">
+      <div class="idiom-phrase">let the cat out of the bag</div>
+      <div class="idiom-nuance">「秘密を漏らす」— うっかり内緒にしていたことを話してしまうとき。</div>
+      <div class="example-block">
+        <div class="example-en">He let the cat out of the bag about the trade before the official announcement. Twitter went wild.</div>
+        <div class="example-ja">公式発表前にトレードの情報を漏らしてしまった。Twitterが大騒ぎになった。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'He let the cat out of the bag about the trade before the official announcement. Twitter went wild.')">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">🔀</span> 類語と使い分け（使役動詞）</h3>
+    <div class="synonym-item">
+      <div class="synonym-word">make <span class="syn-tag tag-textbook">📚 教科書表現</span></div>
+      <div class="syn-diff">📌 <strong>let</strong>＝許可・容認して起こる。<strong>make</strong>＝強制する（相手の意思に関係なく）。<br>
+      <em>She let him play.</em>（好きにさせた）　vs　<em>She made him practice.</em>（強制した）</div>
+      <div class="syn-pattern">よく使う構文: <span>make + 人 + 動詞原形</span> <span>make + 人 + 形容詞</span></div>
+      <div class="example-block">
+        <div class="example-en">The manager made the whole squad run extra laps after that performance. No one was happy.</div>
+        <div class="example-ja">あのパフォーマンスのあと、監督は全選手に追加ラップを走らせた。誰も喜ばなかった。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'The manager made the whole squad run extra laps after that performance. No one was happy.')">🔊</button>
+      </div>
+      <div class="idiom-nuance" style="margin-top:10px;">💬 定番表現・イディオム</div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px;">make it（成功する・間に合う）</div>
+      <div class="example-block">
+        <div class="example-en">Day one down. I'm going to make it work — both the job and the English habit.</div>
+        <div class="example-ja">初日終了。仕事も英語習慣も、うまくやり遂げる。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'Day one down. I\'m going to make it work — both the job and the English habit.')">🔊</button>
+      </div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px; margin-top:8px;">make or break（成否を決める・天王山）</div>
+      <div class="example-block">
+        <div class="example-en">This week is make or break for the team. Three fixtures in seven days.</div>
+        <div class="example-ja">今週はチームの天王山だ。7日間で3試合ある。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'This week is make or break for the team. Three fixtures in seven days.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="synonym-item">
+      <div class="synonym-word">allow <span class="syn-tag tag-formal">💼 フォーマル</span></div>
+      <div class="syn-diff">📌 <strong>let</strong> のフォーマル版。ルール・規則・公式文書では allow が自然。<em>allow + 人 + to do</em> の形（to がつく）。</div>
+      <div class="syn-pattern">よく使う構文: <span>allow + 人 + to do</span> <span>allow for ~（余地を与える）</span> <span>not allowed to ~</span></div>
+      <div class="example-block">
+        <div class="example-en">The rules don't allow players to argue with the referee. That hasn't stopped anyone, though.</div>
+        <div class="example-ja">規則では選手が審判に抗議することは認められていない。それでも誰も止まらないけど。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'The rules don\'t allow players to argue with the referee. That hasn\'t stopped anyone, though.')">🔊</button>
+      </div>
+      <div class="idiom-nuance" style="margin-top:10px;">💬 定番表現・イディオム</div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px;">allow for ~（〜を見込む・余裕を持たせる）</div>
+      <div class="example-block">
+        <div class="example-en">My study plan allows for bad days — I don't want to quit just because I miss one session.</div>
+        <div class="example-ja">勉強計画には悪い日の余裕を持たせている — 1回サボったくらいでやめたくないから。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'My study plan allows for bad days — I don\'t want to quit just because I miss one session.')">🔊</button>
+      </div>
+    </div>
+
+    <div class="synonym-item">
+      <div class="synonym-word">permit <span class="syn-tag tag-formal">💼 フォーマル</span></div>
+      <div class="syn-diff">📌 <strong>allow</strong> よりさらに公式・法律的。日常会話ではほぼ使わない。</div>
+      <div class="syn-pattern">よく使う構文: <span>permit + 人 + to do</span> <span>weather permitting（天気が良ければ）</span></div>
+      <div class="example-block">
+        <div class="example-en">The visa does not permit him to work full-time. That's a hard line.</div>
+        <div class="example-ja">ビザではフルタイムの就労は認められていない。それは絶対的なラインだ。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'The visa does not permit him to work full-time. That\'s a hard line.')">🔊</button>
+      </div>
+      <div class="idiom-nuance" style="margin-top:10px;">💬 定番表現・イディオム</div>
+      <div class="idiom-phrase" style="font-size:0.9rem; margin-bottom:4px;">weather permitting（天気が良ければ・条件が整えば）</div>
+      <div class="example-block">
+        <div class="example-en">We'll watch the match outside at the bar, weather permitting. Should be a great atmosphere.</div>
+        <div class="example-ja">天気が良ければバーの外で試合を観る予定だ。いい雰囲気になるはずだ。</div>
+        <button class="speak-btn" onclick="speakSentence(this, 'We\'ll watch the match outside at the bar, weather permitting. Should be a great atmosphere.')">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">🎯</span> 使い分けのコツ</h3>
+    <div class="tip-box">
+      <p><span class="tip-highlight">let + 原形</span>（to なし）は必ず覚える。<em>let me to go</em> は間違い。</p>
+      <p><em>let go</em>（手放す）は感情にも物理的な動作にも使えるので、英語日記で超便利。テレアポでキレられた日も、夜には <strong>let it go</strong>。</p>
+      <p><em>let alone</em> は「Aも厳しいのにBなんて無理」という現実的な感情表現。今日みたいに不安な日の日記に自然に使える。</p>
+    </div>
+  </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+let currentRate = 0.75;
+let currentVoice = null;
+
+function loadVoices() {
+  const voices = window.speechSynthesis.getVoices();
+  // Samantha優先、次にGoogle US English
+  currentVoice =
+    voices.find(v => v.name === 'Samantha') ||
+    voices.find(v => v.name === 'Google US English') ||
+    voices.find(v => v.lang === 'en-US') ||
+    voices[0];
+}
+
+window.speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+
+function speakText(text) {
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  utter.rate = currentRate;
+  if (currentVoice) utter.voice = currentVoice;
+  window.speechSynthesis.speak(utter);
+}
+
+function speakSentence(btn, text) {
+  window.speechSynthesis.cancel();
+  document.querySelectorAll('.speak-btn.speaking').forEach(b => b.classList.remove('speaking'));
+  btn.classList.add('speaking');
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  utter.rate = currentRate;
+  if (currentVoice) utter.voice = currentVoice;
+  utter.onend = () => btn.classList.remove('speaking');
+  utter.onerror = () => btn.classList.remove('speaking');
+  window.speechSynthesis.speak(utter);
+}
+
+// ── PER-SENTENCE EN TOGGLE ──
+// Wrap every .example-en in a mask row with a reveal button
+function initEnToggles() {
+  document.querySelectorAll('.example-en').forEach(el => {
+    const text = el.textContent;
+    el.innerHTML = `
+      <div class="example-en-mask">
+        <button class="en-reveal-btn" title="英文を表示/非表示">EN</button>
+        <span class="example-en-text masked">${text}</span>
+      </div>`;
+    const btn = el.querySelector('.en-reveal-btn');
+    const span = el.querySelector('.example-en-text');
+    btn.addEventListener('click', () => {
+      const isHidden = span.classList.toggle('masked');
+      btn.classList.toggle('revealed', !isHidden);
+      btn.textContent = isHidden ? 'EN' : '隠す';
+    });
+  });
+}
+initEnToggles();
+
+// Global "全部隠す / 全部表示" toggle
+let enAllVisible = false; // starts all hidden
+const enToggleBtn = document.getElementById('enToggleBtn');
+enToggleBtn.textContent = '全部表示';
+enToggleBtn.addEventListener('click', () => {
+  enAllVisible = !enAllVisible;
+  document.querySelectorAll('.example-en-text').forEach(span => {
+    span.classList.toggle('masked', !enAllVisible);
+  });
+  document.querySelectorAll('.en-reveal-btn').forEach(btn => {
+    btn.classList.toggle('revealed', enAllVisible);
+    btn.textContent = enAllVisible ? '隠す' : 'EN';
+  });
+  enToggleBtn.textContent = enAllVisible ? '全部隠す' : '全部表示';
+  enToggleBtn.classList.toggle('all-hidden', !enAllVisible);
+});
+// initialise header button state
+enToggleBtn.classList.add('all-hidden');
+
+// Speed buttons
+document.querySelectorAll('.speed-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentRate = parseFloat(btn.dataset.rate);
+  });
+});
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.word-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.word).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
