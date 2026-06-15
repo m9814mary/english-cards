@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>フレーズノート — 20260615</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F5F0;--bg2:#EEEAE2;--surface:#fff;--border:#D8D3C8;
+  --text:#1A1713;--text-sub:#6B6459;--text-muted:#9C9389;
+  --accent:#2D4A3E;--accent-pale:#E8F0EC;
+  --gold:#B8913A;--gold-pale:#F5EDD9;
+  --red:#8B2E2E;--red-pale:#F5E8E8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);padding-bottom:60px;}
+.word-tabs-wrap{background:var(--accent);overflow-x:auto;scrollbar-width:none;}
+.word-tabs-wrap::-webkit-scrollbar{display:none;}
+.word-tabs{display:flex;white-space:nowrap;padding:0 20px;}
+.word-tab{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:rgba(247,245,240,0.45);padding:16px 14px 13px;border:none;background:transparent;cursor:pointer;position:relative;transition:color 0.2s;letter-spacing:0.02em;}
+.word-tab::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:#F7F5F0;transform:scaleX(0);transition:transform 0.2s;}
+.word-tab.active{color:#F7F5F0;}
+.word-tab.active::after{transform:scaleX(1);}
+.speed-bar{display:flex;align-items:center;gap:8px;padding:12px 28px;background:var(--bg2);border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.speed-label{font-size:12px;color:var(--text-muted);font-weight:500;letter-spacing:.05em;}
+.speed-btn{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text-sub);cursor:pointer;transition:all .15s;}
+.speed-btn.active,.speed-btn:hover{background:var(--accent);color:#F7F5F0;border-color:var(--accent);}
+.word-page{display:none;padding:26px 28px;}
+.word-page.active{display:block;}
+.phrase-title{font-family:'DM Serif Display',serif;font-size:28px;color:var(--text);line-height:1.2;margin-bottom:8px;}
+.pos-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.pos-badge{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:20px;background:var(--accent-pale);color:var(--accent);}
+.meaning-text{font-size:14.5px;color:var(--text-sub);line-height:1.7;}
+.section{margin-top:24px;}
+.section-title{font-family:'DM Serif Display',serif;font-size:13px;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--border);}
+.usage-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:13px 15px;margin-bottom:11px;}
+.usage-formula{font-family:'DM Serif Display',serif;font-size:16px;color:var(--accent);margin-bottom:3px;}
+.usage-note{font-size:12px;color:var(--text-muted);line-height:1.5;margin-bottom:9px;}
+.caution-card{background:#FFF8F0;border:1px solid #E8C87A;border-radius:10px;padding:12px 15px;margin-bottom:11px;}
+.caution-title{font-size:12px;font-weight:600;color:#8B5E00;margin-bottom:5px;}
+.caution-note{font-size:12px;color:#7A5C1A;line-height:1.55;}
+.ex-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px 15px;margin-bottom:10px;margin-top:7px;}
+.ex-ja{font-size:14px;font-weight:600;color:var(--text);line-height:1.7;margin-bottom:5px;}
+.ex-en{font-size:13.5px;font-weight:300;font-style:italic;color:var(--text-sub);line-height:1.65;margin-bottom:6px;display:none;}
+.ex-en .hl{color:var(--accent);font-weight:500;font-style:normal;}
+.ex-en .anno{font-size:11px;font-style:normal;font-weight:400;color:var(--text-muted);background:var(--bg2);padding:1px 5px;border-radius:4px;margin-left:2px;vertical-align:middle;}
+.ex-trans{font-size:12px;color:var(--text-muted);line-height:1.7;margin-top:4px;padding-top:6px;border-top:1px dashed var(--border);font-style:normal;}
+.ex-btn-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:8px;}
+.toggle-btn{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;padding:3px 11px;border-radius:20px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;transition:all .15s;}
+.toggle-btn:hover{background:var(--accent-pale);}
+.play-btn{display:inline-flex;align-items:center;gap:5px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;padding:3px 11px;border-radius:20px;border:1px solid var(--border);background:var(--bg);color:var(--text-sub);cursor:pointer;transition:all .15s;}
+.play-btn:hover{background:var(--accent-pale);border-color:var(--accent);color:var(--accent);}
+.play-btn.playing{background:var(--red-pale);border-color:var(--red);color:var(--red);}
+.syn-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px 15px;margin-bottom:10px;}
+.syn-word{font-family:'DM Serif Display',serif;font-size:18px;color:var(--text);margin-bottom:5px;}
+.syn-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;}
+.tag{font-size:10px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:20px;background:var(--bg2);color:var(--text-muted);}
+.tag.casual{background:#EDF5FF;color:#2A5A9E;}
+.tag.formal{background:var(--accent-pale);color:var(--accent);}
+.tag.native{background:#F0EBF8;color:#5A2A8E;}
+.tag.textbook{background:#FFF3E0;color:#8B5E00;}
+.syn-desc{font-size:12.5px;color:var(--text-sub);line-height:1.6;margin-bottom:8px;}
+@media(max-width:480px){
+  .word-page{padding:18px 16px;}
+  .word-tabs{padding:0 10px;}
+  .speed-bar{padding:10px 16px;}
+  .phrase-title{font-size:22px;}
+  .word-tab{font-size:12px;padding:14px 10px 11px;}
+}
+</style>
+</head>
+<body>
+
+<div class="word-tabs-wrap">
+  <div class="word-tabs">
+    <button class="word-tab active" onclick="showWord('cheap',this)">cheap</button>
+    <button class="word-tab" onclick="showWord('favorite',this)">favorite</button>
+    <button class="word-tab" onclick="showWord('important',this)">important</button>
+    <button class="word-tab" onclick="showWord('enough',this)">enough</button>
+    <button class="word-tab" onclick="showWord('beautiful',this)">beautiful</button>
+    <button class="word-tab" onclick="showWord('excited',this)">excited</button>
+  </div>
+</div>
+<div class="speed-bar">
+  <span class="speed-label">🔊 速度：</span>
+  <button class="speed-btn active" data-speed="0.7" onclick="setSpeed(this)">遅め 0.7×</button>
+  <button class="speed-btn" data-speed="1.0" onclick="setSpeed(this)">普通 1.0×</button>
+  <button class="speed-btn" data-speed="1.35" onclick="setSpeed(this)">速め 1.35×</button>
+</div>
+
+<!-- CHEAP -->
+<div id="word-cheap" class="word-page active">
+  <div class="phrase-title">cheap</div>
+  <div class="pos-row"><span class="pos-badge">形容詞</span><span class="pos-badge">副詞</span></div>
+  <div class="meaning-text">① 安い（値段が低い）　② 安っぽい・品がない　③ ケチな・セコい（人の性格）</div>
+  <div class="section">
+    <div class="section-title">使い方</div>
+    <div class="usage-card">
+      <div class="usage-formula">cheap + 名詞</div>
+      <div class="usage-note">値段・質の低さを表す最も基本の形。ネガティブなニュアンスが混じりやすい。</div>
+      <div class="ex-card">
+        <div class="ex-ja">あのチームは安い補強ばかりで乗り切ろうとしている。</div>
+        <div class="ex-en">That team keeps relying<span class="anno">（頼り続けている）</span> on <span class="hl">cheap</span> signings<span class="anno">（補強選手の獲得）</span> — and it shows<span class="anno">（それが結果に出ている）</span> every season.</div>
+        <div class="ex-trans">あのチームはずっと安い補強に頼り続けている——そしてそれが毎シーズン結果に表れている。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'That team keeps relying on cheap signings — and it shows every season.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-formula">feel / look cheap（安っぽく・みじめに感じる）</div>
+      <div class="usage-note">物だけでなく、自分の行動・態度が「みじめ・情けない」と感じるときにも使える比喩表現。</div>
+      <div class="ex-card">
+        <div class="ex-ja">時計ばかり見て仕事をこなしていると、自分がみじめになる。</div>
+        <div class="ex-en">Watching the clock all day makes me <span class="hl">feel cheap</span> — like I'm just going through the motions<span class="anno">（惰性でこなしている）</span>.</div>
+        <div class="ex-trans">一日中時計を見ながら過ごすと、自分がみじめに感じる——ただ惰性で仕事をこなしているだけのように。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'Watching the clock all day makes me feel cheap — like I am just going through the motions.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-formula">on the cheap（節約して・安く済ませて）</div>
+      <div class="usage-note">コストを抑えた結果、質が犠牲になっているニュアンスが出やすい。</div>
+      <div class="ex-card">
+        <div class="ex-ja">チームを安く作り直した結果が、今の弱さにそのまま出ている。</div>
+        <div class="ex-en">They rebuilt<span class="anno">（再建した）</span> the squad<span class="anno">（チーム全体）</span> <span class="hl">on the cheap</span>, and the weakness<span class="anno">（脆さ）</span> is painfully obvious<span class="anno">（痛いほど明らかだ）</span> now.</div>
+        <div class="ex-trans">彼らはチームを安く作り直した——そしてその脆さが今や痛いほど明らかだ。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'They rebuilt the squad on the cheap, and the weakness is painfully obvious now.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-formula">cheap shot（卑怯な一撃・悪口）</div>
+      <div class="usage-note">スポーツでも会話でも。相手の弱いところを意図的に突く行為。</div>
+      <div class="ex-card">
+        <div class="ex-ja">あのひじ打ちは完全に卑怯な一撃だ。審判が見ていないのを狙っていた。</div>
+        <div class="ex-en">That elbow<span class="anno">（ひじ打ち）</span> was a <span class="hl">cheap shot</span> — he waited until the referee<span class="anno">（審判）</span> had his back turned<span class="anno">（背中を向けていた・見ていなかった）</span>.</div>
+        <div class="ex-trans">あのひじ打ちは卑怯な一撃だった——彼は審判が背中を向けるのを待っていたのだ。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'That elbow was a cheap shot — he waited until the referee had his back turned.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="caution-card">
+      <div class="caution-title">⚠ cheap / reasonable / inexpensive / affordable の使い分け</div>
+      <div class="caution-note">
+        cheap：安い＋「安っぽい・品がない」のネガティブニュアンスが混じりやすい<br>
+        reasonable：高くも安くもなく「妥当・納得できる」値段や条件（口語で最も自然）<br>
+        inexpensive：値段が手頃（ネガティブなし・やや書き言葉寄り）<br>
+        affordable：手が届く値段（ポジティブ。住宅・教育など社会的文脈でも使う）<br><br>
+        ✅ a reasonable price &nbsp;✅ an affordable option &nbsp;❌ a great cheap option（安っぽく聞こえる）
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">類語</div>
+    <div class="syn-card">
+      <div class="syn-word">reasonable</div>
+      <div class="syn-tags"><span class="tag casual">カジュアル</span><span class="tag native">ネイティブがよく使う</span></div>
+      <div class="syn-desc">📌 cheap と違いネガティブニュアンスがなく、値段・条件・態度が「妥当・納得できる」ことを表す。値段以外（要求・判断・態度）にも使えるのが特徴。日常会話で最も自然に使える。</div>
+      <div class="ex-card">
+        <div class="ex-ja">試合を流しているバーで、値段も手頃でよかった。</div>
+        <div class="ex-en">Found a bar showing the match at a <span class="hl">reasonable</span> price — cold beer, good atmosphere<span class="anno">（雰囲気）</span>. Can't ask for more.</div>
+        <div class="ex-trans">試合を流しているバーを妥当な値段で見つけた——冷えたビール、いい雰囲気。これ以上は望めない。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'Found a bar showing the match at a reasonable price — cold beer, good atmosphere. Can not ask for more.')">▶ 再生</button></div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-ja">テレアポで怒鳴られたあと、自分に「落ち着け」と言い聞かせた。</div>
+        <div class="ex-en">"<span class="hl">Be reasonable</span>," I told myself after the third angry caller<span class="anno">（怒っている電話相手）</span> of the day. "It's not personal<span class="anno">（個人的な話じゃない）</span>."</div>
+        <div class="ex-trans">「落ち着け」と、今日3人目の怒った相手との電話のあとに自分に言い聞かせた。「個人的な話じゃないんだ」と。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'Be reasonable. I told myself after the third angry caller of the day. It is not personal.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="syn-card">
+      <div class="syn-word">inexpensive</div>
+      <div class="syn-tags"><span class="tag formal">フォーマル</span><span class="tag textbook">教科書頻出</span></div>
+      <div class="syn-desc">📌 cheap と同じ「安い」でも、ネガティブなニュアンスがない。書き言葉・レビューで使いやすい。</div>
+      <div class="ex-card">
+        <div class="ex-ja">このヘッドフォンは値段の割に音がいい。ビート制作に使える。</div>
+        <div class="ex-en">These headphones<span class="anno">（ヘッドフォン）</span> are <span class="hl">inexpensive</span> but the sound quality<span class="anno">（音質）</span> is surprisingly<span class="anno">（驚くほど）</span> good for beat-making<span class="anno">（ビート制作）</span>.</div>
+        <div class="ex-trans">このヘッドフォンは安価だが、ビート制作に使うには驚くほど音質がいい。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'These headphones are inexpensive but the sound quality is surprisingly good for beat-making.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="syn-card">
+      <div class="syn-word">affordable</div>
+      <div class="syn-tags"><span class="tag native">ネイティブがよく使う</span></div>
+      <div class="syn-desc">📌 「手が届く値段」というポジティブな含み。住宅・医療・教育など社会的文脈でもよく使う。</div>
+      <div class="ex-card">
+        <div class="ex-ja">W杯のチケットはもう一般ファンには手が届かない値段になってきている。</div>
+        <div class="ex-en">World Cup tickets<span class="anno">（ワールドカップのチケット）</span> are barely<span class="anno">（かろうじて・ほとんど〜ない）</span> <span class="hl">affordable</span> for regular<span class="anno">（一般の）</span> fans anymore. Something's wrong with that.</div>
+        <div class="ex-trans">ワールドカップのチケットは、もはや一般ファンにはかろうじて手が届くかどうかの値段だ。それはおかしい。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'World Cup tickets are barely affordable for regular fans anymore. Something is wrong with that.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="syn-card">
+      <div class="syn-word">stingy</div>
+      <div class="syn-tags"><span class="tag casual">カジュアル</span></div>
+      <div class="syn-desc">📌 「ケチな人・組織」を批判する cheap の類語。cheap よりもっと強い批判的ニュアンス。</div>
+      <div class="ex-card">
+        <div class="ex-ja">そのクラブは給料をケチりすぎて、エースが移籍を要求した。</div>
+        <div class="ex-en">The club was so <span class="hl">stingy</span> with wages<span class="anno">（給料・報酬）</span> that their best player demanded<span class="anno">（強く要求した）</span> a transfer<span class="anno">（移籍）</span>.</div>
+        <div class="ex-trans">そのクラブは給料に関してあまりにもケチだったので、最も優れた選手が移籍を強く要求した。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'The club was so stingy with wages that their best player demanded a transfer.')">▶ 再生</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAVORITE -->
+<div id="word-favorite" class="word-page">
+  <div class="phrase-title">favorite</div>
+  <div class="pos-row"><span class="pos-badge">形容詞</span><span class="pos-badge">名詞</span></div>
+  <div class="meaning-text">① お気に入りの・一番好きな　② お気に入りの人・物 /（スポーツの）本命・優勝候補　※英国スペル：favourite</div>
+  <div class="section">
+    <div class="section-title">使い方</div>
+    <div class="usage-card">
+      <div class="usage-formula">my favorite + 名詞</div>
+      <div class="usage-note">最も基本の形。「一番好きな〜」。日記・自己紹介・会話で毎日使える。</div>
+      <div class="ex-card">
+        <div class="ex-ja">J・ディラは今も自分の中で一番好きなプロデューサーだ。</div>
+        <div class="ex-en">J Dilla is still <span class="hl">my favorite</span> producer<span class="anno">（プロデューサー）</span> — nobody comes close<span class="anno">（誰も及ばない）</span> when it comes to feel<span class="anno">（グルーヴ感・リズムの感覚）</span>.</div>
+        <div class="ex-trans">J・ディラは今でも自分の一番好きなプロデューサーだ——グルーヴ感という点では誰も彼に及ばない。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'J Dilla is still my favorite producer — nobody comes close when it comes to feel.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-formula">be the favorite（本命・優勝候補）</div>
+      <div class="usage-note">スポーツ・競争で「本命」を指す名詞用法。試合前の予想でよく使う。</div>
+      <div class="ex-card">
+        <div class="ex-ja">スパーズは今シーズン優勝候補には程遠いが、それでも応援している。</div>
+        <div class="ex-en">Spurs<span class="anno">（トッテナム・ホットスパーの略称）</span> are nowhere near<span class="anno">（まったく〜ではない）</span> <span class="hl">the favorite</span> this season, but I can't stop backing<span class="anno">（支持し続けること）</span> them.</div>
+        <div class="ex-trans">スパーズは今シーズン優勝候補にはまったく程遠いが、それでも応援するのをやめられない。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'Spurs are nowhere near the favorite this season, but I cannot stop backing them.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-formula">play favorites（えこひいきする）</div>
+      <div class="usage-note">「特定の人を不公平に優遇する」。批判的な文脈で使う定番表現。</div>
+      <div class="ex-card">
+        <div class="ex-ja">あのコーチはえこひいきするから、チームの雰囲気が最悪だ。</div>
+        <div class="ex-en">That coach <span class="hl">plays favorites</span> and it's killing the team's morale<span class="anno">（士気・やる気）</span> — everyone can sense<span class="anno">（感じ取っている）</span> the unfairness<span class="anno">（不公平さ）</span>.</div>
+        <div class="ex-trans">あのコーチはえこひいきをするので、チームの士気が完全に潰されている——みんながその不公平さを感じ取っている。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'That coach plays favorites and it is killing the team morale — everyone can sense the unfairness.')">▶ 再生</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">類語</div>
+    <div class="syn-card">
+      <div class="syn-word">go-to</div>
+      <div class="syn-tags"><span class="tag casual">カジュアル</span><span class="tag native">ネイティブがよく使う</span></div>
+      <div class="syn-desc">📌 「いつも頼りにする・必ず使う」という信頼感が加わる。favorite より実用的・習慣的なニュアンス。</div>
+      <div class="ex-card">
+        <div class="ex-ja">集中しなければならないときはいつもヌジャベスをかける。</div>
+        <div class="ex-en">Nujabes is my <span class="hl">go-to</span> when I need to focus<span class="anno">（集中する必要があるとき）</span> — it never fails<span class="anno">（必ず効く）</span>.</div>
+        <div class="ex-trans">ヌジャベスは集中する必要があるときに頼りにするものだ——必ず効く。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'Nujabes is my go-to when I need to focus — it never fails.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="syn-card">
+      <div class="syn-word">preferred</div>
+      <div class="syn-tags"><span class="tag formal">フォーマル</span><span class="tag textbook">教科書頻出</span></div>
+      <div class="syn-desc">📌 favorite が「感情的な好み」なら、preferred は「理性的な選択・より適切な方」。ビジネス・公式文書向き。</div>
+      <div class="ex-card">
+        <div class="ex-ja">当社の希望する連絡方法はメールです。</div>
+        <div class="ex-en">Our <span class="hl">preferred</span> method<span class="anno">（方法・手段）</span> of contact<span class="anno">（連絡手段）</span> is email — please avoid<span class="anno">（避けてください）</span> calling during business hours<span class="anno">（営業時間中）</span>.</div>
+        <div class="ex-trans">当社の希望する連絡手段はメールです——営業時間中のお電話はご遠慮ください。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'Our preferred method of contact is email — please avoid calling during business hours.')">▶ 再生</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORTANT -->
+<div id="word-important" class="word-page">
+  <div class="phrase-title">important</div>
+  <div class="pos-row"><span class="pos-badge">形容詞</span></div>
+  <div class="meaning-text">重要な・大切な・重大な</div>
+  <div class="section">
+    <div class="section-title">使い方</div>
+    <div class="usage-card">
+      <div class="usage-formula">it is important to do</div>
+      <div class="usage-note">「〜することが重要だ」。最も頻出の形。試験・会話・日記すべてで使える。</div>
+      <div class="ex-card">
+        <div class="ex-ja">毎日続けることが一番重要だと、自分に言い聞かせている。</div>
+        <div class="ex-en"><span class="hl">It's important</span> to stay consistent<span class="anno">（継続する・ブレずにやり続ける）</span> — that's the one thing I keep reminding<span class="anno">（言い聞かせ続けている）</span> myself.</div>
+        <div class="ex-trans">継続し続けることが重要だ——それが自分に言い聞かせ続けていること。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'It is important to stay consistent — that is the one thing I keep reminding myself.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-formula">it is important that + S + 動詞原形</div>
+      <div class="usage-note">フォーマルな提案・主張で使う。that節の動詞は仮定法現在（原形）が正式。</div>
+      <div class="ex-card">
+        <div class="ex-ja">チームがハーフタイムまでに集中力を取り戻すことが重要だ。</div>
+        <div class="ex-en"><span class="hl">It is important</span> that the team regain<span class="anno">（取り戻す）</span> their focus<span class="anno">（集中力）</span> before halftime<span class="anno">（ハーフタイムまでに）</span> — the second half is what decides it.</div>
+        <div class="ex-trans">チームがハーフタイムまでに集中力を取り戻すことが重要だ——後半がすべてを決める。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'It is important that the team regain their focus before halftime — the second half is what decides it.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-formula">important to / for + 人</div>
+      <div class="usage-note">「誰にとって重要か」を示す形。</div>
+      <div class="ex-card">
+        <div class="ex-ja">英語が上達することは自分にとって本当に大切だ。趣味じゃない。</div>
+        <div class="ex-en">Getting better at English is genuinely<span class="anno">（本当に・心から）</span> <span class="hl">important to</span> me — it's not just a hobby<span class="anno">（趣味）</span>, it's part of changing my life.</div>
+        <div class="ex-trans">英語が上達することは、自分にとって本当に重要だ——それは単なる趣味ではなく、人生を変えることの一部なのだ。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'Getting better at English is genuinely important to me — it is not just a hobby, it is part of changing my life.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="caution-card">
+      <div class="caution-title">⚠ important / significant / crucial / vital の強さの違い</div>
+      <div class="caution-note">important：大切・重要（汎用的）　significant：注目に値する変化・差がある（データ・分析）　crucial：これがなければ成立しない・決定的　vital：生命・存続に関わるほど不可欠<br>強さ：important &lt; significant &lt; crucial ≈ vital</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">類語</div>
+    <div class="syn-card">
+      <div class="syn-word">crucial</div>
+      <div class="syn-tags"><span class="tag native">ネイティブがよく使う</span></div>
+      <div class="syn-desc">📌 important より強い。「これがなければ成立しない」決定的な重要性。スポーツ解説・分析で特によく出る。</div>
+      <div class="ex-card">
+        <div class="ex-ja">MMAではメンタルの強さが決定的に重要だ。技術だけでは足りない。</div>
+        <div class="ex-en">Mental<span class="anno">（精神的な）</span> toughness<span class="anno">（タフさ・強さ）</span> is <span class="hl">crucial</span> in MMA — technique<span class="anno">（技術）</span> alone won't carry you through the championship rounds<span class="anno">（試合終盤のラウンド）</span>.</div>
+        <div class="ex-trans">MMAでは精神的なタフさが決定的に重要だ——技術だけでは試合終盤を乗り切れない。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'Mental toughness is crucial in MMA — technique alone will not carry you through the championship rounds.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="syn-card">
+      <div class="syn-word">significant</div>
+      <div class="syn-tags"><span class="tag formal">フォーマル</span><span class="tag textbook">教科書頻出</span></div>
+      <div class="syn-desc">📌 「注目に値する変化・差がある」。数値・分析の文脈で important より自然。</div>
+      <div class="ex-card">
+        <div class="ex-ja">今シーズンの守備の改善は明らかに顕著だ。</div>
+        <div class="ex-en">The improvement<span class="anno">（改善・向上）</span> in their defensive<span class="anno">（守備の）</span> shape<span class="anno">（フォーメーション・組織）</span> this season is <span class="hl">significant</span> — completely different team from last year.</div>
+        <div class="ex-trans">今シーズンの彼らの守備組織の改善は顕著だ——昨年とはまったく別のチームだ。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'The improvement in their defensive shape this season is significant — completely different team from last year.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="syn-card">
+      <div class="syn-word">vital</div>
+      <div class="syn-tags"><span class="tag formal">フォーマル</span></div>
+      <div class="syn-desc">📌 「生命・存続に関わるほど不可欠」。crucial と近いが、より根幹・生死に関わるニュアンス。</div>
+      <div class="ex-card">
+        <div class="ex-ja">睡眠はパフォーマンスに不可欠だ。深夜まで映像を見ているとそれを忘れる。</div>
+        <div class="ex-en">Sleep is <span class="hl">vital</span> for performance<span class="anno">（パフォーマンス・実力発揮）</span> — I always forget that when I'm watching match footage<span class="anno">（試合映像）</span> past midnight<span class="anno">（深夜を過ぎて）</span>.</div>
+        <div class="ex-trans">睡眠はパフォーマンスに不可欠だ——深夜を過ぎて試合映像を見ているとき、いつもそれを忘れてしまう。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'Sleep is vital for performance — I always forget that when I am watching match footage past midnight.')">▶ 再生</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ENOUGH -->
+<div id="word-enough" class="word-page">
+  <div class="phrase-title">enough</div>
+  <div class="pos-row"><span class="pos-badge">形容詞</span><span class="pos-badge">副詞</span><span class="pos-badge">代名詞</span></div>
+  <div class="meaning-text">十分な・十分に・十分な量</div>
+  <div class="section">
+    <div class="section-title">使い方</div>
+    <div class="usage-card">
+      <div class="usage-formula">形容詞 / 副詞 + enough（十分に〜だ）</div>
+      <div class="usage-note">⚠ 語順注意。enough は形容詞・副詞の【後ろ】に置く。前に置くのは誤り。</div>
+      <div class="ex-card">
+        <div class="ex-ja">今日の自分は十分じゃなかった。明日修正するだけだ。</div>
+        <div class="ex-en">I wasn't <span class="hl">good enough</span> today — no excuses<span class="anno">（言い訳なし）</span>, just correct<span class="anno">（修正する）</span> it tomorrow.</div>
+        <div class="ex-trans">今日の自分は十分ではなかった——言い訳はなし、ただ明日修正するだけ。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'I was not good enough today — no excuses, just correct it tomorrow.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-formula">enough + 名詞（十分な〜）</div>
+      <div class="usage-note">名詞の前に置く形。時間・お金・力が足りているかを表すときによく使う。</div>
+      <div class="ex-card">
+        <div class="ex-ja">残業があると英語の勉強をする十分な時間がなくなる。それが一番きつい。</div>
+        <div class="ex-en">Overtime<span class="anno">（残業）</span> means I don't have <span class="hl">enough time</span> to study English — and that's the part that hurts<span class="anno">（一番堪える・きつい）</span> most.</div>
+        <div class="ex-trans">残業があると英語を勉強する十分な時間がなくなる——そしてそれが一番堪える部分だ。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'Overtime means I do not have enough time to study English — and that is the part that hurts most.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-formula">have had enough（もうたくさん・うんざり）</div>
+      <div class="usage-note">「もう限界・これ以上は無理」という強い感情表現。</div>
+      <div class="ex-card">
+        <div class="ex-ja">テレアポで話の途中に電話を切られる日々にはもうたくさんだ。</div>
+        <div class="ex-en">I've <span class="hl">had enough</span> of people hanging up<span class="anno">（電話を切る）</span> on me mid-sentence<span class="anno">（話の途中で）</span>. Something has to change.</div>
+        <div class="ex-trans">話の途中で電話を切られることには、もうたくさんだ。何かを変えなければならない。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'I have had enough of people hanging up on me mid-sentence. Something has to change.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-formula">fair enough（まあそうだな・了解）</div>
+      <div class="usage-note">相手の意見を受け入れるときの口語表現。「なるほど・確かに」のニュアンス。</div>
+      <div class="ex-card">
+        <div class="ex-ja">「あのチームが勝ったのは当然だ」「まあそうだな、守備が次元違いだった」</div>
+        <div class="ex-en">"That team deserved<span class="anno">（〜に値する）</span> to win." — "<span class="hl">Fair enough</span>. Their defense<span class="anno">（守備）</span> was on a completely different level<span class="anno">（まったく次元が違う）</span>."</div>
+        <div class="ex-trans">「あのチームは勝つに値した。」——「まあそうだな。彼らの守備はまったく次元が違った。」</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'That team deserved to win. Fair enough. Their defense was on a completely different level.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="caution-card">
+      <div class="caution-title">⚠ 語順ミスに注意</div>
+      <div class="caution-note">✅ good enough / fast enough / big enough（形容詞・副詞の後ろ）<br>❌ enough good / enough fast（前に置くのは誤り）<br>✅ enough time / enough money（名詞の前はOK）</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">類語</div>
+    <div class="syn-card">
+      <div class="syn-word">sufficient</div>
+      <div class="syn-tags"><span class="tag formal">フォーマル</span><span class="tag textbook">教科書頻出</span></div>
+      <div class="syn-desc">📌 enough のフォーマル版。レポート・公式文書向き。口語で使うと少し堅く聞こえる。</div>
+      <div class="ex-card">
+        <div class="ex-ja">その証拠は彼を3試合出場停止にするには十分だった。</div>
+        <div class="ex-en">The evidence<span class="anno">（証拠）</span> was <span class="hl">sufficient</span> to suspend<span class="anno">（出場停止にする）</span> him for three matches — no appeals<span class="anno">（異議申し立て）</span> possible.</div>
+        <div class="ex-trans">証拠は彼を3試合出場停止にするには十分だった——異議申し立ても不可能だ。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'The evidence was sufficient to suspend him for three matches — no appeals possible.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="syn-card">
+      <div class="syn-word">adequate</div>
+      <div class="syn-tags"><span class="tag formal">フォーマル</span></div>
+      <div class="syn-desc">📌 「最低限足りている」——enough より少し低いレベル感。「十分とは言えないが及第点」のニュアンスが出やすい。</div>
+      <div class="ex-card">
+        <div class="ex-ja">彼のパフォーマンスは及第点だったが、ワクワクはしなかった。</div>
+        <div class="ex-en">His performance<span class="anno">（パフォーマンス・プレー）</span> was <span class="hl">adequate</span> but never exciting<span class="anno">（ワクワクするような）</span> — I want more than adequate from myself.</div>
+        <div class="ex-trans">彼のプレーは及第点だったが、決してワクワクするものではなかった——自分には及第点以上を求めたい。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'His performance was adequate but never exciting — I want more than adequate from myself.')">▶ 再生</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BEAUTIFUL -->
+<div id="word-beautiful" class="word-page">
+  <div class="phrase-title">beautiful</div>
+  <div class="pos-row"><span class="pos-badge">形容詞</span></div>
+  <div class="meaning-text">美しい・素晴らしい（外見だけでなく、音楽・プレー・文章など感覚に深く響くもの全般に使える）</div>
+  <div class="section">
+    <div class="section-title">使い方</div>
+    <div class="usage-card">
+      <div class="usage-formula">beautiful + 名詞</div>
+      <div class="usage-note">外見・プレー・音楽・文章などを称えるとき。感情が乗った褒め言葉。</div>
+      <div class="ex-card">
+        <div class="ex-ja">あのスルーパスは完璧だった。サッカーの美しさが詰まっていた。</div>
+        <div class="ex-en">That through ball<span class="anno">（スルーパス）</span> was <span class="hl">beautiful</span> — perfect weight<span class="anno">（ボールの強さ）</span>, perfect timing<span class="anno">（タイミング）</span>. That's why I love this sport.</div>
+        <div class="ex-trans">あのスルーパスは美しかった——完璧な球の強さ、完璧なタイミング。だから自分はこのスポーツが好きなんだ。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'That through ball was beautiful — perfect weight, perfect timing. That is why I love this sport.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-formula">the beautiful game（美しいゲーム＝サッカー）</div>
+      <div class="usage-note">サッカーを指す定番の表現。ペレが広めたとされる言葉。</div>
+      <div class="ex-card">
+        <div class="ex-ja">どんなにきつい日でも、サッカーを見ると元気が出る。</div>
+        <div class="ex-en"><span class="hl">The beautiful game</span> always lifts<span class="anno">（気持ちを上げてくれる）</span> my mood<span class="anno">（気分）</span>, no matter how rough<span class="anno">（つらい・きつい）</span> the day was. It's the one constant<span class="anno">（変わらないもの）</span>.</div>
+        <div class="ex-trans">美しいゲームは、その日がどれだけきつかったとしても、いつも自分の気持ちを上げてくれる。それだけは変わらない。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'The beautiful game always lifts my mood, no matter how rough the day was. It is the one constant.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-formula">beauty is in the eye of the beholder</div>
+      <div class="usage-note">「美は見る人次第」。好みは人それぞれというときの有名なことわざ。</div>
+      <div class="ex-card">
+        <div class="ex-ja">「あのビートはうるさい」「美は見る人次第だよ」</div>
+        <div class="ex-en">"That beat<span class="anno">（ビート・楽曲）</span> is just noise." — "<span class="hl">Beauty is in the eye of the beholder</span>, man. It hits<span class="anno">（刺さる・響く）</span> different for me."</div>
+        <div class="ex-trans">「あのビートはただのノイズだ。」——「美は見る人次第だよ。自分には別の刺さり方をするんだ。」</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'That beat is just noise. Beauty is in the eye of the beholder, man. It hits different for me.')">▶ 再生</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">類語</div>
+    <div class="syn-card">
+      <div class="syn-word">stunning</div>
+      <div class="syn-tags"><span class="tag native">ネイティブがよく使う</span></div>
+      <div class="syn-desc">📌 「目を奪われるほど美しい・衝撃的」。驚きが混じる美しさ。ゴール・ビジュアルに使うと特に効果的。</div>
+      <div class="ex-card">
+        <div class="ex-ja">あのボレーは衝撃的だった。4回見直しても信じられなかった。</div>
+        <div class="ex-en">A <span class="hl">stunning</span> volley<span class="anno">（ボレーシュート）</span> from outside the box<span class="anno">（ペナルティエリア外）</span> — I rewound<span class="anno">（巻き戻した）</span> it four times and still couldn't believe it.</div>
+        <div class="ex-trans">ペナルティエリア外からの衝撃的なボレーシュートだった——4回巻き戻してもまだ信じられなかった。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'A stunning volley from outside the box — I rewound it four times and still could not believe it.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="syn-card">
+      <div class="syn-word">gorgeous</div>
+      <div class="syn-tags"><span class="tag casual">カジュアル</span><span class="tag native">ネイティブがよく使う</span></div>
+      <div class="syn-desc">📌 beautiful より圧倒的・視覚的な美しさ。外見を褒めるときのより強い表現。英国英語では天気にも使う。</div>
+      <div class="ex-card">
+        <div class="ex-ja">彼女は圧倒的な美しさで、そのことに自分でも全く気づいていなかった。</div>
+        <div class="ex-en">She was absolutely<span class="anno">（完全に・疑いなく）</span> <span class="hl">gorgeous</span>, and completely unaware<span class="anno">（まったく気づいていない）</span> of it — the most attractive<span class="anno">（魅力的な）</span> kind of person.</div>
+        <div class="ex-trans">彼女は完全に圧倒的な美しさで、そのことにまったく気づいていなかった——最も魅力的なタイプの人だ。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'She was absolutely gorgeous, and completely unaware of it — the most attractive kind of person.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="syn-card">
+      <div class="syn-word">lovely</div>
+      <div class="syn-tags"><span class="tag casual">カジュアル</span></div>
+      <div class="syn-desc">📌 beautiful より柔らかく親しみやすい美しさ。英国英語では感嘆詞的に "Lovely!" とも使う。</div>
+      <div class="ex-card">
+        <div class="ex-ja">頼んでもいないのにコーヒーを持ってきてくれた。素敵な気遣いだった。</div>
+        <div class="ex-en">She brought coffee without being asked<span class="anno">（頼まれてもいないのに）</span> — what a <span class="hl">lovely</span> gesture<span class="anno">（気遣い・心配り）</span>. Made the whole afternoon better.</div>
+        <div class="ex-trans">彼女は頼まれてもいないのにコーヒーを持ってきてくれた——なんて素敵な心配りだろう。おかげで午後が全然違った。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'She brought coffee without being asked — what a lovely gesture. Made the whole afternoon better.')">▶ 再生</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXCITED -->
+<div id="word-excited" class="word-page">
+  <div class="phrase-title">excited</div>
+  <div class="pos-row"><span class="pos-badge">形容詞</span></div>
+  <div class="meaning-text">わくわくしている・興奮している（人が感じる感情）</div>
+  <div class="section">
+    <div class="section-title">使い方</div>
+    <div class="usage-card">
+      <div class="usage-formula">be excited about / for ~</div>
+      <div class="usage-note">「〜がわくわく・楽しみ」。最も頻出の形。日記・会話で毎日使える。</div>
+      <div class="ex-card">
+        <div class="ex-ja">W杯がもうすぐ始まるのが楽しみで仕方ない。今唯一の楽しみだ。</div>
+        <div class="ex-en">I'm so <span class="hl">excited about</span> the World Cup — it's honestly<span class="anno">（正直なところ）</span> the one thing keeping me going<span class="anno">（頑張り続けさせてくれるもの）</span> right now.</div>
+        <div class="ex-trans">W杯がとても楽しみだ——正直なところ、今の自分を頑張り続けさせてくれる唯一のものだ。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'I am so excited about the World Cup — it is honestly the one thing keeping me going right now.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-formula">excited to + 動詞原形</div>
+      <div class="usage-note">「これからすることへの期待」。ビジネスメールでも自然に使える。</div>
+      <div class="ex-card">
+        <div class="ex-ja">ケンドリックの次のリリースが待ちきれない。</div>
+        <div class="ex-en">I'm <span class="hl">excited to</span> hear what Kendrick drops<span class="anno">（リリースする）</span> next — every album<span class="anno">（アルバム）</span> feels like an event<span class="anno">（大きな出来事）</span>.</div>
+        <div class="ex-trans">ケンドリックが次に何をリリースするか聴くのが楽しみだ——毎回のアルバムが一大イベントのように感じられる。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'I am excited to hear what Kendrick drops next — every album feels like an event.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-formula">get excited（興奮してくる・テンションが上がる）</div>
+      <div class="usage-note">状態の変化を表す形。「だんだんわくわくしてくる」というプロセスを表す。</div>
+      <div class="ex-card">
+        <div class="ex-ja">大きな試合の前はどうしてもテンションが上がってしまう。</div>
+        <div class="ex-en">I always <span class="hl">get excited</span> before a big match — even when I tell myself to stay calm<span class="anno">（冷静でいろと言い聞かせても）</span>, it doesn't work.</div>
+        <div class="ex-trans">大きな試合の前はいつもテンションが上がってしまう——冷静でいろと言い聞かせても、効果がない。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'I always get excited before a big match — even when I tell myself to stay calm, it does not work.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="caution-card">
+      <div class="caution-title">⚠ excited（人）と exciting（物事）を混同しない</div>
+      <div class="caution-note">✅ I'm excited about the match.（私がわくわくしている）<br>✅ The match is exciting.（試合が人を興奮させる）<br>❌ I'm exciting.（これだと「私が人を興奮させる存在」という別の意味になる）<br><br>同じパターン：interested / interesting、bored / boring、surprised / surprising</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">類語</div>
+    <div class="syn-card">
+      <div class="syn-word">thrilled</div>
+      <div class="syn-tags"><span class="tag native">ネイティブがよく使う</span><span class="tag casual">カジュアル</span></div>
+      <div class="syn-desc">📌 excited より強い喜び・達成感。「最高にうれしい」の口語的な強調版。</div>
+      <div class="ex-card">
+        <div class="ex-ja">ニックスがあの逆転勝利をやってのけたとき、最高の気分だった。</div>
+        <div class="ex-en">When the Knicks pulled off<span class="anno">（やってのけた）</span> that comeback<span class="anno">（逆転）</span> win, I was absolutely<span class="anno">（完全に）</span> <span class="hl">thrilled</span> — jumped off the couch<span class="anno">（ソファから飛び上がった）</span>.</div>
+        <div class="ex-trans">ニックスがあの逆転勝利をやってのけたとき、完全に最高の気分だった——ソファから飛び上がってしまった。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'When the Knicks pulled off that comeback win, I was absolutely thrilled — jumped off the couch.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="syn-card">
+      <div class="syn-word">pumped (up)</div>
+      <div class="syn-tags"><span class="tag casual">カジュアル</span></div>
+      <div class="syn-desc">📌 「テンション爆上がり・やる気満々」。スポーツ・アクション前の興奮に特化。</div>
+      <div class="ex-card">
+        <div class="ex-ja">試合前はいつもこの曲でテンションを上げる。</div>
+        <div class="ex-en">I always play this track<span class="anno">（曲）</span> before a match to get <span class="hl">pumped up</span> — Kendrick never misses<span class="anno">（外れることがない・必ず刺さる）</span>.</div>
+        <div class="ex-trans">試合前はいつもこの曲をかけてテンションを上げる——ケンドリックは外れることがない。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'I always play this track before a match to get pumped up — Kendrick never misses.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="syn-card">
+      <div class="syn-word">eager</div>
+      <div class="syn-tags"><span class="tag formal">フォーマル</span><span class="tag textbook">教科書頻出</span></div>
+      <div class="syn-desc">📌 「熱心に〜したい・意欲的」。excited が感情の高ぶりなら、eager は意欲・意図が強い。フォーマルな文でも安定して使える。</div>
+      <div class="ex-card">
+        <div class="ex-ja">1年後の自分がどれだけ成長しているか証明したい。</div>
+        <div class="ex-en">I'm <span class="hl">eager</span> to prove<span class="anno">（証明する）</span> how much I've grown a year from now — that's what drives<span class="anno">（突き動かす・原動力になる）</span> me every day.</div>
+        <div class="ex-trans">1年後に自分がどれだけ成長したかを証明したいという気持ちが強い——それが毎日の原動力だ。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'I am eager to prove how much I have grown a year from now — that is what drives me every day.')">▶ 再生</button></div>
+      </div>
+    </div>
+    <div class="syn-card">
+      <div class="syn-word">enthusiastic</div>
+      <div class="syn-tags"><span class="tag formal">フォーマル</span><span class="tag textbook">教科書頻出</span></div>
+      <div class="syn-desc">📌 「熱意がある・熱狂的な」。excited より持続的な熱量を表す。ビジネス・評価の場面でよく使う。</div>
+      <div class="ex-card">
+        <div class="ex-ja">彼はどんな状況でも常に熱意があって、チームに良い影響を与えている。</div>
+        <div class="ex-en">He's always <span class="hl">enthusiastic</span>, regardless<span class="anno">（〜にかかわらず）</span> of the situation<span class="anno">（状況・局面）</span> — that kind of energy<span class="anno">（エネルギー・熱量）</span> is contagious<span class="anno">（周りに伝染する）</span>.</div>
+        <div class="ex-trans">彼はどんな状況でも常に熱意にあふれている——そういうエネルギーは周りに伝染するものだ。</div>
+        <div class="ex-btn-row"><button class="toggle-btn" onclick="toggleEn(this)">英文を見る</button><button class="play-btn" onclick="speak(this,'He is always enthusiastic, regardless of the situation — that kind of energy is contagious.')">▶ 再生</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentSpeed = 0.7;
+  let currentBtn = null;
+  function setSpeed(btn){document.querySelectorAll('.speed-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentSpeed=parseFloat(btn.dataset.speed);}
+  function toggleEn(btn){const en=btn.closest('.ex-card').querySelector('.ex-en');const hidden=en.style.display==='none';en.style.display=hidden?'block':'none';btn.textContent=hidden?'英文を隠す':'英文を見る';}
+  function speak(btn,text){if(speechSynthesis.speaking){speechSynthesis.cancel();if(currentBtn){currentBtn.textContent='▶ 再生';currentBtn.classList.remove('playing');}if(currentBtn===btn){currentBtn=null;return;}}const utter=new SpeechSynthesisUtterance(text);utter.rate=currentSpeed;utter.lang='en-US';const voices=speechSynthesis.getVoices();const samantha=voices.find(v=>v.name==='Samantha'||(v.name.includes('Samantha')&&v.lang.startsWith('en')));const googleUS=voices.find(v=>v.name==='Google US English');if(samantha)utter.voice=samantha;else if(googleUS)utter.voice=googleUS;btn.textContent='■ 再生中';btn.classList.add('playing');currentBtn=btn;utter.onend=()=>{btn.textContent='▶ 再生';btn.classList.remove('playing');currentBtn=null;};utter.onerror=()=>{btn.textContent='▶ 再生';btn.classList.remove('playing');};speechSynthesis.speak(utter);}
+  if(typeof speechSynthesis!=='undefined'&&speechSynthesis.onvoiceschanged!==undefined){speechSynthesis.onvoiceschanged=()=>{};}
+  function showWord(name,btn){document.querySelectorAll('.word-page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.word-tab').forEach(b=>b.classList.remove('active'));document.getElementById('word-'+name).classList.add('active');btn.classList.add('active');}
+</script>
+</body>
+</html>
