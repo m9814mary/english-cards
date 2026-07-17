@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Review — invite/create/share/introduce/explain (with vocab notes)</title>
+<style>
+:root {
+  --bg: #F7F5F0; --bg2: #EEEAE2; --surface: #fff; --border: #D8D3C8;
+  --text: #1A1713; --text-sub: #6B6459; --text-muted: #9C9389;
+  --accent: #2D4A3E; --accent-pale: #E8F0EC;
+  --gold: #B8913A; --gold-pale: #F5EDD9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  line-height: 1.8; padding-bottom: 80px;
+}
+h1, h2 { font-family: Georgia, 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
+header.top { background: var(--accent); color: #fff; padding: 26px 20px 20px; position: sticky; top: 0; z-index: 50; }
+header.top h1 { margin: 0 0 4px; font-size: 22px; font-weight: 400; }
+header.top .subtitle { font-size: 13px; opacity: 0.85; margin: 0 0 14px; }
+.controls-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.controls-bar button, .controls-bar select {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.35); color: #fff;
+  border-radius: 20px; padding: 7px 14px; font-size: 13px; cursor: pointer;
+}
+.controls-bar button:hover { background: rgba(255,255,255,0.22); }
+.controls-bar label { font-size: 12px; opacity: 0.85; margin-right: -4px; }
+nav.toc { max-width: 780px; margin: 20px auto; padding: 0 20px; display: flex; gap: 10px; }
+.toc-link {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px;
+  text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600;
+}
+.toc-link:hover { border-color: var(--accent); }
+main { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+.block {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 22px 8px; margin-bottom: 20px; scroll-margin-top: 150px;
+}
+.block-header { border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 6px; }
+.block-header h2 { margin: 0; font-size: 19px; color: var(--accent); font-weight: 400; }
+.block-title-jp { margin: 4px 0 0; font-size: 12.5px; color: var(--text-sub); }
+.sentence-block { padding: 16px 0; border-bottom: 1px dashed var(--border); }
+.sentence-block:last-child { border-bottom: none; }
+.sentence-controls { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+.mini-speak, .mini-toggle {
+  background: var(--accent-pale); color: var(--accent); border: 1px solid var(--accent);
+  border-radius: 14px; font-size: 12px; cursor: pointer; padding: 3px 10px;
+}
+.mini-speak { padding: 3px 8px; font-size: 13px; }
+.mini-speak:hover, .mini-toggle:hover { background: var(--accent); color: #fff; }
+.en-line {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-style: normal; font-size: 17px; font-weight: 500;
+  line-height: 1.6; color: var(--text); margin: 0 0 4px;
+}
+.en-line.is-hidden { display: none; }
+.jp-line { font-size: 14px; line-height: 1.8; color: var(--text-sub); margin: 0 0 10px; }
+.used-box { background: var(--accent-pale); border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }
+.used-line { margin: 0 0 3px; font-size: 12.5px; color: var(--text); }
+.used-line:last-child { margin-bottom: 0; }
+.u-phrase { color: var(--accent); font-weight: 700; }
+.vocab-box { background: var(--gold-pale); border-radius: 8px; padding: 8px 12px; }
+.vocab-label { display: block; font-size: 11px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.vocab-chip { font-size: 12px; color: var(--text-sub); margin-right: 12px; display: inline-block; margin-bottom: 3px; }
+.vocab-chip strong { color: var(--text); }
+.vocab-chip em { font-style: normal; color: var(--text-muted); }
+.v-level { color: var(--gold); font-weight: 600; }
+footer.page-footer { max-width: 780px; margin: 10px auto 40px; padding: 0 20px; font-size: 12px; color: var(--text-muted); text-align: center; }
+@media (max-width: 640px) {
+  header.top { padding: 18px 14px 14px; }
+  .en-line { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>English Review — invite・create・share・introduce・explain</h1>
+  <p class="subtitle">全22文／使用表現65個／語彙注釈99個（準2級以上）</p>
+  <div class="controls-bar">
+    <button id="global-en-toggle" onclick="toggleAllEN()">全て英文を隠す</button>
+    <label for="speed">速度</label>
+    <select id="speed" onchange="setSpeed(this.value)">
+      <option value="0.7">遅め 0.7×</option>
+      <option value="1.0" selected>普通 1.0×</option>
+      <option value="1.35">速め 1.35×</option>
+    </select>
+  </div>
+</header>
+
+<nav class="toc">
+<a href="#block-block01" class="toc-link">Block 01</a><a href="#block-block02" class="toc-link">Block 02</a><a href="#block-block03" class="toc-link">Block 03</a>
+</nav>
+
+<main>
+
+    <section class="block" id="block-block01">
+      <div class="block-header">
+        <h2>Block 01</h2>
+        <p class="block-title-jp">9文</p>
+      </div>
+      <div class="passage" id="passage-block01">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-0')" id="toggle-block01-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-0">She introduced her business partner to an old friend, and together they created a bold new plan while she shared her contact list with the whole table.</p>
+        <p class="jp-line">彼女はビジネスパートナーを古い友人に紹介し、二人は大胆な新しい計画を作り上げた。その間、彼女はテーブルにいた全員に自分の連絡先リストを共有した。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">introduce + 人A + to + 人B</span> — 人と人を橋渡しする／最も基本の紹介の形</p><p class="used-line"><span class="u-phrase">create + O</span> — 〜を作り出す・生み出す／最も基本の「作る」</p><p class="used-line"><span class="u-phrase">share + O + with + 人</span> — 〜を〜と共有する／最頻出の共有表現</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>bold</strong> <em>(形容詞)</em> 大胆な <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-1')" id="toggle-block01-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-1">The startup introduced a subscription model that instantly created some confusion among loyal customers, though longtime users still got to share in the excitement of the launch party.</p>
+        <p class="jp-line">そのスタートアップはサブスクリプションモデルを導入したが、それは常連客の間に一瞬混乱を引き起こした。とはいえ、長年のユーザーたちはローンチパーティーの興奮を共に味わうことができた。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">introduce + O（制度・製品など）</span> — 新しく持ち込む・始める／社会・市場に導入する</p><p class="used-line"><span class="u-phrase">create + 状況/問題</span> — 〜を引き起こす・生み出す／意図せぬ結果にも使う</p><p class="used-line"><span class="u-phrase">share in + 名詞</span> — 〜を共に経験する／喜び・興奮など抽象名詞と結びつく</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>startup</strong> <em>(名詞)</em> 新興企業 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>subscription</strong> <em>(名詞)</em> 定期購読・サブスク <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>instantly</strong> <em>(副詞)</em> 即座に <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>confusion</strong> <em>(名詞)</em> 混乱 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>loyal</strong> <em>(形容詞)</em> 忠実な・常連の <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>excitement</strong> <em>(名詞)</em> 興奮 <span class="v-level">3級〜準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-2')" id="toggle-block01-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-2">The new policy was created by a small committee that also introduced strict quotas into the sales department, and even junior staff felt they had a share in shaping the final decision.</p>
+        <p class="jp-line">その新しい方針は小さな委員会によって作られたもので、その委員会は営業部門に厳格なノルマも導入した。そして下っ端の社員でさえ、最終決定を形作ることに一枚噛んでいると感じていた。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">be created by ~</span> — 〜によって作られた／createの受動態</p><p class="used-line"><span class="u-phrase">introduce + O + to/into + 場所</span> — 〜を〜に導入する</p><p class="used-line"><span class="u-phrase">have a share in + 名詞</span> — 〜に関わる・一枚噛む／出資・関与のニュアンス</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>policy</strong> <em>(名詞)</em> 方針・政策 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>committee</strong> <em>(名詞)</em> 委員会 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>strict</strong> <em>(形容詞)</em> 厳格な <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>quota</strong> <em>(名詞)</em> ノルマ <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>junior</strong> <em>(形容詞)</em> 下位の・後輩の <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>shape</strong> <em>(動詞)</em> 形作る <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-3')" id="toggle-block01-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-3">He invited his coworkers to a small charity run that aimed to create awareness about mental health, and afterward he patiently explained the results to everyone who had donated.</p>
+        <p class="jp-line">彼は同僚たちを、メンタルヘルスについての認識を高めることを目的とした小さなチャリティーランに招待した。その後、彼は寄付してくれた全員に結果を丁寧に説明した。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">invite + 人 + to + 場所/イベント</span> — 人を〜へ招待する／最頻出パターン</p><p class="used-line"><span class="u-phrase">create awareness</span> — 認識を高める・意識を高める／社会的キャンペーンで頻出</p><p class="used-line"><span class="u-phrase">explain + O + to + 人</span> — 人に〜を説明する／語順注意</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>coworker</strong> <em>(名詞)</em> 同僚 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>charity</strong> <em>(名詞)</em> 慈善活動 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>aim</strong> <em>(動詞)</em> 目指す <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>mental</strong> <em>(形容詞)</em> 精神の <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>patiently</strong> <em>(副詞)</em> 辛抱強く <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>donate</strong> <em>(動詞)</em> 寄付する <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-4')" id="toggle-block01-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-4">The new manager worked hard to create a positive atmosphere in the office, introduced the interns to the idea of flexible hours, and calmly explained how the new schedule would actually work.</p>
+        <p class="jp-line">新しいマネージャーは、オフィスに良い雰囲気を作ろうと努力し、インターンたちにフレックスタイムという考え方を初めて経験させ、新しいスケジュールが実際にどう機能するのかを落ち着いて説明した。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">create a positive atmosphere</span> — 良い雰囲気を作る</p><p class="used-line"><span class="u-phrase">introduce + 人 + to + 概念/経験</span> — 〜のきっかけを与える・初めて経験させる</p><p class="used-line"><span class="u-phrase">explain + why/how/what節</span> — なぜ・どのように・何かを説明する</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>atmosphere</strong> <em>(名詞)</em> 雰囲気 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>intern</strong> <em>(名詞)</em> インターン <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>flexible</strong> <em>(形容詞)</em> 柔軟な <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>calmly</strong> <em>(副詞)</em> 落ち着いて <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-5')" id="toggle-block01-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-5">The tournament created an opportunity for young players to shine, but after a controversial red card, the referee still had to explain himself and share his view with the furious crowd.</p>
+        <p class="jp-line">そのトーナメントは若い選手たちが輝く機会を生み出したが、物議を醸したレッドカードの後、審判はそれでも自分の行動を説明し、激怒する観客に自分の見解を伝えなければならなかった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">create an opportunity</span> — 機会を生み出す／TOEIC頻出</p><p class="used-line"><span class="u-phrase">explain oneself</span> — 自分の行動・意図を説明する／弁明の含み</p><p class="used-line"><span class="u-phrase">share one&#x27;s opinion / view</span> — 意見を述べる・共有する</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>tournament</strong> <em>(名詞)</em> トーナメント <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>opportunity</strong> <em>(名詞)</em> 機会 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>shine</strong> <em>(動詞)</em> 輝く <span class="v-level">3級〜準2級</span></span><span class="vocab-chip"><strong>controversial</strong> <em>(形容詞)</em> 物議を醸す <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>referee</strong> <em>(名詞)</em> 審判 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>furious</strong> <em>(形容詞)</em> 激怒した <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>crowd</strong> <em>(名詞)</em> 群衆 <span class="v-level">3級〜準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-6')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-6')" id="toggle-block01-6">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-6">Launching too many features at once created a problem for the app&#x27;s stability, yet the company still managed to grow its market share after the new CEO introduced himself at the press conference.</p>
+        <p class="jp-line">一度に多くの機能を追加したことは、そのアプリの安定性に問題を引き起こした。それでも、新しいCEOが記者会見で自己紹介をした後、その会社は市場シェアを伸ばすことに成功した。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">create a problem</span> — 問題を引き起こす</p><p class="used-line"><span class="u-phrase">market share</span> — 市場シェア／TOEIC頻出</p><p class="used-line"><span class="u-phrase">introduce oneself</span> — 自己紹介する</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>feature</strong> <em>(名詞)</em> 機能・特徴 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>stability</strong> <em>(名詞)</em> 安定性 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>manage</strong> <em>(動詞)</em> なんとかやり遂げる <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>press conference</strong> <em>(名詞句)</em> 記者会見 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-7')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-7')" id="toggle-block01-7">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-7">The coach invited his players to be more creative during set pieces, insisting that everyone on the roster deserved a fair share of playing time.</p>
+        <p class="jp-line">コーチは選手たちに、セットプレー中もっと創造的になるよう促し、控えを含む全員が出場時間の正当な分け前を得るべきだと主張した。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">invite + 人 + to + 動詞</span> — 人に〜するよう勧める・促す／フォーマル</p><p class="used-line"><span class="u-phrase">creative</span> — 創造的な／形容詞</p><p class="used-line"><span class="u-phrase">fair share</span> — 正当な分け前・それなりの量</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>creative</strong> <em>(形容詞)</em> 創造的な <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>insist</strong> <em>(動詞)</em> 主張する <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>roster</strong> <em>(名詞)</em> 登録選手名簿 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>deserve</strong> <em>(動詞)</em> 〜に値する <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-8')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-8')" id="toggle-block01-8">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-8">Cutting corners on safety checks tends to invite disaster, but the workshop&#x27;s real strength was the creativity it inspired, starting with a fun round of self-introduction among strangers.</p>
+        <p class="jp-line">安全確認を怠ることは、たいてい災難を招くものだ。しかしそのワークショップの本当の強みは、そこに刺激される創造性であり、それは見知らぬ者同士の楽しい自己紹介から始まった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">invite + O（問題・状況）</span> — 〜を招く・引き起こす／悪いことを呼び込む</p><p class="used-line"><span class="u-phrase">creativity</span> — 創造性／名詞</p><p class="used-line"><span class="u-phrase">self-introduction</span> — 自己紹介／名詞</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>cut corners</strong> <em>(イディオム)</em> 手を抜く <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>tend to</strong> <em>(動詞句)</em> 〜する傾向がある <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>disaster</strong> <em>(名詞)</em> 災害・災難 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>strength</strong> <em>(名詞)</em> 強み <span class="v-level">3級〜準2級</span></span><span class="vocab-chip"><strong>inspire</strong> <em>(動詞)</em> 刺激する・鼓舞する <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>stranger</strong> <em>(名詞)</em> 見知らぬ人 <span class="v-level">3級〜準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block02">
+      <div class="block-header">
+        <h2>Block 02</h2>
+        <p class="block-title-jp">9文</p>
+      </div>
+      <div class="passage" id="passage-block02">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-0')" id="toggle-block02-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-0">The rooftop party was an open invitation to anyone in the building, showcasing a strange new mural that felt like a genuine creation of pure chaos, and by midnight the host had a lot of explaining to do about the noise complaints.</p>
+        <p class="jp-line">その屋上パーティーは、建物内の誰でも歓迎の招待だった。そこには純粋な混沌の作品と言えるような奇妙な新しい壁画が飾られていたが、真夜中までには主催者は騒音の苦情について多くのことを釈明しなければならなくなっていた。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">an open invitation</span> — いつでも来ていいという招待・誰でも歓迎の招待</p><p class="used-line"><span class="u-phrase">creation</span> — 創造・作品／名詞</p><p class="used-line"><span class="u-phrase">have a lot of explaining to do</span> — 釈明しなければならないことが山ほどある</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>rooftop</strong> <em>(名詞)</em> 屋上 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>showcase</strong> <em>(動詞)</em> 披露する <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>mural</strong> <em>(名詞)</em> 壁画 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>genuine</strong> <em>(形容詞)</em> 本物の <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>chaos</strong> <em>(名詞)</em> 混沌 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>complaint</strong> <em>(名詞)</em> 苦情 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-1')" id="toggle-block02-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-1">Despite growing up on different continents, the two musicians shared a surprising amount in common, and their introduction at the festival led to a long explanation of how they&#x27;d both discovered the same obscure record.</p>
+        <p class="jp-line">全く違う大陸で育ったにもかかわらず、その2人のミュージシャンは驚くほど多くの共通点を持っていた。フェスティバルでの紹介がきっかけとなり、二人がどうやって同じ知られざるレコードを見つけたのか、長い説明へとつながった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">share ~ in common</span> — 〜という共通点を持つ</p><p class="used-line"><span class="u-phrase">introduction</span> — 紹介・導入・はじめに／名詞</p><p class="used-line"><span class="u-phrase">explanation</span> — 説明／名詞</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>continent</strong> <em>(名詞)</em> 大陸 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>surprising</strong> <em>(形容詞)</em> 驚くべき <span class="v-level">3級〜準2級</span></span><span class="vocab-chip"><strong>obscure</strong> <em>(形容詞)</em> 無名の <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>discover</strong> <em>(動詞)</em> 発見する <span class="v-level">3級〜準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-2')" id="toggle-block02-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-2">As a minority shareholder, he was skeptical about the streaming service&#x27;s introductory offer, so the sales team sent him a short explanatory video before he agreed to invest further.</p>
+        <p class="jp-line">少数株主として、彼はその配信サービスの導入価格キャンペーンに懐疑的だった。そこで営業チームは、彼がさらに投資することに同意する前に、短い説明用の動画を送った。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">shareholder</span> — 株主／TOEIC頻出</p><p class="used-line"><span class="u-phrase">introductory offer</span> — 新規導入価格・入門価格／TOEIC頻出</p><p class="used-line"><span class="u-phrase">explanatory</span> — 説明的な・説明のための／形容詞</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>minority</strong> <em>(名詞)</em> 少数派 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>skeptical</strong> <em>(形容詞)</em> 懐疑的な <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>invest</strong> <em>(動詞)</em> 投資する <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-3')" id="toggle-block02-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-3">Skipping the safety briefing before a big delivery route tends to invite trouble, but thankfully the new app was designed to make most instructions self-explanatory.</p>
+        <p class="jp-line">大きな配達ルートの前に安全説明を省略することは、たいていトラブルを招く。しかし幸い、その新しいアプリはほとんどの指示を一目瞭然にするよう作られていた。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">invite trouble</span> — トラブルを招く／自分から問題を呼び込む</p><p class="used-line"><span class="u-phrase">make</span> — 〜を作る／最も汎用的な「作る」</p><p class="used-line"><span class="u-phrase">self-explanatory</span> — 説明不要の・一目瞭然の</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>skip</strong> <em>(動詞)</em> 省略する <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>briefing</strong> <em>(名詞)</em> 事前説明 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>instruction</strong> <em>(名詞)</em> 指示 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-4')" id="toggle-block02-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-4">The award ceremony was strictly by invitation only, where the studio planned to present its latest film before revealing exactly how many blockbusters it had produced that year.</p>
+        <p class="jp-line">その授賞式は完全に招待者限定で、そこでスタジオは最新作を発表する予定だった。その後、その年に何本の大ヒット作を制作したかを明らかにした。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">by invitation only</span> — 招待者限定</p><p class="used-line"><span class="u-phrase">present</span> — 儀礼的・公式な場での紹介・提示</p><p class="used-line"><span class="u-phrase">produce</span> — 大量・継続的に生産する</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>ceremony</strong> <em>(名詞)</em> 式典 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>strictly</strong> <em>(副詞)</em> 厳密に <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>reveal</strong> <em>(動詞)</em> 明らかにする <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>blockbuster</strong> <em>(名詞)</em> 大ヒット作 <span class="v-level">準1級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-5')" id="toggle-block02-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-5">She received a formal invitation letter from the publisher, who had spent years working to develop new authors and now wanted to distribute her debut novel worldwide.</p>
+        <p class="jp-line">彼女は出版社から正式な招待状を受け取った。その出版社は長年かけて新人作家を育てることに取り組んでおり、今度は彼女のデビュー小説を世界中に配給したいと考えていた。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">invitation letter</span> — 招待状／ビザ申請でも頻出</p><p class="used-line"><span class="u-phrase">develop</span> — 時間をかけて発展・開発する／育てるイメージ</p><p class="used-line"><span class="u-phrase">distribute</span> — 自分は配る側・受け取るのは他者／非対称・組織的な配布</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>formal</strong> <em>(形容詞)</em> 正式な <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>publisher</strong> <em>(名詞)</em> 出版社 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>author</strong> <em>(名詞)</em> 著者 <span class="v-level">3級〜準2級</span></span><span class="vocab-chip"><strong>debut</strong> <em>(名詞)</em> デビュー <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>worldwide</strong> <em>(副詞)</em> 世界中に <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-6')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-6')" id="toggle-block02-6">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-6">The committee decided to divide the budget evenly before they launch the new campaign, and the spokesperson was asked to describe the plan in simple terms for the press.</p>
+        <p class="jp-line">委員会は、新しいキャンペーンを立ち上げる前に予算を均等に分けることに決めた。そして広報担当者は、報道陣にその計画を分かりやすい言葉で説明するよう求められた。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">divide</span> — 分割という行為そのものに焦点／数学的・物理的な切り分け</p><p class="used-line"><span class="u-phrase">launch</span> — 勢いよく世に送り出す／プロモーション・インパクトを伴う</p><p class="used-line"><span class="u-phrase">describe</span> — どのような様子かを言葉で描写する</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>budget</strong> <em>(名詞)</em> 予算 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>evenly</strong> <em>(副詞)</em> 均等に <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>campaign</strong> <em>(名詞)</em> キャンペーン <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>spokesperson</strong> <em>(名詞)</em> 広報担当者 <span class="v-level">準1級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-7')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-7')" id="toggle-block02-7">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-7">The two founders agreed to split the company&#x27;s shares fairly before they implement the merger, though the lawyers still needed to clarify a few tax details first.</p>
+        <p class="jp-line">二人の創業者は、合併を実行に移す前に会社の株式を公平に分けることに同意した。とはいえ、弁護士たちはまずいくつかの税務上の細かい点をはっきりさせる必要があった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">split</span> — 割り勘にする・真っ二つに分ける／カジュアル</p><p class="used-line"><span class="u-phrase">implement</span> — 決定されたことを現場で実行に移す</p><p class="used-line"><span class="u-phrase">clarify</span> — 不明瞭な部分をピンポイントで取り除く・はっきりさせる／TOEIC頻出</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>founder</strong> <em>(名詞)</em> 創業者 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>fairly</strong> <em>(副詞)</em> 公平に <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>merger</strong> <em>(名詞)</em> 合併 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>lawyer</strong> <em>(名詞)</em> 弁護士 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>tax</strong> <em>(名詞)</em> 税金 <span class="v-level">3級〜準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-8')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-8')" id="toggle-block02-8">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-8">Investors began to ask harder questions about how the startup planned to generate revenue, forcing the founders to finally disclose their real financial numbers.</p>
+        <p class="jp-line">投資家たちは、そのスタートアップがどうやって収益を生み出すつもりなのか、より厳しい質問をし始めた。それにより、創業者たちはついに本当の財務数値を開示せざるを得なくなった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">ask</span> — 頼む・質問する・誘う／inviteより広い口語的な語</p><p class="used-line"><span class="u-phrase">generate</span> — 電力・利益・アイデア・データなどを生み出す／フォーマル</p><p class="used-line"><span class="u-phrase">disclose</span> — 公式に情報を開示する／フォーマル</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>investor</strong> <em>(名詞)</em> 投資家 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>revenue</strong> <em>(名詞)</em> 収益 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>financial</strong> <em>(形容詞)</em> 財務の <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block03">
+      <div class="block-header">
+        <h2>Block 03</h2>
+        <p class="block-title-jp">4文</p>
+      </div>
+      <div class="passage" id="passage-block03">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-0')" id="toggle-block03-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-0">The veteran players made sure to welcome every rookie warmly, hoping to build genuine trust within the squad before they initiate any major tactical changes.</p>
+        <p class="jp-line">ベテラン選手たちは、どのルーキーも温かく歓迎するよう心がけ、大きな戦術変更に着手する前に、チーム内に本物の信頼を築きたいと考えていた。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">welcome</span> — 来ることを喜ぶ・歓迎する／招待の有無に関わらず使える</p><p class="used-line"><span class="u-phrase">build</span> — 積み上げて作る・構築する</p><p class="used-line"><span class="u-phrase">initiate</span> — 一連のプロセス・手続きの第一歩を踏み出す／法的・組織的な手続きの開始</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>veteran</strong> <em>(形容詞)</em> ベテランの <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>rookie</strong> <em>(名詞)</em> 新人 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>trust</strong> <em>(名詞)</em> 信頼 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>squad</strong> <em>(名詞)</em> チーム <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>tactical</strong> <em>(形容詞)</em> 戦術的な <span class="v-level">準1級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-1')" id="toggle-block03-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-1">The king summoned his advisors to design a new trade route, using an old map to illustrate exactly where the danger zones lay.</p>
+        <p class="jp-line">王は顧問たちを呼び出し、新しい交易路を設計させた。そして古い地図を使って、危険地帯が正確にどこにあるかを示した。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">summon</span> — 権限を使って呼び出す／フォーマル</p><p class="used-line"><span class="u-phrase">design</span> — 目的を持って設計・デザインする</p><p class="used-line"><span class="u-phrase">illustrate</span> — 具体例・図・比喩を使って視覚的・具体的に理解を助ける</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>advisor</strong> <em>(名詞)</em> 顧問 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>trade route</strong> <em>(名詞句)</em> 交易路 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>zone</strong> <em>(名詞)</em> 地帯 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-2')" id="toggle-block03-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-2">Before the merger, the two teams were encouraged to exchange ideas freely, and a senior staff member was assigned to acquaint newcomers with the company culture, elaborating on unwritten rules whenever needed.</p>
+        <p class="jp-line">合併の前、両チームは自由にアイデアを交換するよう促された。そしてベテラン社員が新人たちを社風に慣れさせる役目を任され、必要に応じて暗黙のルールについて詳しく説明した。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">exchange</span> — 互いに交換する／双方向</p><p class="used-line"><span class="u-phrase">acquaint</span> — 知識・情報に精通させる・慣れさせる／acquaint + 人 + with + 情報の形</p><p class="used-line"><span class="u-phrase">elaborate</span> — すでにされた説明をさらに深掘りする／elaborate on ~の形で頻出</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>merger</strong> <em>(名詞)</em> 合併 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>encourage</strong> <em>(動詞)</em> 促す・励ます <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>senior</strong> <em>(形容詞)</em> 上級の・先輩の <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>assign</strong> <em>(動詞)</em> 任命する・割り当てる <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>newcomer</strong> <em>(名詞)</em> 新参者 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>unwritten</strong> <em>(形容詞)</em> 暗黙の・不文の <span class="v-level">準1級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-3')" id="toggle-block03-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-3">The academy decided to recruit younger talent this year, and each candidate had to demonstrate their skills in a short trial match.</p>
+        <p class="jp-line">そのアカデミーは今年、より若い才能を勧誘することに決めた。そして各候補者は、短い練習試合で自分のスキルを実演して見せなければならなかった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">recruit</span> — 人材を募集する・勧誘する</p><p class="used-line"><span class="u-phrase">demonstrate</span> — 実際の行動・実演を通じて示す・証明する</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>academy</strong> <em>(名詞)</em> アカデミー・養成機関 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>talent</strong> <em>(名詞)</em> 才能（ある人材） <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>candidate</strong> <em>(名詞)</em> 候補者 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>trial</strong> <em>(名詞)</em> 試験的な・トライアル <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+</main>
+
+<footer class="page-footer">
+  invite・create・share・introduce・explain 全5グループ横断／各文に使用表現3個＋語彙注釈（準2級以上）付き
+</footer>
+
+<script>
+let speedRate = 1.0;
+let chosenVoice = null;
+function pickVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return;
+  chosenVoice = voices.find(v => v.name === 'Samantha')
+    || voices.find(v => v.name.includes('Google US English'))
+    || voices.find(v => v.lang === 'en-US')
+    || voices[0];
+}
+window.speechSynthesis.onvoiceschanged = pickVoice;
+pickVoice();
+function speakText(text) {
+  if (!text) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = speedRate;
+  if (chosenVoice) u.voice = chosenVoice;
+  window.speechSynthesis.speak(u);
+}
+function speakOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  if (el) speakText(el.textContent);
+}
+function toggleOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  const btn = document.getElementById('toggle-' + sid);
+  el.classList.toggle('is-hidden');
+  btn.textContent = el.classList.contains('is-hidden') ? '見る' : '隠す';
+}
+function setSpeed(v) { speedRate = parseFloat(v); }
+let allENHidden = false;
+function toggleAllEN() {
+  allENHidden = !allENHidden;
+  document.querySelectorAll('.en-line').forEach(el => {
+    if (allENHidden) { el.classList.add('is-hidden'); } else { el.classList.remove('is-hidden'); }
+  });
+  document.querySelectorAll('[id^="toggle-"]').forEach(btn => {
+    btn.textContent = allENHidden ? '見る' : '隠す';
+  });
+  document.getElementById('global-en-toggle').textContent = allENHidden ? '全て英文を見る' : '全て英文を隠す';
+}
+</script>
+</body>
+</html>
