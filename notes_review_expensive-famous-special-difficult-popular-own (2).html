@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Review — expensive/famous/special/difficult/popular/own</title>
+<style>
+:root {
+  --bg: #F7F5F0; --bg2: #EEEAE2; --surface: #fff; --border: #D8D3C8;
+  --text: #1A1713; --text-sub: #6B6459; --text-muted: #9C9389;
+  --accent: #2D4A3E; --accent-pale: #E8F0EC;
+  --gold: #B8913A; --gold-pale: #F5EDD9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  line-height: 1.8; padding-bottom: 80px;
+}
+h1, h2 { font-family: Georgia, 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
+header.top { background: var(--accent); color: #fff; padding: 26px 20px 20px; position: sticky; top: 0; z-index: 50; }
+header.top h1 { margin: 0 0 4px; font-size: 22px; font-weight: 400; }
+header.top .subtitle { font-size: 13px; opacity: 0.85; margin: 0 0 14px; }
+.controls-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.controls-bar button, .controls-bar select {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.35); color: #fff;
+  border-radius: 20px; padding: 7px 14px; font-size: 13px; cursor: pointer;
+}
+.controls-bar button:hover { background: rgba(255,255,255,0.22); }
+.controls-bar label { font-size: 12px; opacity: 0.85; margin-right: -4px; }
+.memo-wrap { max-width: 780px; margin: 16px auto 0; padding: 0 20px; }
+.memo-box { background: #FFF9E8; border: 1px solid #E8D9A0; border-radius: 12px; padding: 12px 16px; }
+.memo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.memo-label { font-size: 13px; font-weight: 700; color: #8a6d1a; }
+.memo-status { font-size: 11px; color: #9C9389; }
+.memo-area {
+  width: 100%; min-height: 70px; border: 1px solid #E8D9A0; border-radius: 8px; padding: 8px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-size: 14px; color: #1A1713; background: #fff; resize: vertical; box-sizing: border-box;
+}
+.memo-area:focus { outline: 2px solid #E8D9A0; }
+nav.toc { max-width: 780px; margin: 20px auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+.toc-link {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px;
+  text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600;
+}
+.toc-link:hover { border-color: var(--accent); }
+main { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+.block {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 22px 8px; margin-bottom: 20px; scroll-margin-top: 150px;
+}
+.block-header { border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 6px; }
+.block-header h2 { margin: 0; font-size: 19px; color: var(--accent); font-weight: 400; }
+.block-title-jp { margin: 4px 0 0; font-size: 12.5px; color: var(--text-sub); }
+.sentence-block { padding: 16px 0; border-bottom: 1px dashed var(--border); }
+.sentence-block:last-child { border-bottom: none; }
+.sentence-controls { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+.mini-speak, .mini-toggle {
+  background: var(--accent-pale); color: var(--accent); border: 1px solid var(--accent);
+  border-radius: 14px; font-size: 12px; cursor: pointer; padding: 3px 10px;
+}
+.mini-speak { padding: 3px 8px; font-size: 13px; }
+.mini-speak:hover, .mini-toggle:hover { background: var(--accent); color: #fff; }
+.en-line {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-style: normal; font-size: 17px; font-weight: 500;
+  line-height: 1.6; color: var(--text); margin: 0 0 4px;
+}
+.en-line.is-hidden { display: none; }
+.jp-line { font-size: 14px; line-height: 1.8; color: var(--text-sub); margin: 0 0 10px; }
+.used-box { background: var(--accent-pale); border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }
+.used-line { margin: 0 0 3px; font-size: 12.5px; color: var(--text); }
+.used-line:last-child { margin-bottom: 0; }
+.u-phrase { color: var(--accent); font-weight: 700; }
+.vocab-box { background: var(--gold-pale); border-radius: 8px; padding: 8px 12px; }
+.vocab-label { display: block; font-size: 11px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.vocab-chip { font-size: 12px; color: var(--text-sub); margin-right: 12px; display: inline-block; margin-bottom: 3px; }
+.vocab-chip strong { color: var(--text); }
+.vocab-chip em { font-style: normal; color: var(--text-muted); }
+.v-level { color: var(--gold); font-weight: 600; }
+footer.page-footer { max-width: 780px; margin: 10px auto 40px; padding: 0 20px; font-size: 12px; color: var(--text-muted); text-align: center; }
+@media (max-width: 640px) {
+  header.top { padding: 18px 14px 14px; }
+  .en-line { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>English Review — expensive・famous・special・difficult・popular・own</h1>
+  <p class="subtitle">expensive・famous・special・difficult・popular・own 全6グループ横断／全15文／使用表現56個／語彙注釈31個（準2級以上）</p>
+  <div class="controls-bar">
+    <button id="global-en-toggle" onclick="toggleAllEN()">全て英文を隠す</button>
+    <label for="speed">速度</label>
+    <select id="speed" onchange="setSpeed(this.value)">
+      <option value="0.7">遅め 0.7×</option>
+      <option value="1.0" selected>普通 1.0×</option>
+      <option value="1.35">速め 1.35×</option>
+    </select>
+  </div>
+</header>
+
+<div class="memo-wrap">
+  <div class="memo-box">
+    <div class="memo-head">
+      <span class="memo-label">📝 メモ</span>
+      <span class="memo-status" id="memo-status"></span>
+    </div>
+    <textarea id="memo-area" class="memo-area" placeholder="ここに軽くメモできます（このページに自動で保存されます）"></textarea>
+  </div>
+</div>
+
+<nav class="toc">
+<a href="#block-block01" class="toc-link">Block 01</a><a href="#block-block02" class="toc-link">Block 02</a><a href="#block-block03" class="toc-link">Block 03</a><a href="#block-block04" class="toc-link">Block 04</a><a href="#block-block05" class="toc-link">Block 05</a>
+</nav>
+
+<main>
+
+    <section class="block" id="block-block01">
+      <div class="block-header">
+        <h2>Block 01</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block01">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-0')" id="toggle-block01-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-0">The café owner never dresses expensively, but he has expensive taste in coffee beans. The shop is famous for its rich aroma, which makes it special to regular customers like me.</p>
+        <p class="jp-line">そのカフェのオーナーは、決して高価な服装をしません。しかし、コーヒー豆に関しては高級志向です。その店は豊かな香りで有名で、それが私のような常連客にとって特別な理由になっています。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">expensively</span> — 高価に</p><p class="used-line"><span class="u-phrase">expensive taste</span> — 高級志向・高い趣味</p><p class="used-line"><span class="u-phrase">be famous for ~</span> — 〜で有名だ</p><p class="used-line"><span class="u-phrase">be special to ~</span> — 〜にとって特別だ</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>aroma</strong> <em>(名詞)</em> 香り <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>regular</strong> <em>(名詞)</em> 常連客 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-1')" id="toggle-block01-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-1">He&#x27;s also famous as a generous boss, and there&#x27;s something special about how he treats his staff, especially since he never finds admitting his own mistakes difficult.</p>
+        <p class="jp-line">彼はまた、気前の良い上司として有名で、スタッフへの接し方には何か特別なものがあります。特に、彼は自分自身のミスを認めることを難しいと感じたことがないからです。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">be famous as ~</span> — 〜として有名だ</p><p class="used-line"><span class="u-phrase">something special</span> — 何か特別なもの</p><p class="used-line"><span class="u-phrase">especially</span> — 特に・とりわけ</p><p class="used-line"><span class="u-phrase">find ~ difficult</span> — 〜が難しいと感じる</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>generous</strong> <em>(形容詞)</em> 気前の良い <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>admit</strong> <em>(動詞)</em> 認める <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-2')" id="toggle-block01-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-2">Some new employees have difficulty adjusting to his direct feedback, but they usually become popular with the whole team once they settle in. He himself is extremely well-liked among the regulars, and I&#x27;ve come to possess a lot of respect for his honesty.</p>
+        <p class="jp-line">新しく入ったスタッフの中には、彼の率直なフィードバックに慣れるのに苦労する人もいますが、たいてい職場に馴染む頃にはチーム全体で人気者になります。彼自身、常連客の間でとても好かれていて、私自身、彼の正直さに対して大きな敬意を抱くようになりました。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">have difficulty ~ing</span> — 〜するのに苦労する</p><p class="used-line"><span class="u-phrase">be popular with/among ~</span> — 〜に人気がある</p><p class="used-line"><span class="u-phrase">well-liked</span> — 好かれている</p><p class="used-line"><span class="u-phrase">possess</span> — 所有する</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>adjust</strong> <em>(動詞)</em> 適応する・慣れる <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>feedback</strong> <em>(名詞)</em> フィードバック <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>respect</strong> <em>(名詞)</em> 敬意 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>honesty</strong> <em>(名詞)</em> 正直さ <span class="v-level">準1級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block02">
+      <div class="block-header">
+        <h2>Block 02</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block02">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-0')" id="toggle-block02-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-0">Forgetting to charge one customer was an expensive mistake, and I ended up covering the cost at the expense of my own tips. Even so, it never damaged my small fame among the regulars, and it certainly didn&#x27;t get me into any hall of fame.</p>
+        <p class="jp-line">ある客への請求を忘れたのは代償の大きいミスで、結局は自分のチップを犠牲にしてその分を負担することになりました。それでも、常連客の間での小さな評判が傷つくことはありませんでしたし、もちろん殿堂入りを逃すようなこともありませんでした。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">expensive mistake</span> — 代償の大きいミス</p><p class="used-line"><span class="u-phrase">at the expense of ~</span> — 〜を犠牲にして</p><p class="used-line"><span class="u-phrase">fame</span> — 名声・名誉</p><p class="used-line"><span class="u-phrase">hall of fame</span> — 殿堂</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>charge</strong> <em>(動詞)</em> 請求する <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>tip</strong> <em>(名詞)</em> チップ <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>damage</strong> <em>(動詞)</em> 傷つける <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-1')" id="toggle-block02-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-1">The company later released a special edition delivery bag made for riders with specific requirements, like extra room for fragile items. I managed to fit all my gear inside it with difficulty at first, though now I can pack it without difficulty.</p>
+        <p class="jp-line">その後、会社は壊れ物用のスペースなど、特定の要望を持つライダー向けに作られた特別版の配達バッグを発売しました。最初は自分の道具をすべてその中に入れるのに苦労しましたが、今では難なく詰められるようになりました。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">special edition</span> — 特別版・限定版</p><p class="used-line"><span class="u-phrase">with difficulty</span> — 苦労して・やっとのことで</p><p class="used-line"><span class="u-phrase">without difficulty</span> — 難なく・容易に</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>gear</strong> <em>(名詞)</em> 道具・装備 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>pack</strong> <em>(動詞)</em> 詰める <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>fragile</strong> <em>(形容詞)</em> 壊れやすい <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-2')" id="toggle-block02-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-2">The delivery app is gaining popularity because it&#x27;s become trendy among younger riders like me. Thanks to it, I can finally handle my whole schedule on my own, running a small business of my own.</p>
+        <p class="jp-line">その配達アプリは、私のような若いライダーたちの間で流行になってきたことで人気を得ています。そのおかげで、私はついに自分自身のスケジュール全体を独力で管理し、自分自身の小さな事業を営めるようになりました。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">gain popularity</span> — 人気を得る</p><p class="used-line"><span class="u-phrase">trendy</span> — 流行の・トレンドに乗っている</p><p class="used-line"><span class="u-phrase">on one&#x27;s own</span> — 一人で・独力で</p><p class="used-line"><span class="u-phrase">of one&#x27;s own</span> — 自分自身の</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>business</strong> <em>(名詞)</em> 事業 <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block03">
+      <div class="block-header">
+        <h2>Block 03</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block03">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-0')" id="toggle-block03-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-0">The old bike shop near the station isn&#x27;t cheap — repairs there are pricey and sometimes costly, but the owner&#x27;s rise to fame started years ago, and he&#x27;s still well-known for fixing even the oldest mopeds.</p>
+        <p class="jp-line">駅の近くにある古いバイク店は決して安くありません。そこでの修理は値段が張り、時には代償も大きいですが、その店主の名声は何年も前から始まっており、今もどんなに古い原付でも直せることで広く知られています。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">pricey</span> — 値段が張る</p><p class="used-line"><span class="u-phrase">costly</span> — 費用・代償が大きい</p><p class="used-line"><span class="u-phrase">rise to fame</span> — 名声を得る・有名になる</p><p class="used-line"><span class="u-phrase">well-known</span> — 広く知られている</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>repair</strong> <em>(名詞)</em> 修理 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-1')" id="toggle-block03-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-1">There&#x27;s nothing special about the shop&#x27;s appearance, but its reputation is unique in the area, and business can get busy and tough, especially as the shop grows in popularity every year.</p>
+        <p class="jp-line">その店の見た目には特に変わったところはありませんが、その評判はこの地域で唯一無二です。そして、店の人気が毎年高まるにつれて、商売は忙しく大変になることもあります。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">nothing special</span> — 特に何もない・大したことない</p><p class="used-line"><span class="u-phrase">unique</span> — 唯一無二の・他に類を見ない</p><p class="used-line"><span class="u-phrase">tough</span> — タフな・きつい</p><p class="used-line"><span class="u-phrase">grow in popularity</span> — 人気が徐々に高まる</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>appearance</strong> <em>(名詞)</em> 見た目・外見 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>reputation</strong> <em>(名詞)</em> 評判 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>business</strong> <em>(名詞)</em> 商売・事業 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-2')" id="toggle-block03-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-2">Repair work is always in demand around here, and the owner finally owned up to needing an assistant, so he&#x27;s now sharing ownership of the shop with his nephew.</p>
+        <p class="jp-line">この辺りでは修理の仕事は常に需要があります。そして店主はついに、助手が必要だと認めました。そこで今では、甥と店の所有権を分け合っています。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">in demand</span> — 需要がある・求められている</p><p class="used-line"><span class="u-phrase">own up to ~</span> — 〜を認める・白状する</p><p class="used-line"><span class="u-phrase">ownership</span> — 所有権・オーナーシップ</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>assistant</strong> <em>(名詞)</em> 助手 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>nephew</strong> <em>(名詞)</em> 甥 <span class="v-level">準1級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block04">
+      <div class="block-header">
+        <h2>Block 04</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block04">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-0')" id="toggle-block04-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-0">The company&#x27;s biggest expense this year was upgrading to high-end delivery bikes, and that decision quickly became the manager&#x27;s claim to fame, since he&#x27;s now renowned for cutting delivery times in half.</p>
+        <p class="jp-line">今年、その会社の最大の経費は、高級な配達用バイクへのアップグレードでした。そしてその決定はすぐにマネージャーの自慢の種になりました。彼は今では配達時間を半分に短縮したことで高く評価されているからです。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">expense</span> — 費用・出費</p><p class="used-line"><span class="u-phrase">high-end</span> — 高級な・ハイエンドの</p><p class="used-line"><span class="u-phrase">claim to fame</span> — 有名な理由・自慢できること</p><p class="used-line"><span class="u-phrase">renowned</span> — 特定分野で高く評価されている</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>upgrade</strong> <em>(動詞)</em> アップグレードする <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-1')" id="toggle-block04-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-1">My supervisor is very particular about punctuality, and though most riders find it hard to maintain exceptional performance every single day, he still calls his approach a challenging but fair standard.</p>
+        <p class="jp-line">私の上司は時間厳守についてとてもこだわりが強いです。そしてほとんどのライダーは並外れたパフォーマンスを毎日維持するのは難しいと感じていますが、それでも彼は自分のやり方を、やりがいのある、しかし公平な基準だと言っています。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">particular</span> — 特定の・個別の</p><p class="used-line"><span class="u-phrase">exceptional</span> — 例外的に優れた・並外れた</p><p class="used-line"><span class="u-phrase">hard</span> — 難しい・つらい</p><p class="used-line"><span class="u-phrase">challenging</span> — やりがいのある困難</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>punctuality</strong> <em>(名詞)</em> 時間厳守 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>maintain</strong> <em>(動詞)</em> 維持する <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>standard</strong> <em>(名詞)</em> 基準 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-2')" id="toggle-block04-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-2">There&#x27;s a popular belief that experienced riders always struggle less, but contrary to popular belief, even veterans have to hold their own against new competition every month.</p>
+        <p class="jp-line">経験豊富なライダーはいつも苦労が少ないという一般的な信念がありますが、その信念に反して、ベテランでさえ毎月新しい競争相手に対して引けを取らないようにしなければなりません。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">popular belief</span> — 一般的な信念</p><p class="used-line"><span class="u-phrase">contrary to popular belief</span> — 一般的な信念に反して</p><p class="used-line"><span class="u-phrase">hold one&#x27;s own</span> — 自分の立場を守る・引けを取らない</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>struggle</strong> <em>(動詞)</em> 苦労する <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>veteran</strong> <em>(名詞)</em> ベテラン <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>competition</strong> <em>(名詞)</em> 競争・競争相手 <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block05">
+      <div class="block-header">
+        <h2>Block 05</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block05">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-0')" id="toggle-block05-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-0">The city&#x27;s most celebrated delivery service is also somewhat notorious for its extraordinarily high prices, since it only offers exclusive routes to a small number of loyal customers.</p>
+        <p class="jp-line">この街で最も称賛されている配達サービスは、その並外れて高い価格でも少し悪名高いです。ごく少数の常連客にしか限定的なルートを提供していないからです。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">celebrated</span> — 称賛されて有名な</p><p class="used-line"><span class="u-phrase">notorious</span> — 悪い意味で有名な・悪名高い</p><p class="used-line"><span class="u-phrase">extraordinary</span> — 通常を大きく超えた・非凡な</p><p class="used-line"><span class="u-phrase">exclusive</span> — 限定の・独占的な</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>loyal</strong> <em>(形容詞)</em> 忠実な・常連の <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-1')" id="toggle-block05-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-1">The new tracking system felt demanding and complex to learn at first, but it&#x27;s now popularly used by most delivery companies, since tracking apps have become completely mainstream.</p>
+        <p class="jp-line">その新しい追跡システムは、最初は覚えるのに骨が折れて複雑に感じられましたが、今ではほとんどの配達会社に広く使われています。追跡アプリはすっかり主流になったからです。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">demanding</span> — 多くの努力・能力を要求する</p><p class="used-line"><span class="u-phrase">complex</span> — 複雑な・多くの要素が絡み合っている</p><p class="used-line"><span class="u-phrase">popularly</span> — 一般的に・広く</p><p class="used-line"><span class="u-phrase">mainstream</span> — 主流の・大衆的な</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>tracking</strong> <em>(名詞)</em> 追跡 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>system</strong> <em>(名詞)</em> システム <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-2')" id="toggle-block05-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-2">After years of hard work, I feel like I&#x27;ve finally come into my own as a rider, and I now hold the best delivery record on my team. This old bike, which I&#x27;ve ridden since the very beginning, truly belongs to me.</p>
+        <p class="jp-line">何年もの努力の末、私はライダーとしてついに本領を発揮してきたと感じています。そして今では、チームで一番の配達記録を保持しています。最初からずっと乗り続けてきたこの古いバイクは、本当に私のものです。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">come into one&#x27;s own</span> — 本領を発揮する・真価を発揮する</p><p class="used-line"><span class="u-phrase">hold</span> — 保有する・保持する</p><p class="used-line"><span class="u-phrase">belong to ~</span> — 〜のものである</p></div>
+      </div>
+      </div>
+    </section>
+</main>
+
+<footer class="page-footer">
+  expensive・famous・special・difficult・popular・own 全6グループ横断／各文に使用表現3〜4個＋語彙注釈（準2級以上）付き
+</footer>
+
+<script>
+let speedRate = 1.0;
+let chosenVoice = null;
+function pickVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return;
+  chosenVoice = voices.find(v => v.name === 'Samantha')
+    || voices.find(v => v.name.includes('Google US English'))
+    || voices.find(v => v.lang === 'en-US')
+    || voices[0];
+}
+window.speechSynthesis.onvoiceschanged = pickVoice;
+pickVoice();
+function speakText(text) {
+  if (!text) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = speedRate;
+  if (chosenVoice) u.voice = chosenVoice;
+  window.speechSynthesis.speak(u);
+}
+function speakOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  if (el) speakText(el.textContent);
+}
+function toggleOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  const btn = document.getElementById('toggle-' + sid);
+  el.classList.toggle('is-hidden');
+  btn.textContent = el.classList.contains('is-hidden') ? '見る' : '隠す';
+}
+function setSpeed(v) { speedRate = parseFloat(v); }
+let allENHidden = false;
+function toggleAllEN() {
+  allENHidden = !allENHidden;
+  document.querySelectorAll('.en-line').forEach(el => {
+    if (allENHidden) { el.classList.add('is-hidden'); } else { el.classList.remove('is-hidden'); }
+  });
+  document.querySelectorAll('[id^="toggle-"]').forEach(btn => {
+    btn.textContent = allENHidden ? '見る' : '隠す';
+  });
+  document.getElementById('global-en-toggle').textContent = allENHidden ? '全て英文を見る' : '全て英文を隠す';
+}
+
+// Persistent memo (saved in this browser via localStorage, survives reloads)
+(function () {
+  var MEMO_KEY = 'notes_review_memo__expensive-famous-special-difficult-popular-own';
+  var area = document.getElementById('memo-area');
+  var status = document.getElementById('memo-status');
+  if (!area) return;
+  try {
+    var saved = window.localStorage.getItem(MEMO_KEY);
+    if (saved !== null) area.value = saved;
+  } catch (e) { /* storage unavailable, memo just won't persist */ }
+  var timer = null;
+  area.addEventListener('input', function () {
+    if (status) status.textContent = '保存中…';
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(function () {
+      try {
+        window.localStorage.setItem(MEMO_KEY, area.value);
+        if (status) {
+          status.textContent = '保存済み';
+          setTimeout(function () { status.textContent = ''; }, 1500);
+        }
+      } catch (e) {
+        if (status) status.textContent = '保存できません';
+      }
+    }, 400);
+  });
+})();
+</script>
+</body>
+</html>
