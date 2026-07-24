@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Review — have nothing to do with 〜</title>
+<style>
+:root {
+  --bg: #F7F5F0; --bg2: #EEEAE2; --surface: #fff; --border: #D8D3C8;
+  --text: #1A1713; --text-sub: #6B6459; --text-muted: #9C9389;
+  --accent: #2D4A3E; --accent-pale: #E8F0EC;
+  --gold: #B8913A; --gold-pale: #F5EDD9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  line-height: 1.8; padding-bottom: 80px;
+}
+h1, h2 { font-family: Georgia, 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
+header.top { background: var(--accent); color: #fff; padding: 26px 20px 20px; position: sticky; top: 0; z-index: 50; }
+header.top h1 { margin: 0 0 4px; font-size: 22px; font-weight: 400; }
+header.top .subtitle { font-size: 13px; opacity: 0.85; margin: 0 0 14px; }
+.controls-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.controls-bar button, .controls-bar select {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.35); color: #fff;
+  border-radius: 20px; padding: 7px 14px; font-size: 13px; cursor: pointer;
+}
+.controls-bar button:hover { background: rgba(255,255,255,0.22); }
+.controls-bar label { font-size: 12px; opacity: 0.85; margin-right: -4px; }
+.memo-wrap { max-width: 780px; margin: 16px auto 0; padding: 0 20px; }
+.memo-box { background: #FFF9E8; border: 1px solid #E8D9A0; border-radius: 12px; padding: 12px 16px; }
+.memo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.memo-label { font-size: 13px; font-weight: 700; color: #8a6d1a; }
+.memo-status { font-size: 11px; color: #9C9389; }
+.memo-area {
+  width: 100%; min-height: 70px; border: 1px solid #E8D9A0; border-radius: 8px; padding: 8px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-size: 14px; color: #1A1713; background: #fff; resize: vertical; box-sizing: border-box;
+}
+.memo-area:focus { outline: 2px solid #E8D9A0; }
+nav.toc { max-width: 780px; margin: 20px auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+.toc-link {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px;
+  text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600;
+}
+.toc-link:hover { border-color: var(--accent); }
+main { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+.block {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 22px 8px; margin-bottom: 20px; scroll-margin-top: 150px;
+}
+.block-header { border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 6px; }
+.block-header h2 { margin: 0; font-size: 19px; color: var(--accent); font-weight: 400; }
+.block-title-jp { margin: 4px 0 0; font-size: 12.5px; color: var(--text-sub); }
+.sentence-block { padding: 16px 0; border-bottom: 1px dashed var(--border); }
+.sentence-block:last-child { border-bottom: none; }
+.sentence-controls { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+.mini-speak, .mini-toggle {
+  background: var(--accent-pale); color: var(--accent); border: 1px solid var(--accent);
+  border-radius: 14px; font-size: 12px; cursor: pointer; padding: 3px 10px;
+}
+.mini-speak { padding: 3px 8px; font-size: 13px; }
+.mini-speak:hover, .mini-toggle:hover { background: var(--accent); color: #fff; }
+.en-line {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-style: normal; font-size: 17px; font-weight: 500;
+  line-height: 1.6; color: var(--text); margin: 0 0 4px;
+}
+.en-line.is-hidden { display: none; }
+.jp-line { font-size: 14px; line-height: 1.8; color: var(--text-sub); margin: 0 0 10px; }
+.used-box { background: var(--accent-pale); border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }
+.used-line { margin: 0 0 3px; font-size: 12.5px; color: var(--text); }
+.used-line:last-child { margin-bottom: 0; }
+.u-phrase { color: var(--accent); font-weight: 700; }
+.vocab-box { background: var(--gold-pale); border-radius: 8px; padding: 8px 12px; }
+.vocab-label { display: block; font-size: 11px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.vocab-chip { font-size: 12px; color: var(--text-sub); margin-right: 12px; display: inline-block; margin-bottom: 3px; }
+.vocab-chip strong { color: var(--text); }
+.vocab-chip em { font-style: normal; color: var(--text-muted); }
+.v-level { color: var(--gold); font-weight: 600; }
+footer.page-footer { max-width: 780px; margin: 10px auto 40px; padding: 0 20px; font-size: 12px; color: var(--text-muted); text-align: center; }
+@media (max-width: 640px) {
+  header.top { padding: 18px 14px 14px; }
+  .en-line { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>English Review — have nothing to do with 〜</h1>
+  <p class="subtitle">イディオムファミリー（have nothing to do with／have trouble／have no time／at first／at least／程度の副詞／上限表現／その他）横断／全18文／使用表現65個／語彙注釈21個（準2級以上）</p>
+  <div class="controls-bar">
+    <button id="global-en-toggle" onclick="toggleAllEN()">全て英文を隠す</button>
+    <label for="speed">速度</label>
+    <select id="speed" onchange="setSpeed(this.value)">
+      <option value="0.7">遅め 0.7×</option>
+      <option value="1.0" selected>普通 1.0×</option>
+      <option value="1.35">速め 1.35×</option>
+    </select>
+  </div>
+</header>
+
+<div class="memo-wrap">
+  <div class="memo-box">
+    <div class="memo-head">
+      <span class="memo-label">📝 メモ</span>
+      <span class="memo-status" id="memo-status"></span>
+    </div>
+    <textarea id="memo-area" class="memo-area" placeholder="ここに軽くメモできます（このページに自動で保存されます）"></textarea>
+  </div>
+</div>
+
+<nav class="toc">
+<a href="#block-block01" class="toc-link">Block 01</a><a href="#block-block02" class="toc-link">Block 02</a><a href="#block-block03" class="toc-link">Block 03</a><a href="#block-block04" class="toc-link">Block 04</a><a href="#block-block05" class="toc-link">Block 05</a><a href="#block-block06" class="toc-link">Block 06</a>
+</nav>
+
+<main>
+
+    <section class="block" id="block-block01">
+      <div class="block-header">
+        <h2>Block 01</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block01">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-0')" id="toggle-block01-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-0">At first, I had trouble finding the customer&#x27;s building, but I had no time to stop, and the delay had nothing to do with my driving.</p>
+        <p class="jp-line">最初はお客様の建物を見つけるのに苦労したが、立ち止まる時間がなく、その遅れは私の運転とは全く関係がなかった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">At first, S+V. But ~</span> — 最初は〜だったが／対比構文</p><p class="used-line"><span class="u-phrase">have trouble ~ing</span> — 〜するのに苦労する</p><p class="used-line"><span class="u-phrase">have no time to + 動詞</span> — 〜する時間がない</p><p class="used-line"><span class="u-phrase">have nothing to do with ~</span> — 〜と全く関係がない</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>delay</strong> <em>(名詞)</em> 遅れ、遅延 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-1')" id="toggle-block01-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-1">At least I arrived before dark, and the order was entirely correct, but I had ten minutes at most before the next delivery, or else I would lose the bonus.</p>
+        <p class="jp-line">少なくとも暗くなる前には到着できたし、注文は完全に正しかった。しかし次の配達まで多くても10分しかなく、さもなければボーナスを逃すところだった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">at least + S+V</span> — せめて〜だ</p><p class="used-line"><span class="u-phrase">entirely</span> — 部分の欠けがない全体性</p><p class="used-line"><span class="u-phrase">数字 + at most</span> — せいぜい〜</p><p class="used-line"><span class="u-phrase">or else</span> — さもなければ</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>bonus</strong> <em>(名詞)</em> 特別手当、ボーナス <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-2')" id="toggle-block01-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-2">At first glance, the customer seemed friendly, but I soon had trouble with the broken elevator, and I really wanted nothing to do with that building again, since I had no time for another delay.</p>
+        <p class="jp-line">一見するとその客は親切そうだったが、すぐに壊れたエレベーターに悩まされた。もうその建物には一切関わりたくないと本当に思った。また遅れる余裕なんてなかったからだ。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">at first glance</span> — 一見すると</p><p class="used-line"><span class="u-phrase">have trouble with ~</span> — 〜に問題を抱えている</p><p class="used-line"><span class="u-phrase">want nothing to do with ~</span> — 〜と一切関わりたくない</p><p class="used-line"><span class="u-phrase">have no time for ~</span> — 〜に時間を割く余裕がない</p></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block02">
+      <div class="block-header">
+        <h2>Block 02</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block02">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-0')" id="toggle-block02-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-0">The new delivery route was at least as difficult as the old one, and by the end of the shift I was completely exhausted. When a coworker asked if she could take over, I said by all means, since I needed a break of thirty minutes at the very most.</p>
+        <p class="jp-line">新しい配達ルートは少なくとも古いルートと同じくらい大変で、シフトが終わる頃には完全に疲れ果てていた。同僚が代わろうかと申し出てくれた時、私は「もちろん、ぜひ」と答えた。多くても30分ほどの休憩が必要だったからだ。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">at least as ~ as</span> — 少なくとも〜と同じくらい</p><p class="used-line"><span class="u-phrase">completely</span> — プロセスの完了・変化の強調</p><p class="used-line"><span class="u-phrase">by all means</span> — ぜひ・もちろん</p><p class="used-line"><span class="u-phrase">at the very most</span> — どんなに多く見積もっても</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>exhausted</strong> <em>(形容詞)</em> 疲れ果てた <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>shift</strong> <em>(名詞)</em> 勤務時間、シフト <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>coworker</strong> <em>(名詞)</em> 同僚 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-1')" id="toggle-block02-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-1">From the first delivery that morning, I had no trouble reading the map, but I had little time to rest, and I felt the heavy traffic had something to do with the delay.</p>
+        <p class="jp-line">その朝の最初の配達から、地図を読むのには全く苦労しなかったが、休む時間がほとんどなかった。ひどい渋滞がその遅れと何か関係があるように感じた。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">from the first</span> — 最初から・一貫して</p><p class="used-line"><span class="u-phrase">have no trouble ~ing</span> — 〜するのに全く苦労しない</p><p class="used-line"><span class="u-phrase">have little time to ~</span> — 〜する時間がほとんどない</p><p class="used-line"><span class="u-phrase">have something to do with ~</span> — 〜と何か関係がある</p></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-2')" id="toggle-block02-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-2">At the very least, I finished all the orders. The new delivery app was totally confusing at first, and at best, it saved me only a few minutes, but I was still thankful for the invention of GPS navigation.</p>
+        <p class="jp-line">少なくとも、すべての注文を終わらせることはできた。新しい配達アプリは最初は本当にわかりにくく、良くても数分しか時間を節約できなかったが、それでもGPSナビの発明にはありがたみを感じた。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">at the very least</span> — 少なくとも・最低でも</p><p class="used-line"><span class="u-phrase">totally</span> — 口語的な強調</p><p class="used-line"><span class="u-phrase">at best</span> — せいぜい・良くても</p><p class="used-line"><span class="u-phrase">the invention of ~</span> — 〜の発明</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>confusing</strong> <em>(形容詞)</em> 混乱させる、わかりにくい <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>navigation</strong> <em>(名詞)</em> ナビゲーション <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block03">
+      <div class="block-header">
+        <h2>Block 03</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block03">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-0')" id="toggle-block03-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-0">At first sight, the package looked fine, but I had a lot of trouble opening the damaged box, and I realized there was no time to complain, since the delay probably had a lot to do with the factory, not the delivery company.</p>
+        <p class="jp-line">一目見た時は、その荷物は問題なさそうに見えたが、傷んだ箱を開けるのにとても苦労した。文句を言っている時間はないと気づいた。その遅れはおそらく配達会社ではなく工場と大いに関係があったからだ。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">at first sight</span> — 一目で・一目見ただけで</p><p class="used-line"><span class="u-phrase">have a lot of trouble ~ing</span> — 〜するのにとても苦労する</p><p class="used-line"><span class="u-phrase">There&#x27;s no time to ~</span> — 〜する時間がない</p><p class="used-line"><span class="u-phrase">have a lot to do with ~</span> — 〜と大いに関係がある</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>damaged</strong> <em>(形容詞)</em> 傷んだ、破損した <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-1')" id="toggle-block03-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-1">I couldn&#x27;t finish every delivery on time, or at least that&#x27;s how it felt, but I was fully aware that the frequency of late orders had increased, even though each delay was no more than five minutes.</p>
+        <p class="jp-line">時間通りにすべての配達を終わらせることはできなかった、少なくともそう感じられた。だが遅れた注文の頻度が増えていることには十分気づいていた。もっとも、一回あたりの遅れは多くても5分程度だったのだが。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">or at least</span> — あるいは少なくとも</p><p class="used-line"><span class="u-phrase">fully</span> — 容量・程度が満杯</p><p class="used-line"><span class="u-phrase">the frequency of ~</span> — 〜の頻度</p><p class="used-line"><span class="u-phrase">no more than ~</span> — 〜に過ぎない</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>aware</strong> <em>(形容詞)</em> 気づいている <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-2')" id="toggle-block03-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-2">The traffic jam had little to do with my route, but I had no time to lose before the store closed, and I might get into trouble with my manager — it was almost love at first sight when I finally saw an open parking spot.</p>
+        <p class="jp-line">その渋滞は私のルートとはほとんど関係がなかったが、店が閉まるまでに一刻の猶予もなく、上司に叱られるかもしれなかった。ついに空いている駐車スペースを見つけた時は、まさに一目惚れのような気分だった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">have little to do with ~</span> — 〜とほとんど関係がない</p><p class="used-line"><span class="u-phrase">There&#x27;s no time to lose</span> — 一刻の猶予もない</p><p class="used-line"><span class="u-phrase">get into trouble</span> — 問題・トラブルに巻き込まれる</p><p class="used-line"><span class="u-phrase">love at first sight</span> — 一目惚れ</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>jam</strong> <em>(名詞)</em> 渋滞 <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block04">
+      <div class="block-header">
+        <h2>Block 04</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block04">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-0')" id="toggle-block04-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-0">The company asked us to complete a minimum of twenty deliveries a day, and I was absolutely determined to do it, but the rain started unexpectedly, which could add up to an extra hour of work.</p>
+        <p class="jp-line">会社は私たちに1日最低20件の配達をこなすよう求めていて、私は絶対にやり遂げるつもりだった。しかし予想外に雨が降り出し、それによって最大で1時間分の余分な仕事が増える可能性があった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">a minimum of ~</span> — 最低〜</p><p class="used-line"><span class="u-phrase">absolutely</span> — 疑いのない確信</p><p class="used-line"><span class="u-phrase">unexpectedly</span> — 予想に反して突然</p><p class="used-line"><span class="u-phrase">up to ~</span> — 最大〜まで</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>determined</strong> <em>(形容詞)</em> 決意している <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-1')" id="toggle-block04-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-1">First and foremost, I try to make time for a proper lunch, because skipping meals can cause trouble later, even though my tiredness is often unrelated to how much I actually eat.</p>
+        <p class="jp-line">何よりもまず、私はきちんとした昼食のための時間を作ろうとしている。食事を抜くと後で問題を引き起こすことがあるからだ。もっとも、私の疲れは実際に食べる量とは無関係なことも多いのだが。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">first and foremost</span> — 何よりもまず</p><p class="used-line"><span class="u-phrase">make time for ~</span> — 意図的に時間を作る</p><p class="used-line"><span class="u-phrase">cause trouble</span> — 問題を引き起こす</p><p class="used-line"><span class="u-phrase">be unrelated to ~</span> — 〜と無関係だ</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>tiredness</strong> <em>(名詞)</em> 疲れ <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>skipping</strong> <em>(動詞（skip）の動名詞)</em> 抜かす <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-2')" id="toggle-block04-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-2">During the World Cup, the delivery center had no less than fifty drivers working at once, creating an atmosphere of pressure that felt nothing like a normal weekday. Whether someone was a rookie or a veteran felt irrelevant to how much pressure they faced, and ignoring safety rules in that rush was really asking for trouble.</p>
+        <p class="jp-line">ワールドカップの期間中、配達センターには一度に50人ものドライバーが働いており、普段の平日とはまるで違うプレッシャーのある雰囲気が生まれていた。新人かベテランかは、直面するプレッシャーの大きさとは無関係のように感じられた。そんな慌ただしさの中で安全ルールを無視するのは、まさに自ら問題を招くようなものだった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">no less than ~</span> — 〜も・驚き強調</p><p class="used-line"><span class="u-phrase">atmosphere of pressure</span> — プレッシャーのある雰囲気</p><p class="used-line"><span class="u-phrase">be irrelevant to ~</span> — 〜と無関係・無関連だ</p><p class="used-line"><span class="u-phrase">ask for trouble</span> — わざわざ問題を招く</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>rookie</strong> <em>(名詞)</em> 新人 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>veteran</strong> <em>(名詞)</em> ベテラン <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>rush</strong> <em>(名詞)</em> 慌ただしさ、急ぐこと <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block05">
+      <div class="block-header">
+        <h2>Block 05</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block05">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-0')" id="toggle-block05-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-0">I try to find time to stretch between deliveries, since initially I didn&#x27;t realize how much my back would hurt, and if nothing else, it helps me finish the day without pain.</p>
+        <p class="jp-line">配達の合間にストレッチをする時間を見つけるようにしている。最初は自分の背中がどれだけ痛むようになるか分かっていなかったからだ。他に何もなくても、少なくとも痛みなく一日を終える助けにはなる。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">find time to ~</span> — 隙間の時間を見つける</p><p class="used-line"><span class="u-phrase">initially</span> — 当初は・at firstのフォーマル版</p><p class="used-line"><span class="u-phrase">if nothing else</span> — 他には何もなくても、せめて</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>stretch</strong> <em>(動詞)</em> ストレッチする、伸びをする <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-1')" id="toggle-block05-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-1">A light drizzle can quickly turn into heavy rain here, and even though it has no connection with the delivery schedule, I still have difficulty seeing the road clearly when it happens.</p>
+        <p class="jp-line">ここでは小雨があっという間に大雨に変わることがある。それは配達スケジュールとは何のつながりもないはずなのに、そうなると道がはっきり見えなくて苦労してしまう。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">turn into ~</span> — 〜に変化する</p><p class="used-line"><span class="u-phrase">have no connection with ~</span> — 〜と何のつながりもない</p><p class="used-line"><span class="u-phrase">have difficulty ~ing</span> — 苦労する・troubleよりフォーマル</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>drizzle</strong> <em>(名詞)</em> 小雨 <span class="v-level">準1級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-2')" id="toggle-block05-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-2">I originally planned to finish by six, but I ran out of time because of the traffic, so I probably arrived home at around seven.</p>
+        <p class="jp-line">もともと6時までに終わらせるつもりだったが、渋滞のせいで時間が足りなくなり、結局家に着いたのはおそらく7時頃だったと思う。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">originally</span> — 元々は・起源・出発点の強調</p><p class="used-line"><span class="u-phrase">run out of time</span> — 時間がなくなる</p></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block06">
+      <div class="block-header">
+        <h2>Block 06</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block06">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block06-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block06-0')" id="toggle-block06-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block06-0">My side hustle as a delivery driver is completely independent of my main telemarketing job, but to begin with, I used to struggle to manage both schedules at once.</p>
+        <p class="jp-line">配達員としての副業は本業のテレマーケティングの仕事とは完全に独立しているが、そもそも最初のうちは、両方のスケジュールを同時にこなすのに苦労していた。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">be independent of ~</span> — 〜とは独立している</p><p class="used-line"><span class="u-phrase">struggle to ~</span> — 必死にもがく・奮闘する</p><p class="used-line"><span class="u-phrase">to begin with</span> — まず最初は・理由列挙にも使える</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>manage</strong> <em>(動詞)</em> 管理する、こなす <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block06-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block06-1')" id="toggle-block06-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block06-1">I travel across the city almost every day for work, and at the outset, I found it hard to remember every street name.</p>
+        <p class="jp-line">私は仕事でほぼ毎日、街のあちこちを移動している。そして最初の段階では、すべての通りの名前を覚えるのが難しいと感じていた。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">travel</span> — 移動する</p><p class="used-line"><span class="u-phrase">find it hard to ~</span> — 難しいと感じる・口語</p><p class="used-line"><span class="u-phrase">at the outset</span> — 最初の段階では・最もフォーマル</p></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block06-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block06-2')" id="toggle-block06-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block06-2">I have seen a lot of changes in the delivery industry over the past few years, and according to my coworkers, I&#x27;m not the only one who had a hard time adjusting to the new app.</p>
+        <p class="jp-line">ここ数年で配達業界における多くの変化を目の当たりにしてきた。そして同僚たちによると、新しいアプリに慣れるのに苦労したのは私だけではないようだ。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">have seen (experienced)</span> — 変化を経験した・目撃した比喩的用法</p><p class="used-line"><span class="u-phrase">according to ~</span> — 〜によれば</p><p class="used-line"><span class="u-phrase">have a hard time ~ing</span> — 大変な時間を過ごす・口語</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>industry</strong> <em>(名詞)</em> 業界 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>adjusting</strong> <em>(動詞（adjust）の動名詞)</em> 適応する、慣れる <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+</main>
+
+<footer class="page-footer">
+  イディオムファミリー横断／各文に使用表現2〜4個＋語彙注釈（準2級以上）付き
+</footer>
+
+<script>
+let speedRate = 1.0;
+let chosenVoice = null;
+function pickVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return;
+  chosenVoice = voices.find(v => v.name === 'Samantha')
+    || voices.find(v => v.name.includes('Google US English'))
+    || voices.find(v => v.lang === 'en-US')
+    || voices[0];
+}
+window.speechSynthesis.onvoiceschanged = pickVoice;
+pickVoice();
+function speakText(text) {
+  if (!text) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = speedRate;
+  if (chosenVoice) u.voice = chosenVoice;
+  window.speechSynthesis.speak(u);
+}
+function speakOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  if (el) speakText(el.textContent);
+}
+function toggleOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  const btn = document.getElementById('toggle-' + sid);
+  el.classList.toggle('is-hidden');
+  btn.textContent = el.classList.contains('is-hidden') ? '見る' : '隠す';
+}
+function setSpeed(v) { speedRate = parseFloat(v); }
+let allENHidden = false;
+function toggleAllEN() {
+  allENHidden = !allENHidden;
+  document.querySelectorAll('.en-line').forEach(el => {
+    if (allENHidden) { el.classList.add('is-hidden'); } else { el.classList.remove('is-hidden'); }
+  });
+  document.querySelectorAll('[id^="toggle-"]').forEach(btn => {
+    btn.textContent = allENHidden ? '見る' : '隠す';
+  });
+  document.getElementById('global-en-toggle').textContent = allENHidden ? '全て英文を見る' : '全て英文を隠す';
+}
+
+// Persistent memo (saved in this browser via localStorage, survives reloads)
+(function () {
+  var MEMO_KEY = 'notes_review_memo__have-nothing-to-do-with';
+  var area = document.getElementById('memo-area');
+  var status = document.getElementById('memo-status');
+  if (!area) return;
+  try {
+    var saved = window.localStorage.getItem(MEMO_KEY);
+    if (saved !== null) area.value = saved;
+  } catch (e) { /* storage unavailable, memo just won't persist */ }
+  var timer = null;
+  area.addEventListener('input', function () {
+    if (status) status.textContent = '保存中…';
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(function () {
+      try {
+        window.localStorage.setItem(MEMO_KEY, area.value);
+        if (status) {
+          status.textContent = '保存済み';
+          setTimeout(function () { status.textContent = ''; }, 1500);
+        }
+      } catch (e) {
+        if (status) status.textContent = '保存できません';
+      }
+    }, 400);
+  });
+})();
+</script>
+</body>
+</html>
