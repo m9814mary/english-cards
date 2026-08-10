@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Review — mind/common/access/sight/beginning (Part 3)</title>
+<style>
+:root {
+  --bg: #F7F5F0; --bg2: #EEEAE2; --surface: #fff; --border: #D8D3C8;
+  --text: #1A1713; --text-sub: #6B6459; --text-muted: #9C9389;
+  --accent: #2D4A3E; --accent-pale: #E8F0EC;
+  --gold: #B8913A; --gold-pale: #F5EDD9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  line-height: 1.8; padding-bottom: 80px;
+}
+h1, h2 { font-family: Georgia, 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
+header.top { background: var(--accent); color: #fff; padding: 26px 20px 20px; position: sticky; top: 0; z-index: 50; }
+header.top h1 { margin: 0 0 4px; font-size: 22px; font-weight: 400; }
+header.top .subtitle { font-size: 13px; opacity: 0.85; margin: 0 0 14px; }
+.controls-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.controls-bar button, .controls-bar select {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.35); color: #fff;
+  border-radius: 20px; padding: 7px 14px; font-size: 13px; cursor: pointer;
+}
+.controls-bar button:hover { background: rgba(255,255,255,0.22); }
+.controls-bar label { font-size: 12px; opacity: 0.85; margin-right: -4px; }
+.memo-wrap { max-width: 780px; margin: 16px auto 0; padding: 0 20px; }
+.memo-box { background: #FFF9E8; border: 1px solid #E8D9A0; border-radius: 12px; padding: 12px 16px; }
+.memo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.memo-label { font-size: 13px; font-weight: 700; color: #8a6d1a; }
+.memo-status { font-size: 11px; color: #9C9389; }
+.memo-area {
+  width: 100%; min-height: 70px; border: 1px solid #E8D9A0; border-radius: 8px; padding: 8px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-size: 14px; color: #1A1713; background: #fff; resize: vertical; box-sizing: border-box;
+}
+.memo-area:focus { outline: 2px solid #E8D9A0; }
+nav.toc { max-width: 780px; margin: 20px auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+.toc-link {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px;
+  text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600;
+}
+.toc-link:hover { border-color: var(--accent); }
+main { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+.block {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 22px 8px; margin-bottom: 20px; scroll-margin-top: 150px;
+}
+.block-header { border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 6px; }
+.block-header h2 { margin: 0; font-size: 19px; color: var(--accent); font-weight: 400; }
+.block-title-jp { margin: 4px 0 0; font-size: 12.5px; color: var(--text-sub); }
+.sentence-block { padding: 16px 0; border-bottom: 1px dashed var(--border); }
+.sentence-block:last-child { border-bottom: none; }
+.sentence-controls { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+.mini-speak, .mini-toggle {
+  background: var(--accent-pale); color: var(--accent); border: 1px solid var(--accent);
+  border-radius: 14px; font-size: 12px; cursor: pointer; padding: 3px 10px;
+}
+.mini-speak { padding: 3px 8px; font-size: 13px; }
+.mini-speak:hover, .mini-toggle:hover { background: var(--accent); color: #fff; }
+.en-line {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-style: normal; font-size: 17px; font-weight: 500;
+  line-height: 1.6; color: var(--text); margin: 0 0 4px;
+}
+.en-line.is-hidden { display: none; }
+.jp-line { font-size: 14px; line-height: 1.8; color: var(--text-sub); margin: 0 0 10px; }
+.used-box { background: var(--accent-pale); border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }
+.used-line { margin: 0 0 3px; font-size: 12.5px; color: var(--text); }
+.used-line:last-child { margin-bottom: 0; }
+.u-phrase { color: var(--accent); font-weight: 700; }
+.vocab-box { background: var(--gold-pale); border-radius: 8px; padding: 8px 12px; }
+.vocab-label { display: block; font-size: 11px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.vocab-chip { font-size: 12px; color: var(--text-sub); margin-right: 12px; display: inline-block; margin-bottom: 3px; }
+.vocab-chip strong { color: var(--text); }
+.vocab-chip em { font-style: normal; color: var(--text-muted); }
+.v-level { color: var(--gold); font-weight: 600; }
+footer.page-footer { max-width: 780px; margin: 10px auto 40px; padding: 0 20px; font-size: 12px; color: var(--text-muted); text-align: center; }
+@media (max-width: 640px) {
+  header.top { padding: 18px 14px 14px; }
+  .en-line { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>English Review — mind・common・access・sight・beginning ほか（第3弾）</h1>
+  <p class="subtitle">全15文／使用表現62個／語彙注釈63個（準2級以上）</p>
+  <div class="controls-bar">
+    <button id="global-en-toggle" onclick="toggleAllEN()">全て英文を隠す</button>
+    <label for="speed">速度</label>
+    <select id="speed" onchange="setSpeed(this.value)">
+      <option value="0.7">遅め 0.7×</option>
+      <option value="1.0" selected>普通 1.0×</option>
+      <option value="1.35">速め 1.35×</option>
+    </select>
+  </div>
+</header>
+
+<div class="memo-wrap">
+  <div class="memo-box">
+    <div class="memo-head">
+      <span class="memo-label">📝 メモ</span>
+      <span class="memo-status" id="memo-status"></span>
+    </div>
+    <textarea id="memo-area" class="memo-area" placeholder="ここに軽くメモできます（このページに自動で保存されます）"></textarea>
+  </div>
+</div>
+
+<nav class="toc">
+<a href="#block-block01" class="toc-link">Block 01</a><a href="#block-block02" class="toc-link">Block 02</a><a href="#block-block03" class="toc-link">Block 03</a><a href="#block-block04" class="toc-link">Block 04</a><a href="#block-block05" class="toc-link">Block 05</a>
+</nav>
+
+<main>
+
+    <section class="block" id="block-block01">
+      <div class="block-header">
+        <h2>Block 01</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block01">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-0')" id="toggle-block01-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-0">At the very beginning of the new campaign, I had a clear plan in mind and kept the client&#x27;s goals in mind at every step. I intended to follow the script carefully, and from the beginning, I told myself this was a fresh start — not just another ordinary day at work.</p>
+        <p class="jp-line">新しいキャンペーンのまさに最初の段階で、明確なプランを頭に描き、クライアントの目標を一歩一歩意識し続けた。スクリプトを丁寧に守るつもりで、最初から、今日はただの普通の仕事の日なんかじゃない、新しいスタートだと自分に言い聞かせた。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">have ~ in mind</span> — 〜を考えている・意図している</p><p class="used-line"><span class="u-phrase">keep ~ in mind</span> — 〜を心に留めておく・忘れないようにする</p><p class="used-line"><span class="u-phrase">at the very beginning</span> — まさに最初・本当に最初の段階で</p><p class="used-line"><span class="u-phrase">intend</span> — 〜するつもりである・意図する</p><p class="used-line"><span class="u-phrase">from the beginning</span> — 最初から</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>campaign</strong> <em>(名詞)</em> キャンペーン・営業活動 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>script</strong> <em>(名詞)</em> スクリプト・台本 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>ordinary</strong> <em>(形容詞)</em> 普通の・平凡な <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-1')" id="toggle-block01-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-1">Right out of the gate, my opening line attracted more interest than I had expected. That meant I was able to use the flexible approach I had prepared the night before, and it worked better than anything I had tried in recent weeks.</p>
+        <p class="jp-line">最初からいきなり、オープニングトークが予想以上の関心を引き出した。つまり、前夜に準備していた柔軟なアプローチを実際に使うことができた。しかもここ数週間で試したどの方法よりもうまくいった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">right out of the gate</span> — 最初からいきなり</p><p class="used-line"><span class="u-phrase">attract</span> — 引きつける・集める</p><p class="used-line"><span class="u-phrase">that means</span> — それはつまり〜ということだ</p><p class="used-line"><span class="u-phrase">be able to use</span> — 〜を使える・実際に使える状態である</p><p class="used-line"><span class="u-phrase">flexible</span> — 柔軟な</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>approach</strong> <em>(名詞)</em> 取り組み方・アプローチ <span class="v-level">2級</span></span><span class="vocab-chip"><strong>interest</strong> <em>(名詞)</em> 関心・興味 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>prepare</strong> <em>(動詞)</em> 準備する <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-2')" id="toggle-block01-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-2">For that reason, I was able to express my ideas clearly without hesitating. Not one bit of nervousness came through in my voice — not by a long shot was I the anxious caller I used to be just six months ago.</p>
+        <p class="jp-line">そのため、迷わず自分のアイデアをはっきり伝えることができた。声に緊張は微塵も滲まなかった——6ヶ月前の不安だらけの架電者に逆戻りしたなんて、まったくそんなことはなかった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">for that reason</span> — そのため・その理由で</p><p class="used-line"><span class="u-phrase">express</span> — 表現する・述べる</p><p class="used-line"><span class="u-phrase">not one bit</span> — 全然〜ない・微塵もない</p><p class="used-line"><span class="u-phrase">not by a long shot</span> — 全然違う・ほど遠い</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>hesitate</strong> <em>(動詞)</em> 躊躇する・迷う <span class="v-level">2級</span></span><span class="vocab-chip"><strong>nervousness</strong> <em>(名詞)</em> 緊張・不安 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>come through</strong> <em>(動詞句)</em> 滲み出る・伝わる <span class="v-level">2級</span></span><span class="vocab-chip"><strong>anxious</strong> <em>(形容詞)</em> 不安な・心配な <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block02">
+      <div class="block-header">
+        <h2>Block 02</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block02">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-0')" id="toggle-block02-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-0">Early in my shift, I gained access to a new delivery zone that I had never covered before. The moment I saw the streets on the map, I had the key shortcuts on my radar and started planning my route right away — it was exciting to take on something new.</p>
+        <p class="jp-line">シフトの早い時間帯に、これまで一度も担当したことのない新しい配達エリアへのアクセス権を得た。地図で通りを見た瞬間、主な抜け道を視野に入れてすぐにルートを計画し始めた——新しいことに挑むのはワクワクした。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">early in</span> — 〜の初め頃に・早い段階で</p><p class="used-line"><span class="u-phrase">gain access to ~</span> — 〜へのアクセス権を得る・入れるようになる</p><p class="used-line"><span class="u-phrase">the moment I saw ~</span> — 〜を見た瞬間に</p><p class="used-line"><span class="u-phrase">have ~ on one&#x27;s radar</span> — 視野に入っている・候補に入っている</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>delivery zone</strong> <em>(名詞句)</em> 配達エリア <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>shortcut</strong> <em>(名詞)</em> 近道・抜け道 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>route</strong> <em>(名詞)</em> ルート・道筋 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>take on</strong> <em>(動詞句)</em> 〜に挑む・引き受ける <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-1')" id="toggle-block02-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-1">At the sight of the narrow backstreets, I clicked with the area almost immediately. The layout shared similarities with the Nakano routes I had covered in the early stages of my Uber Eats career, so the unfamiliar streets felt surprisingly manageable.</p>
+        <p class="jp-line">細い裏道を目にした瞬間、そのエリアにほぼすぐに馴染んだ感覚があった。道路の配置がUber Eatsを始めた初期の段階で担当していた中野のルートと類似点があり、見知らぬ通りが意外にも難なく感じられた。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">at the sight of ~</span> — 〜を見てすぐに・見た瞬間に</p><p class="used-line"><span class="u-phrase">click with</span> — 気が合う・すぐに馴染む</p><p class="used-line"><span class="u-phrase">share similarities with</span> — 〜と類似点を共有している</p><p class="used-line"><span class="u-phrase">in the early stages of</span> — 〜の初期段階で</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>backstreet</strong> <em>(名詞)</em> 裏道・路地 <span class="v-level">2級</span></span><span class="vocab-chip"><strong>layout</strong> <em>(名詞)</em> 配置・道路構造 <span class="v-level">2級</span></span><span class="vocab-chip"><strong>unfamiliar</strong> <em>(形容詞)</em> 見知らぬ・慣れていない <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>manageable</strong> <em>(形容詞)</em> 対処できる・難なく扱える <span class="v-level">2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-2')" id="toggle-block02-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-2">On top of that, easy access to the main road meant I could settle down quickly between deliveries. Along with this advantage, being plugged into the local traffic patterns gave me a huge edge — I finished the whole shift well ahead of my usual pace.</p>
+        <p class="jp-line">それに加えて、幹線道路へのアクセスが良かったおかげで、配達と配達の間にすぐに落ち着けた。この利点に加えて、そのエリアの交通パターンを把握していたことが大きな強みになった——いつものペースよりずっと早くシフト全体を終えた。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">on top of ~</span> — 〜に加えて</p><p class="used-line"><span class="u-phrase">easy access to ~</span> — 〜へ簡単にアクセスできる・利用しやすい</p><p class="used-line"><span class="u-phrase">settle down</span> — 状況・気持ちが落ち着く</p><p class="used-line"><span class="u-phrase">along with ~</span> — 〜と一緒に・〜に伴って</p><p class="used-line"><span class="u-phrase">be plugged into</span> — 情報・状況に通じている</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>advantage</strong> <em>(名詞)</em> 優位性・有利な点 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>traffic pattern</strong> <em>(名詞句)</em> 交通パターン <span class="v-level">2級</span></span><span class="vocab-chip"><strong>edge</strong> <em>(名詞)</em> 強み・優位性 <span class="v-level">2級</span></span><span class="vocab-chip"><strong>pace</strong> <em>(名詞)</em> ペース・速度 <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block03">
+      <div class="block-header">
+        <h2>Block 03</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block03">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-0')" id="toggle-block03-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-0">At the sound of the opening whistle, my friend and I looked at each other and knew right away that we were on the same wavelength. We both wanted the same things from this match — we had a lot in common with each other when it came to how we read football. Absolutely not were we expecting anything less than a win.</p>
+        <p class="jp-line">キックオフのホイッスルが鳴った瞬間、友人と私は顔を見合わせ、すぐに完全に波長が合っていることがわかった。2人ともこの試合に求めるものは同じだった——サッカーの読み方という点で、共通点がたくさんあったのだ。勝利以外を期待するなど、絶対になかった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">at the sound of ~</span> — 〜の音を聞いてすぐに</p><p class="used-line"><span class="u-phrase">be on the same wavelength</span> — 波長が合う</p><p class="used-line"><span class="u-phrase">have a lot in common with ~</span> — 〜と共通点がたくさんある</p><p class="used-line"><span class="u-phrase">absolutely not</span> — 絶対に〜ない・全然ダメ</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>whistle</strong> <em>(名詞)</em> ホイッスル・笛 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>when it came to ~</strong> <em>(熟語)</em> 〜という点では <span class="v-level">2級</span></span><span class="vocab-chip"><strong>expect</strong> <em>(動詞)</em> 期待する・予想する <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-1')" id="toggle-block03-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-1">In the beginning, the match was slow, and by no means was either team performing at the level we had hoped for. We had something in common with the frustrated fans around us — none of us had expected such a dull first half. At the thought of another goalless draw, I could feel my energy fading fast.</p>
+        <p class="jp-line">試合の最初のうちは展開が遅く、どちらのチームも私たちが期待していたレベルで決してプレーしていなかった。私たちは周りの不満を抱えたファンと共通するものがあった——誰もあんなに退屈な前半を予想していなかった。またゴールなしのドローになるかもと考えただけで、気力が急速に萎えていくのを感じた。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">in the beginning</span> — 初めのうちは・当初は</p><p class="used-line"><span class="u-phrase">by no means</span> — 決して〜ではない</p><p class="used-line"><span class="u-phrase">have something in common with ~</span> — 〜と何かしら共通点がある</p><p class="used-line"><span class="u-phrase">at the thought of ~</span> — 〜を考えただけで</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>perform</strong> <em>(動詞)</em> プレーする・実力を発揮する <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>frustrated</strong> <em>(形容詞)</em> 不満を抱えた・イライラした <span class="v-level">2級</span></span><span class="vocab-chip"><strong>dull</strong> <em>(形容詞)</em> 退屈な・つまらない <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>goalless draw</strong> <em>(名詞句)</em> スコアレスドロー <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>fade</strong> <em>(動詞)</em> 薄れる・萎える <span class="v-level">2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-2')" id="toggle-block03-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-2">My friend asked me for a favor — he said, &quot;Do me a favor and bear in mind that this team never gives up.&quot; Not to mention the stunning late equalizer, the comeback was, in no way, something I had expected. We were both on our feet, screaming — it was one of those moments I will never forget.</p>
+        <p class="jp-line">友人がお願いをしてきた——「頼むから、このチームは絶対に諦めないということをしっかり覚えておいてくれ」と言ったのだ。劇的な終盤の同点ゴールは言うまでもなく、その逆転劇は、いかなる意味でも自分が予想していたものではなかった。2人とも立ち上がって叫んでいた——絶対に忘れないような瞬間の一つだった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">ask ~ for a favor</span> — 〜にお願いをする</p><p class="used-line"><span class="u-phrase">do me a favor</span> — 頼みを聞いてくれる</p><p class="used-line"><span class="u-phrase">bear ~ in mind</span> — 〜を念頭に置く・心に留めておく</p><p class="used-line"><span class="u-phrase">not to mention ~</span> — 〜は言うまでもなく</p><p class="used-line"><span class="u-phrase">in no way</span> — 決して〜ない・全く〜ない</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>stunning</strong> <em>(形容詞)</em> 衝撃的な・素晴らしい <span class="v-level">2級</span></span><span class="vocab-chip"><strong>equalizer</strong> <em>(名詞)</em> 同点ゴール <span class="v-level">2級</span></span><span class="vocab-chip"><strong>comeback</strong> <em>(名詞)</em> 逆転・カムバック <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>scream</strong> <em>(動詞)</em> 叫ぶ <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block04">
+      <div class="block-header">
+        <h2>Block 04</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block04">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-0')" id="toggle-block04-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-0">The second I laid eyes on the young rookie warming up, I thought of the greatest point guards in NBA history. He carried himself with a calm confidence from the beginning to the end of the warm-up session. It was clear that he shared common features with those legendary players — the footwork, the vision, the way he read the defense.</p>
+        <p class="jp-line">若いルーキーがウォームアップしているのを目にしたまさにその瞬間、NBA史上最高のポイントガードたちが頭に浮かんだ。ウォームアップセッションの最初から最後まで、落ち着いた自信を持って立ち振る舞っていた。彼がそのレジェンドたちと共通の特徴を持っていることは明らかだった——フットワーク、コートビジョン、そしてディフェンスの読み方。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">the second I laid eyes on ~</span> — 初めて目をとめたまさにその瞬間に</p><p class="used-line"><span class="u-phrase">think of</span> — 〜を考える・思い浮かべる</p><p class="used-line"><span class="u-phrase">from beginning to end</span> — 最初から最後まで</p><p class="used-line"><span class="u-phrase">share common features</span> — 共通の特徴を持つ</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>rookie</strong> <em>(名詞)</em> 新人選手・ルーキー <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>warm up</strong> <em>(動詞句)</em> ウォームアップする <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>carry oneself</strong> <em>(動詞句)</em> 立ち振る舞う・姿勢を保つ <span class="v-level">2級</span></span><span class="vocab-chip"><strong>legendary</strong> <em>(形容詞)</em> 伝説的な <span class="v-level">2級</span></span><span class="vocab-chip"><strong>footwork</strong> <em>(名詞)</em> フットワーク <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>defense</strong> <em>(名詞)</em> ディフェンス・守備 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-1')" id="toggle-block04-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-1">Upon seeing him drive to the basket for the first time, I realized he had nothing in common with the nervous rookies I had seen before — not in the least. He had access to the paint area in a way that seemed completely natural, as if he had been playing at this level his whole life.</p>
+        <p class="jp-line">彼が初めてバスケットに向かってドライブするのを見るやいなや、過去に見てきた緊張したルーキーたちとはまったく共通点がないと気づいた——少しも。ペイントエリアへのアクセスが完全に自然で、まるでずっとこのレベルでプレーしてきたかのようだった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">upon seeing</span> — 〜を見るやいなや</p><p class="used-line"><span class="u-phrase">have nothing in common with ~</span> — 〜と全く共通点がない</p><p class="used-line"><span class="u-phrase">not in the least</span> — 少しも〜ない</p><p class="used-line"><span class="u-phrase">have access to ~</span> — 〜を利用できる・〜にアクセスできる</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>drive</strong> <em>(動詞)</em> ドライブする・突進する <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>paint area</strong> <em>(名詞句)</em> ペイントエリア（ゴール下） <span class="v-level">2級</span></span><span class="vocab-chip"><strong>natural</strong> <em>(形容詞)</em> 自然な・生まれつきの <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-2')" id="toggle-block04-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-2">As well as his scoring ability, he was granted permission by the coaching staff to run the offense freely — and in addition to all of this, his court vision was outstanding from the very first quarter. I applied for extra court-side tickets for his next game — I had to see this in person again.</p>
+        <p class="jp-line">得点力と同様に、彼はコーチングスタッフからオフェンスを自由に指揮する許可を与えられていた——そしてそれに加えて、最初のクォーターからコートビジョンも際立っていた。次の試合のコートサイドチケットを申し込んだ——また直接この目で見なければならなかった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">as well as ~</span> — 〜と同様に・〜に加えて</p><p class="used-line"><span class="u-phrase">be granted permission to</span> — 〜を行う許可を与えられている</p><p class="used-line"><span class="u-phrase">in addition to ~</span> — 〜に加えて</p><p class="used-line"><span class="u-phrase">apply for ~</span> — 〜に正式に申し込む・申請する</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>court vision</strong> <em>(名詞句)</em> コートビジョン・試合を読む力 <span class="v-level">2級</span></span><span class="vocab-chip"><strong>offense</strong> <em>(名詞)</em> オフェンス・攻撃 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>coaching staff</strong> <em>(名詞句)</em> コーチングスタッフ <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>outstanding</strong> <em>(形容詞)</em> 際立った・優れた <span class="v-level">2級</span></span><span class="vocab-chip"><strong>quarter</strong> <em>(名詞)</em> クォーター（試合の区切り） <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>court-side</strong> <em>(形容詞)</em> コートサイドの <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block05">
+      <div class="block-header">
+        <h2>Block 05</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block05">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-0')" id="toggle-block05-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-0">At the mention of a new album dropping, I checked whether it was available to the public yet. At the outset of the listening session, I was completely absorbed — the production was not at all what I had expected, in the best possible way.</p>
+        <p class="jp-line">新しいアルバムがリリースされるという話が出た瞬間、もう一般公開されているか確認した。リスニングセッションの開始時点で、すっかり引き込まれた——プロダクションはまったく予想していたものではなかったが、それは最高にいい意味でだった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">at the mention of ~</span> — 〜という言葉を聞いただけで・話題が出ただけで</p><p class="used-line"><span class="u-phrase">be available to</span> — 〜が利用可能である・利用できる状態にある</p><p class="used-line"><span class="u-phrase">at the outset of</span> — 〜の当初に・開始時点で</p><p class="used-line"><span class="u-phrase">not ~ at all</span> — 全然〜ない</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>production</strong> <em>(名詞)</em> プロダクション・音楽制作 <span class="v-level">2級</span></span><span class="vocab-chip"><strong>absorb</strong> <em>(動詞)</em> 引き込む・吸収する <span class="v-level">2級</span></span><span class="vocab-chip"><strong>release</strong> <em>(動詞)</em> リリースする・公開する <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-1')" id="toggle-block05-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-1">Does this kind of raw, emotional storytelling even exist at all in mainstream music anymore? I found myself asking that question as I listened. Besides the incredible beats, the lyrics expressed something I had genuinely never come across before — and that pushed me to study the words more carefully than I ever had.</p>
+        <p class="jp-line">こういったむき出しの感情的なストーリーテリングは、そもそも今のメインストリーム音楽にまだ存在するのか？聴きながらそんな疑問が頭に浮かんだ。信じられないようなビートに加えて、歌詞は本当にこれまで出会ったことのない何かを表現していた——それが、これまで以上に丁寧に歌詞を研究するきっかけになった。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">at all（疑問文）</span> — そもそも・一体</p><p class="used-line"><span class="u-phrase">besides ~</span> — 〜に加えて・〜のほかに</p><p class="used-line"><span class="u-phrase">express</span> — 表現する・述べる</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>raw</strong> <em>(形容詞)</em> むき出しの・生の <span class="v-level">2級</span></span><span class="vocab-chip"><strong>emotional</strong> <em>(形容詞)</em> 感情的な <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>storytelling</strong> <em>(名詞)</em> ストーリーテリング・話法 <span class="v-level">2級</span></span><span class="vocab-chip"><strong>mainstream</strong> <em>(名詞)</em> メインストリーム・主流 <span class="v-level">2級</span></span><span class="vocab-chip"><strong>lyrics</strong> <em>(名詞)</em> 歌詞 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>genuinely</strong> <em>(副詞)</em> 心から・本当に <span class="v-level">2級</span></span><span class="vocab-chip"><strong>come across</strong> <em>(動詞句)</em> 出会う・偶然見つける <span class="v-level">2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-2')" id="toggle-block05-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-2">At the beginning of this year, I could not have understood half the expressions in those lyrics. Now I can calm down and process complex English naturally, without stopping every few seconds. A new English conversation café is even opening near my station — and that is exactly the kind of opportunity I intend to make the most of.</p>
+        <p class="jp-line">今年の初めには、あの歌詞の表現の半分も理解できなかったはずだ。今では気持ちを落ち着かせて、数秒ごとに止まることなく自然に複雑な英語を処理できる。駅の近くに新しい英会話カフェまでオープンしつつある——そして、それはまさに私が最大限に活かすつもりの機会だ。</p>
+        <div class="used-box"><p class="used-line"><span class="u-phrase">at the beginning of ~</span> — 〜の初めに・〜の最初のほうで</p><p class="used-line"><span class="u-phrase">calm down</span> — 高ぶった感情が収まる</p><p class="used-line"><span class="u-phrase">be opening</span> — 開設しつつある・今まさに進行中の変化・動き</p></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>process</strong> <em>(動詞)</em> 処理する・理解する <span class="v-level">2級</span></span><span class="vocab-chip"><strong>complex</strong> <em>(形容詞)</em> 複雑な <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>conversation café</strong> <em>(名詞句)</em> 英会話カフェ <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>make the most of ~</strong> <em>(熟語)</em> 〜を最大限に活かす <span class="v-level">2級</span></span></div>
+      </div>
+      </div>
+    </section>
+</main>
+
+<footer class="page-footer">
+  have ~ in mind・have ~ in common・have access to・at the sight of・at the beginning of・否定の強調・in addition to ほか横断／全7ブロック
+</footer>
+
+<script>
+let speedRate = 1.0;
+let chosenVoice = null;
+function pickVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return;
+  chosenVoice = voices.find(v => v.name === 'Samantha')
+    || voices.find(v => v.name.includes('Google US English'))
+    || voices.find(v => v.lang === 'en-US')
+    || voices[0];
+}
+window.speechSynthesis.onvoiceschanged = pickVoice;
+pickVoice();
+function speakText(text) {
+  if (!text) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = speedRate;
+  if (chosenVoice) u.voice = chosenVoice;
+  window.speechSynthesis.speak(u);
+}
+function speakOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  if (el) speakText(el.textContent);
+}
+function toggleOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  const btn = document.getElementById('toggle-' + sid);
+  el.classList.toggle('is-hidden');
+  btn.textContent = el.classList.contains('is-hidden') ? '見る' : '隠す';
+}
+function setSpeed(v) { speedRate = parseFloat(v); }
+let allENHidden = false;
+function toggleAllEN() {
+  allENHidden = !allENHidden;
+  document.querySelectorAll('.en-line').forEach(el => {
+    if (allENHidden) { el.classList.add('is-hidden'); } else { el.classList.remove('is-hidden'); }
+  });
+  document.querySelectorAll('[id^="toggle-"]').forEach(btn => {
+    btn.textContent = allENHidden ? '見る' : '隠す';
+  });
+  document.getElementById('global-en-toggle').textContent = allENHidden ? '全て英文を見る' : '全て英文を隠す';
+}
+
+// Persistent memo (saved in this browser via localStorage, survives reloads)
+(function () {
+  var MEMO_KEY = 'notes_review_memo__mind-common-access-sight-beginning-3';
+  var area = document.getElementById('memo-area');
+  var status = document.getElementById('memo-status');
+  if (!area) return;
+  try {
+    var saved = window.localStorage.getItem(MEMO_KEY);
+    if (saved !== null) area.value = saved;
+  } catch (e) { /* storage unavailable, memo just won't persist */ }
+  var timer = null;
+  area.addEventListener('input', function () {
+    if (status) status.textContent = '保存中…';
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(function () {
+      try {
+        window.localStorage.setItem(MEMO_KEY, area.value);
+        if (status) {
+          status.textContent = '保存済み';
+          setTimeout(function () { status.textContent = ''; }, 1500);
+        }
+      } catch (e) {
+        if (status) status.textContent = '保存できません';
+      }
+    }, 400);
+  });
+})();
+</script>
+</body>
+</html>
