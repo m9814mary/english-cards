@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Review — hope/decide/cancel/allow/fix</title>
+<style>
+:root {
+  --bg: #F7F5F0; --bg2: #EEEAE2; --surface: #fff; --border: #D8D3C8;
+  --text: #1A1713; --text-sub: #6B6459; --text-muted: #9C9389;
+  --accent: #2D4A3E; --accent-pale: #E8F0EC;
+  --gold: #B8913A; --gold-pale: #F5EDD9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  line-height: 1.8; padding-bottom: 80px;
+}
+h1, h2 { font-family: Georgia, 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
+header.top { background: var(--accent); color: #fff; padding: 26px 20px 20px; position: sticky; top: 0; z-index: 50; }
+header.top h1 { margin: 0 0 4px; font-size: 22px; font-weight: 400; }
+header.top .subtitle { font-size: 13px; opacity: 0.85; margin: 0 0 14px; }
+.controls-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.controls-bar button, .controls-bar select {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.35); color: #fff;
+  border-radius: 20px; padding: 7px 14px; font-size: 13px; cursor: pointer;
+}
+.controls-bar button:hover { background: rgba(255,255,255,0.22); }
+.controls-bar label { font-size: 12px; opacity: 0.85; margin-right: -4px; }
+.memo-wrap { max-width: 780px; margin: 16px auto 0; padding: 0 20px; }
+.memo-box { background: #FFF9E8; border: 1px solid #E8D9A0; border-radius: 12px; padding: 12px 16px; }
+.memo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.memo-label { font-size: 13px; font-weight: 700; color: #8a6d1a; }
+.memo-status { font-size: 11px; color: #9C9389; }
+.memo-area {
+  width: 100%; min-height: 70px; border: 1px solid #E8D9A0; border-radius: 8px; padding: 8px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-size: 14px; color: #1A1713; background: #fff; resize: vertical; box-sizing: border-box;
+}
+.memo-area:focus { outline: 2px solid #E8D9A0; }
+nav.toc { max-width: 780px; margin: 20px auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+.toc-link {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px;
+  text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600;
+}
+.toc-link:hover { border-color: var(--accent); }
+main { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+.block {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 22px 8px; margin-bottom: 20px; scroll-margin-top: 150px;
+}
+.block-header { border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 6px; }
+.block-header h2 { margin: 0; font-size: 19px; color: var(--accent); font-weight: 400; }
+.block-title-jp { margin: 4px 0 0; font-size: 12.5px; color: var(--text-sub); }
+.sentence-block { padding: 16px 0; border-bottom: 1px dashed var(--border); }
+.sentence-block:last-child { border-bottom: none; }
+.sentence-controls { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+.mini-speak, .mini-toggle {
+  background: var(--accent-pale); color: var(--accent); border: 1px solid var(--accent);
+  border-radius: 14px; font-size: 12px; cursor: pointer; padding: 3px 10px;
+}
+.mini-speak { padding: 3px 8px; font-size: 13px; }
+.mini-speak:hover, .mini-toggle:hover { background: var(--accent); color: #fff; }
+.en-line {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-style: normal; font-size: 17px; font-weight: 500;
+  line-height: 1.6; color: var(--text); margin: 0 0 4px;
+}
+.en-line.is-hidden { display: none; }
+.jp-line { font-size: 14px; line-height: 1.8; color: var(--text-sub); margin: 0 0 10px; }
+.used-box { background: var(--accent-pale); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.used-item { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(45,74,62,0.12); }
+.used-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.u-phrase-line { margin: 0 0 2px; }
+.u-phrase { color: var(--accent); font-weight: 700; font-size: 13px; }
+.u-head { color: var(--text-muted); font-size: 11px; }
+.u-meaning { margin: 0 0 2px; font-size: 12.5px; color: var(--text); }
+.u-nuance { margin: 0; font-size: 12px; color: var(--text-sub); }
+.vocab-box { background: var(--gold-pale); border-radius: 8px; padding: 8px 12px; }
+.vocab-label { display: block; font-size: 11px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.vocab-chip { font-size: 12px; color: var(--text-sub); margin-right: 12px; display: inline-block; margin-bottom: 3px; }
+.vocab-chip strong { color: var(--text); }
+.vocab-chip em { font-style: normal; color: var(--text-muted); }
+.v-level { color: var(--gold); font-weight: 600; }
+footer.page-footer { max-width: 780px; margin: 10px auto 40px; padding: 0 20px; font-size: 12px; color: var(--text-muted); text-align: center; }
+@media (max-width: 640px) {
+  header.top { padding: 18px 14px 14px; }
+  .en-line { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>English Review — hope・decide・cancel・allow・fix</h1>
+  <p class="subtitle">全27文（3ブロック＋一文コーナー）／使用表現54個（意味＋ニュアンス付き）／語彙注釈41個</p>
+  <div class="controls-bar">
+    <button id="global-en-toggle" onclick="toggleAllEN()">全て英文を隠す</button>
+    <label for="speed">速度</label>
+    <select id="speed" onchange="setSpeed(this.value)">
+      <option value="0.7">遅め 0.7×</option>
+      <option value="1.0" selected>普通 1.0×</option>
+      <option value="1.35">速め 1.35×</option>
+    </select>
+  </div>
+</header>
+
+<div class="memo-wrap">
+  <div class="memo-box">
+    <div class="memo-head">
+      <span class="memo-label">📝 メモ</span>
+      <span class="memo-status" id="memo-status"></span>
+    </div>
+    <textarea id="memo-area" class="memo-area" placeholder="ここに軽くメモできます（このページに自動で保存されます）"></textarea>
+  </div>
+</div>
+
+<nav class="toc">
+<a href="#block-block01" class="toc-link">Block 01</a><a href="#block-block02" class="toc-link">Block 02</a><a href="#block-block03" class="toc-link">Block 03</a><a href="#block-block04" class="toc-link">Block 04</a><a href="#block-block05" class="toc-link">Block 05</a>
+</nav>
+
+<main>
+
+    <section class="block" id="block-block01">
+      <div class="block-header">
+        <h2>Block 01</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block01">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-0')" id="toggle-block01-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-0">Before my shift starts, I decide on a script to use today. My manager asked if the new one works well, and I said, &quot;I hope so.&quot;</p>
+        <p class="jp-line">シフトが始まる前に、今日使うスクリプトを決める。マネージャーが新しいスクリプトがうまく機能するかと聞いてきたので、「そうだといいね」と答えた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">decide on + 名詞</span> <span class="u-head">［decide］</span></p>
+          <p class="u-meaning">意味：複数の選択肢の中から最終的に一つを選び取る</p>
+          <p class="u-nuance">ニュアンス：最頻出パターン。選択の最終決定を表す</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">I hope so / not</span> <span class="u-head">［hope］</span></p>
+          <p class="u-meaning">意味：そうであることを・ないことを願う</p>
+          <p class="u-nuance">ニュアンス：直前の内容を受けて短く応じる会話の定番フレーズ</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>script</strong> <em>(名詞)</em> 台本・スクリプト <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>shift</strong> <em>(名詞)</em> シフト・勤務時間 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-1')" id="toggle-block01-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-1">My first call of the day was cancelled at the last minute. Making personal calls during work hours is not allowed anyway, so I just moved on to the next name on my list.</p>
+        <p class="jp-line">今日最初の電話は土壇場でキャンセルされた。どのみち勤務中に私用の電話をかけることは許可されていないので、私はただリストの次の名前に進んだ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be cancelled</span> <span class="u-head">［cancel］</span></p>
+          <p class="u-meaning">意味：キャンセルされる</p>
+          <p class="u-nuance">ニュアンス：予定・イベント側が主語になる基本形。受動態で使うことが多い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">not allowed</span> <span class="u-head">［allow］</span></p>
+          <p class="u-meaning">意味：禁止されている</p>
+          <p class="u-nuance">ニュアンス：標識・規則でよく使う。forbidden/prohibitedより口語的・日常的</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>personal</strong> <em>(形容詞)</em> 私用の・個人的な <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-2')" id="toggle-block01-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-2">A customer called back to fix a problem with her order. Helping her calmly seemed to raise her hopes about our service.</p>
+        <p class="jp-line">ある客が注文の問題を解決するために折り返し電話をかけてきた。彼女を冷静に助けたことで、私たちのサービスへの希望が高まったようだった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">fix a problem</span> <span class="u-head">［fix］</span></p>
+          <p class="u-meaning">意味：問題を解決する</p>
+          <p class="u-nuance">ニュアンス：最頻出。repairよりカジュアルで日常的な問題解決に使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">raise / give hope</span> <span class="u-head">［hope］</span></p>
+          <p class="u-meaning">意味：希望を与える・高める</p>
+          <p class="u-nuance">ニュアンス：TOEIC頻出。raise hopeはすでにある希望を高めるニュアンス</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>calmly</strong> <em>(副詞)</em> 冷静に <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-3')" id="toggle-block01-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-3">The client couldn&#x27;t make a decision about the plan right away. She also asked whether there was a cancellation fee if she changed her mind later.</p>
+        <p class="jp-line">その客はプランについてすぐに決断を下すことができなかった。彼女はまた、後で気が変わった場合にキャンセル料がかかるかどうかも尋ねてきた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">make a decision</span> <span class="u-head">［decide］</span></p>
+          <p class="u-meaning">意味：決断をする</p>
+          <p class="u-nuance">ニュアンス：TOEIC頻出。decideより形式張った定番コロケーション</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">cancellation fee</span> <span class="u-head">［cancel］</span></p>
+          <p class="u-meaning">意味：キャンセル料</p>
+          <p class="u-nuance">ニュアンス：TOEIC頻出。契約・予約のキャンセルに伴う料金を指す名詞句</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>client</strong> <em>(名詞)</em> 顧客・依頼人 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>cancellation</strong> <em>(名詞)</em> キャンセル <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-4')" id="toggle-block01-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-4">My manager mentioned a small allowance for staff who work overtime. I used part of mine last month to repair my old headset.</p>
+        <p class="jp-line">マネージャーは残業したスタッフへの少額の手当について触れていた。私は先月、その一部を古いヘッドセットの修理に使った。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">allowance</span> <span class="u-head">［allow］</span></p>
+          <p class="u-meaning">意味：手当・お小遣い・許容量</p>
+          <p class="u-nuance">ニュアンス：名詞・TOEIC頻出。業務上の手当から小遣いまで幅広く使える</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">repair</span> <span class="u-head">［fix］</span></p>
+          <p class="u-meaning">意味：壊れたものを元通りに修復する</p>
+          <p class="u-nuance">ニュアンス：fixよりフォーマル・TOEIC頻出。物理的な修復に使う</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>overtime</strong> <em>(名詞)</em> 残業 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>headset</strong> <em>(名詞)</em> ヘッドセット <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-5')" id="toggle-block01-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-5">Hopefully, tomorrow&#x27;s numbers will be better than today&#x27;s. In the end, every good decision starts with staying calm on the phone.</p>
+        <p class="jp-line">うまくいけば、明日の数字は今日より良くなるだろう。結局のところ、良い決断はすべて電話で冷静さを保つことから始まる。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">hopefully</span> <span class="u-head">［hope］</span></p>
+          <p class="u-meaning">意味：うまくいけば・願わくば</p>
+          <p class="u-nuance">ニュアンス：副詞。文頭に置いて話し手の願いを表す文修飾用法が現代英語の主流</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">decision</span> <span class="u-head">［decide］</span></p>
+          <p class="u-meaning">意味：決断・決定</p>
+          <p class="u-nuance">ニュアンス：名詞。make a decisionの形でTOEIC頻出</p>
+        </div></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block02">
+      <div class="block-header">
+        <h2>Block 02</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block02">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-0')" id="toggle-block02-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-0">The delivery app has a strict cancellation policy for riders. It enables customers to cancel for free within two minutes, though.</p>
+        <p class="jp-line">その配達アプリはライダーに対して厳しいキャンセルポリシーを設けている。もっとも、2分以内であれば客は無料でキャンセルできるようにはなっているが。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">cancellation policy</span> <span class="u-head">［cancel］</span></p>
+          <p class="u-meaning">意味：キャンセルポリシー</p>
+          <p class="u-nuance">ニュアンス：TOEIC頻出。キャンセルに関する規則・方針を指す名詞句</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">enable</span> <span class="u-head">［allow］</span></p>
+          <p class="u-meaning">意味：可能にする・できる状態にする</p>
+          <p class="u-nuance">ニュアンス：手段・条件を与えて物理的・技術的に可能にする点がallow/permitとの決定的違い</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>strict</strong> <em>(形容詞)</em> 厳しい <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-1')" id="toggle-block02-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-1">Most restaurants on the app offer a fixed price for delivery. The situation felt hopeless, though, since I didn&#x27;t know the area at all and couldn&#x27;t find a shortcut.</p>
+        <p class="jp-line">アプリ内のほとんどのレストランは配達に定額料金を設定している。とはいえ、そのエリアを全く知らず近道も見つけられなかったので、状況は絶望的に思えた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">fixed price</span> <span class="u-head">［fix］</span></p>
+          <p class="u-meaning">意味：定価・固定価格</p>
+          <p class="u-nuance">ニュアンス：TOEIC頻出。変更不可な価格設定を指す名詞句</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">hopeless</span> <span class="u-head">［hope］</span></p>
+          <p class="u-meaning">意味：絶望的な・見込みのない</p>
+          <p class="u-nuance">ニュアンス：形容詞。状況・見通しを主語にして使うのが自然。hopefulの正反対</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>shortcut</strong> <em>(名詞)</em> 近道 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-2')" id="toggle-block02-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-2">The weather can determine whether a delivery goes smoothly. Once, heavy rain forced me to call off a delivery entirely.</p>
+        <p class="jp-line">天候は配達がスムーズに進むかどうかを左右することがある。一度、大雨のせいで配達を完全に中止せざるを得なかった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">determine</span> <span class="u-head">［decide］</span></p>
+          <p class="u-meaning">意味：調査・分析の結果として確定する・左右する</p>
+          <p class="u-nuance">ニュアンス：フォーマル・TOEIC頻出。客観的根拠に基づく点がdecideとの違い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">call off</span> <span class="u-head">［cancel］</span></p>
+          <p class="u-meaning">意味：予定・計画を中止する</p>
+          <p class="u-nuance">ニュアンス：cancelとほぼ同義だが口語的でネイティブ頻出。postponeとは違い永久に中止する</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>smoothly</strong> <em>(副詞)</em> スムーズに・順調に <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-3')" id="toggle-block02-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-3">My manager had to approve my request for a new delivery bag. The price for a replacement was already fixed, so it didn&#x27;t take long.</p>
+        <p class="jp-line">マネージャーは新しい配達バッグの申請を承認しなければならなかった。交換品の値段はすでに決まっていたため、承認にさほど時間はかからなかった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">approve</span> <span class="u-head">［allow］</span></p>
+          <p class="u-meaning">意味：承認する・賛成する</p>
+          <p class="u-nuance">ニュアンス：TOEIC頻出。すでに提出された計画・申請に対して「OKを出す」審査的なニュアンス</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be fixed</span> <span class="u-head">［fix］</span></p>
+          <p class="u-meaning">意味：決まっている・固定されている</p>
+          <p class="u-nuance">ニュアンス：価格・スケジュールなどが変更不可な状態を表す。fixの受動態</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>replacement</strong> <em>(名詞)</em> 交換品 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-4')" id="toggle-block02-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-4">I wish I had checked the map before leaving. I couldn&#x27;t make up my mind about which street to take next.</p>
+        <p class="jp-line">出発前に地図を確認していればよかったと思う。次にどの通りを進むべきか決心がつかなかった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">wish</span> <span class="u-head">［hope］</span></p>
+          <p class="u-meaning">意味：実現が難しい・不可能なことへの願望</p>
+          <p class="u-nuance">ニュアンス：仮定法（過去形/過去完了形）を伴うことが多い。hopeより実現可能性が低い場合に使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">make up one&#x27;s mind</span> <span class="u-head">［decide］</span></p>
+          <p class="u-meaning">意味：決心する</p>
+          <p class="u-nuance">ニュアンス：口語的・ネイティブ頻出。散らばっていた考えを一つの結論へまとめ上げるイメージ</p>
+        </div></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-5')" id="toggle-block02-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-5">I decided to postpone my lunch break until later. My manager allows riders to choose their own break times anyway.</p>
+        <p class="jp-line">私は昼休みを後回しにすることにした。どのみち、マネージャーはライダーが自分で休憩時間を選ぶことを許可してくれている。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">postpone</span> <span class="u-head">［cancel］</span></p>
+          <p class="u-meaning">意味：延期する</p>
+          <p class="u-nuance">ニュアンス：TOEIC頻出。「なくす」のではなく「後の日程に移す」点がcall offとの決定的違い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">allow + 人 + to不定詞</span> <span class="u-head">［allow］</span></p>
+          <p class="u-meaning">意味：人が〜することを許可する</p>
+          <p class="u-nuance">ニュアンス：letよりフォーマル。ビジネスメールの前置きにも頻出</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>break</strong> <em>(名詞)</em> 休憩 <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block03">
+      <div class="block-header">
+        <h2>Block 03</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block03">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-0')" id="toggle-block03-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-0">Before the match started, I fixed a snack for myself and my friend. We both expected a close game between the two rivals.</p>
+        <p class="jp-line">試合が始まる前、私は自分と友人のために軽食を作った。私たちは2人とも、両ライバル同士の接戦を予想していた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">fix + O + for + 人</span> <span class="u-head">［fix］</span></p>
+          <p class="u-meaning">意味：人のために〜を作る・用意する</p>
+          <p class="u-nuance">ニュアンス：特に米語で「（食事を）作ってあげる」の意味で頻用される口語的表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">expect</span> <span class="u-head">［hope］</span></p>
+          <p class="u-meaning">意味：根拠を持って〜を予期する・当然そうなると思う</p>
+          <p class="u-nuance">ニュアンス：感情的な願いというより理性的な予測。hopeより確信度が高い</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>snack</strong> <em>(名詞)</em> 軽食 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>rival</strong> <em>(名詞)</em> ライバル・競争相手 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-1')" id="toggle-block03-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-1">The referee decided against giving a red card in the end. The league later suspended the player anyway for two matches.</p>
+        <p class="jp-line">結局、審判はレッドカードを出さないことに決めた。それでもリーグは後にその選手を2試合出場停止にした。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">decide against ~</span> <span class="u-head">［decide］</span></p>
+          <p class="u-meaning">意味：〜しないことに決める</p>
+          <p class="u-nuance">ニュアンス：一度検討した選択肢を最終的に不採用にする。decide not toより意図的な棄却感が強い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">suspend</span> <span class="u-head">［cancel］</span></p>
+          <p class="u-meaning">意味：一時停止する・停職にする</p>
+          <p class="u-nuance">ニュアンス：フォーマル・TOEIC頻出。再開の可能性を含む点がcancelとの違い</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>referee</strong> <em>(名詞)</em> 審判 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>league</strong> <em>(名詞)</em> リーグ <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-2')" id="toggle-block03-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-2">Fans are not always allowed to bring bags into the stadium. Security has to sort out every bag at the gate first.</p>
+        <p class="jp-line">ファンはいつもスタジアムにバッグを持ち込むことを許可されているわけではない。警備員はまずゲートですべてのバッグを一つひとつ確認しなければならない。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be allowed to ~</span> <span class="u-head">［allow］</span></p>
+          <p class="u-meaning">意味：〜することが許可されている</p>
+          <p class="u-nuance">ニュアンス：allowの受動態。日常会話で最も使われる形。標識・規則でも頻出</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">sort out</span> <span class="u-head">［fix］</span></p>
+          <p class="u-meaning">意味：問題を解決する・整理する</p>
+          <p class="u-nuance">ニュアンス：英国英語・口語的。散らかった状況をきちんと片付けるイメージ</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>security</strong> <em>(名詞)</em> 警備員・警備 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>stadium</strong> <em>(名詞)</em> スタジアム <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-3')" id="toggle-block03-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-3">I hope for a win every time my team plays. Choosing a jersey to wear, though, I couldn&#x27;t decide between the home and away kit.</p>
+        <p class="jp-line">自分のチームが試合をするたびに、私は勝利を望んでいる。とはいえ、着るジャージを選ぶ際は、ホームとアウェイのキットのどちらにするか決められなかった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">hope for ~</span> <span class="u-head">［hope］</span></p>
+          <p class="u-meaning">意味：〜を望む・期待する</p>
+          <p class="u-nuance">ニュアンス：具体的な対象に向けて「そうなってほしい」と願う基本形</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">decide between A and B</span> <span class="u-head">［decide］</span></p>
+          <p class="u-meaning">意味：AとBのどちらかを決める</p>
+          <p class="u-nuance">ニュアンス：2つの選択肢の間で迷い、最終的にどちらかを選ぶ際に使う</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>jersey</strong> <em>(名詞)</em> ジャージ・ユニフォーム <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>kit</strong> <em>(名詞)</em> ユニフォーム一式 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-4')" id="toggle-block03-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-4">One team&#x27;s strong defense canceled out the other&#x27;s attack all game. The stadium doesn&#x27;t allow smoking inside anyway, so everyone just watched quietly.</p>
+        <p class="jp-line">一方のチームの堅い守備が、試合を通じてずっと相手の攻撃を打ち消し続けた。どのみちそのスタジアムは中での喫煙を許可していないので、皆はただ静かに観戦していた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">cancel out</span> <span class="u-head">［cancel］</span></p>
+          <p class="u-meaning">意味：相殺する・打ち消し合う</p>
+          <p class="u-nuance">ニュアンス：2つの反対要素が互いに効果をゼロにするイメージ。一方的な「台無し」にはruinやundoが適切</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">allow + ~ing</span> <span class="u-head">［allow］</span></p>
+          <p class="u-meaning">意味：〜することを許可する</p>
+          <p class="u-nuance">ニュアンス：一般的な許可。行為そのものを一般的に許可・禁止する掲示・規則文で頻出</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>defense</strong> <em>(名詞)</em> 守備 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>smoking</strong> <em>(動名詞)</em> 喫煙 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-5')" id="toggle-block03-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-5">The coach tried a quick fix by changing the formation at halftime. I stayed hopeful that it would work.</p>
+        <p class="jp-line">コーチはハーフタイムにフォーメーションを変えるという応急処置を試みた。私はそれがうまくいくだろうと希望を持ち続けた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">a quick fix</span> <span class="u-head">［fix］</span></p>
+          <p class="u-meaning">意味：応急処置・その場しのぎの解決策</p>
+          <p class="u-nuance">ニュアンス：根本的な解決ではなく一時的な対処を指す口語的表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">hopeful</span> <span class="u-head">［hope］</span></p>
+          <p class="u-meaning">意味：希望に満ちた・有望な</p>
+          <p class="u-nuance">ニュアンス：形容詞。be hopeful / stay hopefulの形でよく使う。hopelessの反対語</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>formation</strong> <em>(名詞)</em> フォーメーション・陣形 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>halftime</strong> <em>(名詞)</em> ハーフタイム <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block04">
+      <div class="block-header">
+        <h2>Block 04</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block04">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-0')" id="toggle-block04-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-0">The point guard made a decisive play in the final minute. Earlier, the team had to abort their usual game plan because of injuries.</p>
+        <p class="jp-line">そのポイントガードは残り1分で決定的なプレーをした。それより前、そのチームは怪我のせいでいつもの試合プランを断念せざるを得なかった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">decisive</span> <span class="u-head">［decide］</span></p>
+          <p class="u-meaning">意味：決定的な・決断力のある</p>
+          <p class="u-nuance">ニュアンス：結果を左右する場面にも、人の性格にも使える二面性を持つ形容詞</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">abort</span> <span class="u-head">［cancel］</span></p>
+          <p class="u-meaning">意味：途中で中断する・断念する</p>
+          <p class="u-nuance">ニュアンス：すでに始まっているものを緊急に止める。切迫感を伴う点がcancelとの違い</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>point guard</strong> <em>(名詞句)</em> ポイントガード <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>injury</strong> <em>(名詞)</em> 怪我 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-1')" id="toggle-block04-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-1">The coach always allows for extra rest between games. Without that, the team would be in a real fix by the playoffs.</p>
+        <p class="jp-line">そのコーチは常に試合間の追加の休養を見込んでいる。それがなければ、プレーオフまでにチームは本当に困った状況に陥っているだろう。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">allow for ~</span> <span class="u-head">［allow］</span></p>
+          <p class="u-meaning">意味：〜を考慮に入れる・見込む</p>
+          <p class="u-nuance">ニュアンス：「許可する」とは別の意味なので要注意。計画・見積もりの文脈で頻出</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be in a fix</span> <span class="u-head">［fix］</span></p>
+          <p class="u-meaning">意味：困った状況にある・窮地に立っている</p>
+          <p class="u-nuance">ニュアンス：口語的な慣用表現。be in troubleに近いがよりカジュアル</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>playoffs</strong> <em>(名詞)</em> プレーオフ <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-2')" id="toggle-block04-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-2">By the fourth quarter, the game seemed beyond hope for the losing team. Their coach looked indecisive about which players to bring in.</p>
+        <p class="jp-line">第4クォーターまでには、その試合は負けているチームにとって望みがないように思えた。監督はどの選手を投入すべきか優柔不断な様子だった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">beyond hope</span> <span class="u-head">［hope］</span></p>
+          <p class="u-meaning">意味：望みがない・手の施しようがない</p>
+          <p class="u-nuance">ニュアンス：hopelessより深刻で最終的な諦めのニュアンスを含む</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">indecisive</span> <span class="u-head">［decide］</span></p>
+          <p class="u-meaning">意味：優柔不断な</p>
+          <p class="u-nuance">ニュアンス：形容詞。decisiveの否定形。決断力のなさを表す</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>quarter</strong> <em>(名詞)</em> クォーター（試合の区切り） <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-3')" id="toggle-block04-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-3">The team decided to scrap its old offense completely this season. Allow me to explain why that change made such a big difference.</p>
+        <p class="jp-line">そのチームは今シーズン、古いオフェンスを完全に廃棄することに決めた。なぜその変化がこれほど大きな違いを生んだのか、説明させてください。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">scrap</span> <span class="u-head">［cancel］</span></p>
+          <p class="u-meaning">意味：計画・案を完全に廃棄する</p>
+          <p class="u-nuance">ニュアンス：口語的。postponeとは正反対に永久に取りやめる点が特徴</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">Allow me to ~</span> <span class="u-head">［allow］</span></p>
+          <p class="u-meaning">意味：〜させてください</p>
+          <p class="u-nuance">ニュアンス：フォーマルな申し出。ビジネスメール・スピーチの冒頭で頻出</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>offense</strong> <em>(名詞)</em> オフェンス・攻撃 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-4')" id="toggle-block04-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-4">I fixed my eyes on the scoreboard during the last thirty seconds. Every fan in the building seemed to desire the same outcome.</p>
+        <p class="jp-line">残り30秒の間、私はスコアボードに目を向けていた。会場にいるすべてのファンが、同じ結果を切望しているようだった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">fix one&#x27;s eyes on ~</span> <span class="u-head">［fix］</span></p>
+          <p class="u-meaning">意味：〜に目を向ける・〜を見つめる</p>
+          <p class="u-nuance">ニュアンス：視線を一点に集中させる慣用表現。fixの「固定する」という意味から来る</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">desire</span> <span class="u-head">［hope］</span></p>
+          <p class="u-meaning">意味：強く望む・切望する</p>
+          <p class="u-nuance">ニュアンス：フォーマル。感情の強さ・切実さが強調される文語的な語。hopeより強い渇望感を持つ</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>scoreboard</strong> <em>(名詞)</em> スコアボード <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>outcome</strong> <em>(名詞)</em> 結果 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-5')" id="toggle-block04-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-5">The rookie resolved to prove himself after being benched. The coach finally permitted him to start the next game.</p>
+        <p class="jp-line">そのルーキーは、ベンチに下げられた後、自分を証明すると決意した。コーチはついに次の試合で彼をスタメンとして出すことを許可した。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">resolve</span> <span class="u-head">［decide］</span></p>
+          <p class="u-meaning">意味：強い意志を持って決意する</p>
+          <p class="u-nuance">ニュアンス：フォーマル。困難を乗り越えてでもやり遂げるという決意表明のニュアンス。decideより強い意志を示す</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">permit</span> <span class="u-head">［allow］</span></p>
+          <p class="u-meaning">意味：正式に許可する</p>
+          <p class="u-nuance">ニュアンス：allowよりフォーマル・TOEIC頻出。規則・法律・公式な手続きに基づく許可を表す</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>rookie</strong> <em>(名詞)</em> 新人選手 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>benched</strong> <em>(動詞（benchの過去分詞）)</em> ベンチに下げられる <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block05">
+      <div class="block-header">
+        <h2>Block 05</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block05">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-0')" id="toggle-block05-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-0">At the record shop, I fixed my attention on a rare Nujabes pressing. I had longed for a copy like this for years.</p>
+        <p class="jp-line">レコード屋で、私は希少なNujabesの盤に注意を向けた。何年もの間、こういう一枚を切望していた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">fix one&#x27;s attention on ~</span> <span class="u-head">［fix］</span></p>
+          <p class="u-meaning">意味：〜に注意を向ける</p>
+          <p class="u-nuance">ニュアンス：意識・集中を一点に固定するイメージ。fix one&#x27;s eyes onより内面的な集中を表す</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">long for ~</span> <span class="u-head">［hope］</span></p>
+          <p class="u-meaning">意味：〜を切望する・恋しく思う</p>
+          <p class="u-nuance">ニュアンス：感情的・文学的。手に入らないものへの郷愁を伴う切なさが特徴。hopeより強い渇望感</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>pressing</strong> <em>(名詞)</em> プレス盤・レコード盤 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-1')" id="toggle-block05-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-1">In the end, I opted for the used copy instead of the new reissue. The shop owner was authorized to offer a small discount for the scratched sleeve.</p>
+        <p class="jp-line">結局、私は新しい再発盤の代わりに中古盤を選んだ。店主は傷んだジャケットに対して少額の割引を提供する権限を持っていた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">opt for ~</span> <span class="u-head">［decide］</span></p>
+          <p class="u-meaning">意味：〜を選択する</p>
+          <p class="u-nuance">ニュアンス：フォーマル・TOEIC頻出。比較検討した上で一つを選ぶ。decide onに近いがよりビジネス的なニュアンス</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">authorize</span> <span class="u-head">［allow］</span></p>
+          <p class="u-meaning">意味：公式に権限を与える</p>
+          <p class="u-nuance">ニュアンス：フォーマル・TOEIC頻出。permitよりさらに公式性・権限付与の側面が強い。be authorized to ~の形でよく使う</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>reissue</strong> <em>(名詞)</em> 再発盤 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>sleeve</strong> <em>(名詞)</em> レコードジャケット <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>discount</strong> <em>(名詞)</em> 割引 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-2')" id="toggle-block05-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-2">We finally fixed on a release date for the new mixtape. It felt strange, since the latest rumor I had heard was that an old talent show had actually been fixed from the start.</p>
+        <p class="jp-line">私たちはついに、新しいミックステープのリリース日を決めた。奇妙な感じがした。というのも、最近聞いた噂では、昔のあるタレントショーが実は最初から八百長だったというものだったからだ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">fix on ~</span> <span class="u-head">［fix］</span></p>
+          <p class="u-meaning">意味：〜に決める・〜に焦点を当てる</p>
+          <p class="u-nuance">ニュアンス：選択の決定、または視線・注意の集中という2用法を持つ。ここでは日程決定の意味で使用</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">fix（不正に操作する）</span> <span class="u-head">［fix］</span></p>
+          <p class="u-meaning">意味：（試合・結果などを）八百長にする・不正操作する</p>
+          <p class="u-nuance">ニュアンス：修理とは全く別の口語的な意味。同じ単語の異なる用法として重要</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>mixtape</strong> <em>(名詞)</em> ミックステープ <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>rumor</strong> <em>(名詞)</em> 噂 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>talent show</strong> <em>(名詞句)</em> タレントショー・オーディション番組 <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+</main>
+
+<footer class="page-footer">
+  hope・decide・cancel・allow・fix 全54表現収録（5ブロック27文、各文2表現）
+</footer>
+
+<script>
+let speedRate = 1.0;
+let chosenVoice = null;
+function pickVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return;
+  chosenVoice = voices.find(v => v.name === 'Samantha')
+    || voices.find(v => v.name.includes('Google US English'))
+    || voices.find(v => v.lang === 'en-US')
+    || voices[0];
+}
+window.speechSynthesis.onvoiceschanged = pickVoice;
+pickVoice();
+function speakText(text) {
+  if (!text) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = speedRate;
+  if (chosenVoice) u.voice = chosenVoice;
+  window.speechSynthesis.speak(u);
+}
+function speakOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  if (el) speakText(el.textContent);
+}
+function toggleOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  const btn = document.getElementById('toggle-' + sid);
+  el.classList.toggle('is-hidden');
+  btn.textContent = el.classList.contains('is-hidden') ? '見る' : '隠す';
+}
+function setSpeed(v) { speedRate = parseFloat(v); }
+let allENHidden = false;
+function toggleAllEN() {
+  allENHidden = !allENHidden;
+  document.querySelectorAll('.en-line').forEach(el => {
+    if (allENHidden) { el.classList.add('is-hidden'); } else { el.classList.remove('is-hidden'); }
+  });
+  document.querySelectorAll('[id^="toggle-"]').forEach(btn => {
+    btn.textContent = allENHidden ? '見る' : '隠す';
+  });
+  document.getElementById('global-en-toggle').textContent = allENHidden ? '全て英文を見る' : '全て英文を隠す';
+}
+
+// Persistent memo (saved in this browser via localStorage, survives reloads)
+(function () {
+  var MEMO_KEY = 'notes_review_memo__hope-decide-cancel-allow-fix';
+  var area = document.getElementById('memo-area');
+  var status = document.getElementById('memo-status');
+  if (!area) return;
+  try {
+    var saved = window.localStorage.getItem(MEMO_KEY);
+    if (saved !== null) area.value = saved;
+  } catch (e) { /* storage unavailable, memo just won't persist */ }
+  var timer = null;
+  area.addEventListener('input', function () {
+    if (status) status.textContent = '保存中…';
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(function () {
+      try {
+        window.localStorage.setItem(MEMO_KEY, area.value);
+        if (status) {
+          status.textContent = '保存済み';
+          setTimeout(function () { status.textContent = ''; }, 1500);
+        }
+      } catch (e) {
+        if (status) status.textContent = '保存できません';
+      }
+    }, 400);
+  });
+})();
+</script>
+</body>
+</html>
