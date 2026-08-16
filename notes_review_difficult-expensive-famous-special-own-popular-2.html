@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Review — difficult/expensive/famous/special/own/popular（第2弾）</title>
+<style>
+:root {
+  --bg: #F7F5F0; --bg2: #EEEAE2; --surface: #fff; --border: #D8D3C8;
+  --text: #1A1713; --text-sub: #6B6459; --text-muted: #9C9389;
+  --accent: #2D4A3E; --accent-pale: #E8F0EC;
+  --gold: #B8913A; --gold-pale: #F5EDD9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  line-height: 1.8; padding-bottom: 80px;
+}
+h1, h2 { font-family: Georgia, 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
+header.top { background: var(--accent); color: #fff; padding: 26px 20px 20px; position: sticky; top: 0; z-index: 50; }
+header.top h1 { margin: 0 0 4px; font-size: 22px; font-weight: 400; }
+header.top .subtitle { font-size: 13px; opacity: 0.85; margin: 0 0 14px; }
+.controls-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.controls-bar button, .controls-bar select {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.35); color: #fff;
+  border-radius: 20px; padding: 7px 14px; font-size: 13px; cursor: pointer;
+}
+.controls-bar button:hover { background: rgba(255,255,255,0.22); }
+.controls-bar label { font-size: 12px; opacity: 0.85; margin-right: -4px; }
+.memo-wrap { max-width: 780px; margin: 16px auto 0; padding: 0 20px; }
+.memo-box { background: #FFF9E8; border: 1px solid #E8D9A0; border-radius: 12px; padding: 12px 16px; }
+.memo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.memo-label { font-size: 13px; font-weight: 700; color: #8a6d1a; }
+.memo-status { font-size: 11px; color: #9C9389; }
+.memo-area {
+  width: 100%; min-height: 70px; border: 1px solid #E8D9A0; border-radius: 8px; padding: 8px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-size: 14px; color: #1A1713; background: #fff; resize: vertical; box-sizing: border-box;
+}
+.memo-area:focus { outline: 2px solid #E8D9A0; }
+nav.toc { max-width: 780px; margin: 20px auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+.toc-link {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px;
+  text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600;
+}
+.toc-link:hover { border-color: var(--accent); }
+main { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+.block {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 22px 8px; margin-bottom: 20px; scroll-margin-top: 150px;
+}
+.block-header { border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 6px; }
+.block-header h2 { margin: 0; font-size: 19px; color: var(--accent); font-weight: 400; }
+.block-title-jp { margin: 4px 0 0; font-size: 12.5px; color: var(--text-sub); }
+.sentence-block { padding: 16px 0; border-bottom: 1px dashed var(--border); }
+.sentence-block:last-child { border-bottom: none; }
+.sentence-controls { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+.mini-speak, .mini-toggle {
+  background: var(--accent-pale); color: var(--accent); border: 1px solid var(--accent);
+  border-radius: 14px; font-size: 12px; cursor: pointer; padding: 3px 10px;
+}
+.mini-speak { padding: 3px 8px; font-size: 13px; }
+.mini-speak:hover, .mini-toggle:hover { background: var(--accent); color: #fff; }
+.en-line {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-style: normal; font-size: 17px; font-weight: 500;
+  line-height: 1.6; color: var(--text); margin: 0 0 4px;
+}
+.en-line.is-hidden { display: none; }
+.jp-line { font-size: 14px; line-height: 1.8; color: var(--text-sub); margin: 0 0 10px; }
+.used-box { background: var(--accent-pale); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.used-item { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(45,74,62,0.12); }
+.used-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.u-phrase-line { margin: 0 0 2px; }
+.u-phrase { color: var(--accent); font-weight: 700; font-size: 13px; }
+.u-head { color: var(--text-muted); font-size: 11px; }
+.u-meaning { margin: 0 0 2px; font-size: 12.5px; color: var(--text); }
+.u-nuance { margin: 0; font-size: 12px; color: var(--text-sub); }
+.vocab-box { background: var(--gold-pale); border-radius: 8px; padding: 8px 12px; }
+.vocab-label { display: block; font-size: 11px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.vocab-chip { font-size: 12px; color: var(--text-sub); margin-right: 12px; display: inline-block; margin-bottom: 3px; }
+.vocab-chip strong { color: var(--text); }
+.vocab-chip em { font-style: normal; color: var(--text-muted); }
+.v-level { color: var(--gold); font-weight: 600; }
+footer.page-footer { max-width: 780px; margin: 10px auto 40px; padding: 0 20px; font-size: 12px; color: var(--text-muted); text-align: center; }
+@media (max-width: 640px) {
+  header.top { padding: 18px 14px 14px; }
+  .en-line { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>English Review — difficult・expensive・famous・special・own・popular（第2弾）</h1>
+  <p class="subtitle">全31文（3ブロック＋一文コーナー）／使用表現65個（意味＋ニュアンス付き）／語彙注釈70個</p>
+  <div class="controls-bar">
+    <button id="global-en-toggle" onclick="toggleAllEN()">全て英文を隠す</button>
+    <label for="speed">速度</label>
+    <select id="speed" onchange="setSpeed(this.value)">
+      <option value="0.7">遅め 0.7×</option>
+      <option value="1.0" selected>普通 1.0×</option>
+      <option value="1.35">速め 1.35×</option>
+    </select>
+  </div>
+</header>
+
+<div class="memo-wrap">
+  <div class="memo-box">
+    <div class="memo-head">
+      <span class="memo-label">📝 メモ</span>
+      <span class="memo-status" id="memo-status"></span>
+    </div>
+    <textarea id="memo-area" class="memo-area" placeholder="ここに軽くメモできます（このページに自動で保存されます）"></textarea>
+  </div>
+</div>
+
+<nav class="toc">
+<a href="#block-block01" class="toc-link">Block 01</a><a href="#block-block02" class="toc-link">Block 02</a><a href="#block-block03" class="toc-link">Block 03</a><a href="#block-block04" class="toc-link">Block 04</a><a href="#block-block05" class="toc-link">Block 05</a>
+</nav>
+
+<main>
+
+    <section class="block" id="block-block01">
+      <div class="block-header">
+        <h2>Block 01</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block01">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-0')" id="toggle-block01-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-0">Cold calling is something I find difficult, especially when I haven&#x27;t prepared enough for the day.</p>
+        <p class="jp-line">テレアポは難しいと感じるものだ。特に、その日に十分な準備ができていない時はなおさらだ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">find ~ difficult</span> <span class="u-head">［difficult］</span></p>
+          <p class="u-meaning">意味：〜が難しいと感じる</p>
+          <p class="u-nuance">ニュアンス：主観的な体験として困難を表す表現で、difficultの使い方の中でも最も自然な構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">especially</span> <span class="u-head">［special類語］</span></p>
+          <p class="u-meaning">意味：特に・とりわけ</p>
+          <p class="u-nuance">ニュアンス：直後の内容を際立たせる強調副詞。particularlyより口語的</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>prepare</strong> <em>(動詞)</em> 準備する <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-1')" id="toggle-block01-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-1">I work on my own most of the time, so I have to hold my own even when things get tough.</p>
+        <p class="jp-line">ほとんどの時間を独力で働いているので、きつい時でも引けを取らずにやり抜かなければならない。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">on one&#x27;s own</span> <span class="u-head">［own］</span></p>
+          <p class="u-meaning">意味：一人で・独力で</p>
+          <p class="u-nuance">ニュアンス：外部の助けを一切借りずに自分だけで行うことを強調。by oneselfよりカジュアルでネイティブ頻出</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">hold one&#x27;s own</span> <span class="u-head">［own］</span></p>
+          <p class="u-meaning">意味：自分の立場を守る・引けを取らない</p>
+          <p class="u-nuance">ニュアンス：不利な状況でも踏ん張って対抗できることを表す慣用表現</p>
+        </div></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-2')" id="toggle-block01-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-2">The atmosphere of pressure is demanding, and I still have difficulty staying calm during long shifts.</p>
+        <p class="jp-line">プレッシャーのある雰囲気は過酷で、長いシフト中に冷静さを保つのにいまだ苦労している。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">atmosphere of pressure</span> <span class="u-head">［atmosphere］</span></p>
+          <p class="u-meaning">意味：プレッシャーのある雰囲気</p>
+          <p class="u-nuance">ニュアンス：緊迫した空気感を表す名詞句。スポーツ・職場など張り詰めた場面で使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">demanding</span> <span class="u-head">［difficult類語］</span></p>
+          <p class="u-meaning">意味：高い努力・能力を要求する</p>
+          <p class="u-nuance">ニュアンス：フォーマルで「過酷な要求を伴う」というニュアンス。人にも仕事にも使える</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">have difficulty ~ing</span> <span class="u-head">［difficult類語］</span></p>
+          <p class="u-meaning">意味：〜するのに苦労する</p>
+          <p class="u-nuance">ニュアンス：have trouble ~ingよりフォーマル。継続的な困難に使う</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>atmosphere</strong> <em>(名詞)</em> 雰囲気 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>shift</strong> <em>(名詞)</em> シフト・勤務時間 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>calm</strong> <em>(形容詞)</em> 冷静な・落ち着いた <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-3')" id="toggle-block01-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-3">At the expense of my social life, I&#x27;ve been putting extra hours into improving my pitch, because making an expensive mistake in this job can cost me a whole month&#x27;s bonus.</p>
+        <p class="jp-line">社交生活を犠牲にして、トークの改善に余分な時間を注ぎ込んでいる。この仕事で代償の大きいミスを犯すと、一か月分のボーナスを失いかねないからだ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">at the expense of ~</span> <span class="u-head">［expensive］</span></p>
+          <p class="u-meaning">意味：〜を犠牲にして</p>
+          <p class="u-nuance">ニュアンス：金銭ではなく「代償・犠牲」を表す比喩的なTOEIC頻出表現。「〜の代わりに何かを失う」という交換のイメージ</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">expensive mistake</span> <span class="u-head">［expensive］</span></p>
+          <p class="u-meaning">意味：代償の大きいミス</p>
+          <p class="u-nuance">ニュアンス：expensiveは本来「値段が高い」だが、ここでは比喩的に「代償が大きい」という意味で使用</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>social</strong> <em>(形容詞)</em> 社交的な・社会的な <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>pitch</strong> <em>(名詞)</em> 営業トーク・売り込み <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>bonus</strong> <em>(名詞)</em> 特別手当・ボーナス <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-4')" id="toggle-block01-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-4">I own up to the fact that I&#x27;m still not great at this job, but I believe I&#x27;ll come into my own once I build more experience.</p>
+        <p class="jp-line">この仕事がまだ得意でないことは正直に認めているが、経験を積めばいつか本領を発揮できると信じている。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">own up to ~</span> <span class="u-head">［own］</span></p>
+          <p class="u-meaning">意味：〜を認める・白状する</p>
+          <p class="u-nuance">ニュアンス：隠したいことをあえて認める誠実さを含む口語表現。confessよりカジュアル</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">come into one&#x27;s own</span> <span class="u-head">［own］</span></p>
+          <p class="u-meaning">意味：本領を発揮する・真価を発揮する</p>
+          <p class="u-nuance">ニュアンス：その人の能力が十分に認められる状況になることを表す慣用表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>experience</strong> <em>(名詞)</em> 経験 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-5')" id="toggle-block01-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-5">Contrary to popular belief, cold calling isn&#x27;t a job that&#x27;s popular with everyone — it takes a very particular kind of personality to enjoy it.</p>
+        <p class="jp-line">通説に反して、テレアポは誰にでも人気のある仕事ではない——楽しむためには、ごく特定の性格の持ち主でないと難しい。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">contrary to popular belief</span> <span class="u-head">［popular］</span></p>
+          <p class="u-meaning">意味：一般的な信念・通説に反して</p>
+          <p class="u-nuance">ニュアンス：世間に広まっている誤解や先入観を否定する際の定番フレーズ。議論の冒頭で効果的に使える</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be popular with ~</span> <span class="u-head">［popular］</span></p>
+          <p class="u-meaning">意味：〜に人気がある</p>
+          <p class="u-nuance">ニュアンス：特定のグループからの支持・好意を表す。be popular among との違いは対象が集団か個人かにある</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">particular</span> <span class="u-head">［special類語］</span></p>
+          <p class="u-meaning">意味：特定の・こだわりのある</p>
+          <p class="u-nuance">ニュアンス：漠然とした「特別」ではなく、対象を具体的に絞り込む「特定の」という意味。specialより限定的で分析的なニュアンス</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>personality</strong> <em>(名詞)</em> 性格・人格 <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block02">
+      <div class="block-header">
+        <h2>Block 02</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block02">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-0')" id="toggle-block02-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-0">That record shop in Koenji is well-known among collectors, and it&#x27;s especially famous for its exclusive vinyl selection.</p>
+        <p class="jp-line">高円寺のあのレコード店はコレクターの間でよく知られており、特にその希少なレコードセレクションで有名だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">well-known</span> <span class="u-head">［famous類語］</span></p>
+          <p class="u-meaning">意味：広く知られている</p>
+          <p class="u-nuance">ニュアンス：famousより控えめで客観的な有名さを表す。特定の集団内での知名度を指すことが多い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be famous for ~</span> <span class="u-head">［famous］</span></p>
+          <p class="u-meaning">意味：〜で有名だ</p>
+          <p class="u-nuance">ニュアンス：理由・特徴に焦点を当てる最もよく使う構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">exclusive</span> <span class="u-head">［special類語］</span></p>
+          <p class="u-meaning">意味：限定的・独占的</p>
+          <p class="u-nuance">ニュアンス：排他性・希少性を強調するポジティブな表現。入手困難なことへの価値を示す</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>collector</strong> <em>(名詞)</em> コレクター・収集家 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>exclusive</strong> <em>(形容詞)</em> 限定的・独占的な <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>selection</strong> <em>(名詞)</em> 選りすぐりの品揃え <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>vinyl</strong> <em>(名詞)</em> レコード・ビニール盤 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-1')" id="toggle-block02-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-1">I have expensive taste in music, and I find nothing special about cheap earphones — the sound quality just doesn&#x27;t compare.</p>
+        <p class="jp-line">音楽に関して高級志向があり、安いイヤホンには特に惹かれない——音質がまったく違うからだ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">expensive taste</span> <span class="u-head">［expensive］</span></p>
+          <p class="u-meaning">意味：高級志向・高い趣味</p>
+          <p class="u-nuance">ニュアンス：お金のかかるものを好む性質を表す名詞句。皮肉や自虐のトーンで使われることも多い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">nothing special</span> <span class="u-head">［special］</span></p>
+          <p class="u-meaning">意味：特別でも何でもない・普通の</p>
+          <p class="u-nuance">ニュアンス：期待より平凡だった時に使うネイティブ的な表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>quality</strong> <em>(名詞)</em> 品質 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>compare</strong> <em>(動詞)</em> 比較する・匹敵する <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-2')" id="toggle-block02-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-2">Nujabes rose to fame through his unique blend of jazz and hip-hop, and his music is something special to me personally.</p>
+        <p class="jp-line">Nujabesはジャズとヒップホップの独自の融合で名声を得て、彼の音楽は個人的に特別なものだ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">rise to fame</span> <span class="u-head">［famous］</span></p>
+          <p class="u-meaning">意味：名声を得る・有名になる</p>
+          <p class="u-nuance">ニュアンス：有名になるまでのプロセスに注目した表現。結果ではなく軌跡を強調する</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">unique</span> <span class="u-head">［special類語］</span></p>
+          <p class="u-meaning">意味：世界に一つしかない唯一無二の</p>
+          <p class="u-nuance">ニュアンス：他との比較でなく絶対的な独自性を強調。specialより「代替不可能」なニュアンスが強い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">something special</span> <span class="u-head">［special］</span></p>
+          <p class="u-meaning">意味：何か特別なもの</p>
+          <p class="u-nuance">ニュアンス：具体的に言語化できない特別さを表す口語的表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>blend</strong> <em>(名詞)</em> 融合・ブレンド <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>personally</strong> <em>(副詞)</em> 個人的に <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-3')" id="toggle-block02-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-3">His claim to fame was his ability to make technically challenging beats that were also emotionally accessible to a wide audience.</p>
+        <p class="jp-line">彼の名声の理由は、技術的に高度でありながら、幅広いリスナーに感情的に届くビートを作る能力にあった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">claim to fame</span> <span class="u-head">［famous］</span></p>
+          <p class="u-meaning">意味：有名になった理由・独自の評価の根拠</p>
+          <p class="u-nuance">ニュアンス：その人・物が注目される特定の理由を指す表現。自慢できる一点に絞って語るときに使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">challenging</span> <span class="u-head">［difficult類語］</span></p>
+          <p class="u-meaning">意味：やりがいのある困難・高度な技術を要する</p>
+          <p class="u-nuance">ニュアンス：difficultと違いポジティブな努力の対象として困難を捉える表現。「成長できる難しさ」のニュアンス</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>technically</strong> <em>(副詞)</em> 技術的に <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>emotionally</strong> <em>(副詞)</em> 感情的に <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>accessible</strong> <em>(形容詞)</em> 親しみやすい・届く <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>audience</strong> <em>(名詞)</em> 聴衆・リスナー <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-4')" id="toggle-block02-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-4">I gained a lot of knowledge about hip-hop on my own, and now I have ownership of a record collection that belongs to no category other than art.</p>
+        <p class="jp-line">ヒップホップについての知識は独力で身につけた。今では、芸術というカテゴリーにしか属さないレコードコレクションのオーナーシップを持っている。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">ownership</span> <span class="u-head">［own］</span></p>
+          <p class="u-meaning">意味：所有権・オーナーシップ</p>
+          <p class="u-nuance">ニュアンス：物への帰属感だけでなく責任感・主体性を含む名詞。ビジネス文脈では「当事者意識」の意味でも使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">belong to ~</span> <span class="u-head">［own類語］</span></p>
+          <p class="u-meaning">意味：〜に属する・〜のものである</p>
+          <p class="u-nuance">ニュアンス：所有される側のモノが主語になる点でownとは主体が逆転する表現。「誰かのものである」という帰属を静的に表す</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>knowledge</strong> <em>(名詞)</em> 知識 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>collection</strong> <em>(名詞)</em> コレクション・収集 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>category</strong> <em>(名詞)</em> カテゴリー・分類 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-5')" id="toggle-block02-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-5">Hip-hop has grown in popularity worldwide, but what makes it truly extraordinary is how it turns everyday struggles into art.</p>
+        <p class="jp-line">ヒップホップは世界的に人気が高まっているが、それを本当に並外れたものにしているのは、日常の苦労を芸術に変える方法だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">grow in popularity</span> <span class="u-head">［popular］</span></p>
+          <p class="u-meaning">意味：人気が徐々に高まる</p>
+          <p class="u-nuance">ニュアンス：時間をかけて認知・支持が広がるプロセスを表す表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">extraordinary</span> <span class="u-head">［special類語］</span></p>
+          <p class="u-meaning">意味：通常の枠を大きく超えた</p>
+          <p class="u-nuance">ニュアンス：exceptionalよりさらに驚きを含むフォーマルな表現。「型破りに優れた」という驚嘆のニュアンス</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>worldwide</strong> <em>(副詞)</em> 世界的に <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>struggle</strong> <em>(名詞)</em> 苦労・葛藤 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>extraordinary</strong> <em>(形容詞)</em> 並外れた <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block03">
+      <div class="block-header">
+        <h2>Block 03</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block03">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-0')" id="toggle-block03-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-0">Arsenal is renowned for their attacking style, and they are notorious for throwing away leads in the final minutes.</p>
+        <p class="jp-line">アーセナルは攻撃的なスタイルで名高く、終盤にリードを手放すことで悪名高い。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">renowned</span> <span class="u-head">［famous類語］</span></p>
+          <p class="u-meaning">意味：名高い・高く評価されている</p>
+          <p class="u-nuance">ニュアンス：特定分野で卓越した評価を受けているフォーマルな表現。famousより専門的・権威的な響き</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">notorious</span> <span class="u-head">［famous類語］</span></p>
+          <p class="u-meaning">意味：悪い意味で有名・悪名高い</p>
+          <p class="u-nuance">ニュアンス：famousのネガティブ版。批判的・否定的な文脈で使う。renownedとの対比が効果的</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>attacking</strong> <em>(形容詞)</em> 攻撃的な <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>lead</strong> <em>(名詞)</em> リード・優勢 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>final</strong> <em>(形容詞)</em> 最後の・最終の <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-1')" id="toggle-block03-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-1">I find it hard to accept how they sometimes give up leads — they had worked with difficulty to build that advantage, and watching it disappear is tough on the fans.</p>
+        <p class="jp-line">彼らがリードを手放すのを受け入れるのは難しい——苦労してつかんだ優位性が消えていくのを見るのはファンにとってきつい。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">find it hard to ~</span> <span class="u-head">［difficult類語］</span></p>
+          <p class="u-meaning">意味：〜するのが難しいと感じる</p>
+          <p class="u-nuance">ニュアンス：口語的で体験に基づく主観的な困難感を表す</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">with difficulty</span> <span class="u-head">［difficult］</span></p>
+          <p class="u-meaning">意味：苦労して・やっとのことで</p>
+          <p class="u-nuance">ニュアンス：困難を経験しながらも何とか達成したことを表すフォーマルな副詞句。without difficultyの対義表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">tough</span> <span class="u-head">［difficult類語］</span></p>
+          <p class="u-meaning">意味：タフな・きつい</p>
+          <p class="u-nuance">ニュアンス：肉体的にも精神的にも使える口語的な「難しい」。difficultより感情的な重さが出る</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>advantage</strong> <em>(名詞)</em> 優位性・有利な点 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>disappear</strong> <em>(動詞)</em> 消える <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-2')" id="toggle-block03-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-2">The club has a fame of its own that goes beyond wins and losses — it&#x27;s more than just a football team to millions of people.</p>
+        <p class="jp-line">そのクラブは勝敗を超えた独自の名声を持っている——何百万もの人にとって、単なるサッカーチーム以上の存在だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">fame</span> <span class="u-head">［famous］</span></p>
+          <p class="u-meaning">意味：名声・知名度</p>
+          <p class="u-nuance">ニュアンス：famousの名詞形。long-lasting な社会的認知を含む。notorietyのようなネガティブな響きはない</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">of one&#x27;s own</span> <span class="u-head">［own］</span></p>
+          <p class="u-meaning">意味：自分自身の</p>
+          <p class="u-nuance">ニュアンス：名詞を後置修飾して「他でもない自分自身の」という帰属を強調する表現。my ownと同義だが語順が後置になる点が特徴</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>beyond</strong> <em>(前置詞)</em> 〜を超えて <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>millions</strong> <em>(名詞)</em> 何百万もの人々 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-3')" id="toggle-block03-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-3">The team is popular with fans globally, and their home matches are in demand among tourists visiting London.</p>
+        <p class="jp-line">そのチームは世界中のファンに人気があり、ホームマッチはロンドンを訪れる観光客の間でも需要がある。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be popular with ~</span> <span class="u-head">［popular］</span></p>
+          <p class="u-meaning">意味：〜に人気がある</p>
+          <p class="u-nuance">ニュアンス：特定のグループからの支持・好意を表す。be popular among との違いは対象が集団か個人かにある</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">in demand</span> <span class="u-head">［popular類語］</span></p>
+          <p class="u-meaning">意味：実務的・経済的に求められている</p>
+          <p class="u-nuance">ニュアンス：市場やサービスの文脈で需要があることを表す実用的な表現。popularより「必要とされている」というビジネス的なニュアンス</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>globally</strong> <em>(副詞)</em> 世界的に <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>tourist</strong> <em>(名詞)</em> 観光客 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-4')" id="toggle-block03-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-4">Going to a match live is an exceptional experience that is special to every true fan — no streaming can replicate it.</p>
+        <p class="jp-line">試合を生で観に行くことは、真のファンなら誰にとっても特別な並外れた体験だ——ストリーミングでは再現できない。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">exceptional</span> <span class="u-head">［special類語］</span></p>
+          <p class="u-meaning">意味：例外的に優れた・並外れた</p>
+          <p class="u-nuance">ニュアンス：通常の基準を大きく上回る卓越さを表す。specialより客観的な優位性を強調</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be special to ~</span> <span class="u-head">［special］</span></p>
+          <p class="u-meaning">意味：〜にとって特別だ</p>
+          <p class="u-nuance">ニュアンス：特定の人・グループに深い意味を持つことを表す表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>streaming</strong> <em>(名詞)</em> ストリーミング <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>replicate</strong> <em>(動詞)</em> 再現する・複製する <span class="v-level">準1級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-5')" id="toggle-block03-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-5">Contrary to popular belief, the most celebrated players are not always the ones who possess the most talent — hard work matters more.</p>
+        <p class="jp-line">通説に反して、最も称賛された選手が必ずしも最も才能を備えているわけではない——努力の方が大切だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">celebrated</span> <span class="u-head">［famous類語］</span></p>
+          <p class="u-meaning">意味：称賛されて有名・名高い</p>
+          <p class="u-nuance">ニュアンス：社会的・文化的に高く評価されていることを表す文学的な表現。famousより「称え讃えられている」という敬意のニュアンスが強い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">possess</span> <span class="u-head">［own類語］</span></p>
+          <p class="u-meaning">意味：備えている・所有する</p>
+          <p class="u-nuance">ニュアンス：haveよりフォーマルで、能力・特質・財産を継続的に保有するニュアンス。人の内的な資質に使うことが多い</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>talent</strong> <em>(名詞)</em> 才能 <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block04">
+      <div class="block-header">
+        <h2>Block 04</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block04">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-0')" id="toggle-block04-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-0">The delivery app has gained popularity rapidly, and it&#x27;s popularly regarded as one of the best platforms for flexible work.</p>
+        <p class="jp-line">その配達アプリは急速に人気を得て、フレキシブルな仕事のための最良のプラットフォームの一つとして一般的に高く評価されている。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">gain popularity</span> <span class="u-head">［popular］</span></p>
+          <p class="u-meaning">意味：人気を得る・新たに獲得する</p>
+          <p class="u-nuance">ニュアンス：認知・支持が新たに生まれるプロセスを表す表現。grow in popularityが「徐々に高まる」ならgain popularityは「新たに獲得する」ニュアンス</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">popularly</span> <span class="u-head">［popular］</span></p>
+          <p class="u-meaning">意味：一般的に・広く</p>
+          <p class="u-nuance">ニュアンス：社会全体に浸透した認識を表す副詞。popularly regarded asの形で「一般的に〜と見なされている」の意味で使う</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>rapidly</strong> <em>(副詞)</em> 急速に <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>platform</strong> <em>(名詞)</em> プラットフォーム <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>flexible</strong> <em>(形容詞)</em> 柔軟な・フレキシブルな <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-1')" id="toggle-block04-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-1">The travel expense for this job is manageable, but the overall cost is still pricey when you add up fuel, maintenance, and parking.</p>
+        <p class="jp-line">この仕事の交通費は管理できる範囲だが、燃料・メンテナンス・駐車料を合計すると全体的なコストはまだ高めだ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">expense</span> <span class="u-head">［expensive］</span></p>
+          <p class="u-meaning">意味：費用・経費</p>
+          <p class="u-nuance">ニュアンス：costより具体的な支出項目を指す。TOEIC頻出でビジネス・旅行の文脈で使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">pricey</span> <span class="u-head">［expensive類語］</span></p>
+          <p class="u-meaning">意味：ちょっと高い・お高め</p>
+          <p class="u-nuance">ニュアンス：単純に値段が張ることを表すカジュアルな表現。expensiveより柔らかい印象</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>manageable</strong> <em>(形容詞)</em> 対処できる・管理できる <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>overall</strong> <em>(形容詞)</em> 全体的な <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>fuel</strong> <em>(名詞)</em> 燃料 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>maintenance</strong> <em>(名詞)</em> メンテナンス・維持費 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>add up</strong> <em>(動詞句)</em> 合計する・積み重なる <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-2')" id="toggle-block04-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-2">I try to hold my spending to a minimum without overspending, but I find it complex to track everything when orders pile up.</p>
+        <p class="jp-line">出費を最小限に抑えようとしているが、注文が積み重なると全部を追跡するのが複雑で難しいと感じる。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">hold</span> <span class="u-head">［own類語］</span></p>
+          <p class="u-meaning">意味：株・地位・権利など立場的なものを保有する</p>
+          <p class="u-nuance">ニュアンス：ownより「役割や権限の保持」に焦点を当てた表現。「保有し続けている」という継続感がある。ここでは「〜を〜に抑える」という用法</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">complex</span> <span class="u-head">［difficult類語］</span></p>
+          <p class="u-meaning">意味：要素が絡み合って理解しにくい</p>
+          <p class="u-nuance">ニュアンス：質的な難しさ・複雑さに焦点を当てた表現。difficultより「構造的な難しさ」を強調</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>minimum</strong> <em>(名詞)</em> 最低限・最小値 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>overspending</strong> <em>(動詞（overspendの動名詞）)</em> 使いすぎる <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>track</strong> <em>(動詞)</em> 追跡する・記録する <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-3')" id="toggle-block04-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-3">I work without difficulty on short routes, but long-distance deliveries are tough on my body, especially in summer heat.</p>
+        <p class="jp-line">短いルートは難なくこなせるが、長距離配達は特に夏の暑さの中では体にきつい。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">without difficulty</span> <span class="u-head">［difficult］</span></p>
+          <p class="u-meaning">意味：難なく・容易に</p>
+          <p class="u-nuance">ニュアンス：苦労がなかったことを客観的に述べるフォーマルな副詞句</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">tough</span> <span class="u-head">［difficult類語］</span></p>
+          <p class="u-meaning">意味：タフな・きつい</p>
+          <p class="u-nuance">ニュアンス：肉体的にも精神的にも使える口語的な「難しい」。difficultより感情的な重さが出る</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>distance</strong> <em>(名詞)</em> 距離 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-4')" id="toggle-block04-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-4">I upgraded my delivery bag and rain gear at great expense last month, and I can see the equipment is well-liked by other riders too.</p>
+        <p class="jp-line">先月、かなりの出費をかけて配達バッグとレインギアをアップグレードした。そしてその装備は他のライダーにも好かれていると分かる。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">at great expense</span> <span class="u-head">［expensive類語］</span></p>
+          <p class="u-meaning">意味：かなりの出費をかけて・高いコストをかけて</p>
+          <p class="u-nuance">ニュアンス：費用の大きさを強調する表現。expensivelyの副詞用法が不自然なため、at great expenseの形が最も自然に費用の大きさを表せる</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">well-liked</span> <span class="u-head">［popular類語］</span></p>
+          <p class="u-meaning">意味：実際に接した人から好かれている</p>
+          <p class="u-nuance">ニュアンス：有名かどうかではなく個人的な接触を通じた好意を表す表現。famousやpopularとは異なり「親しみやすさ」に焦点を当てる</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>upgrade</strong> <em>(動詞)</em> アップグレードする・改良する <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>equipment</strong> <em>(名詞)</em> 装備・機材 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-5')" id="toggle-block04-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-5">What&#x27;s trendy in delivery gear changes fast, but what makes something truly high-end is quality that lasts, not just the brand name.</p>
+        <p class="jp-line">配達ギアのトレンドは変わりやすいが、何かを本当にハイエンドにするのはブランド名だけでなく、長持ちする品質だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">trendy</span> <span class="u-head">［popular類語］</span></p>
+          <p class="u-meaning">意味：流行している・今風の</p>
+          <p class="u-nuance">ニュアンス：fashionableとほぼ同義だが、より口語的でやや軽いニュアンス。一時的な流行に乗っているという含みもある</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">high-end</span> <span class="u-head">［expensive類語］</span></p>
+          <p class="u-meaning">意味：高価格＋高品質</p>
+          <p class="u-nuance">ニュアンス：値段の高さに品質・ブランドのポジティブな含みを加えた表現。cheapの対義語としてだけでなくステータスも含む</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>brand</strong> <em>(名詞)</em> ブランド <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>lasts</strong> <em>(動詞（last）)</em> 長持ちする <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block05">
+      <div class="block-header">
+        <h2>Block 05</h2>
+        <p class="block-title-jp">7文</p>
+      </div>
+      <div class="passage" id="passage-block05">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-0')" id="toggle-block05-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-0">The film I watched last night is famous as a masterpiece of independent cinema, and it was popular among critics when it first came out.</p>
+        <p class="jp-line">昨夜観た映画は独立系映画の傑作として有名で、公開された当初は批評家の間でも人気があった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be famous as ~</span> <span class="u-head">［famous］</span></p>
+          <p class="u-meaning">意味：〜として有名だ</p>
+          <p class="u-nuance">ニュアンス：立場・役割に焦点を当てた構文。be famous forが「理由」に焦点を当てるのに対し、be famous asは「肩書き・役割」に焦点を当てる</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be popular among ~</span> <span class="u-head">［popular］</span></p>
+          <p class="u-meaning">意味：〜の間で人気がある</p>
+          <p class="u-nuance">ニュアンス：be popular withとほぼ同義だが、比較的均質なグループ全体での支持を表す際に使いやすい</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>masterpiece</strong> <em>(名詞)</em> 傑作 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>independent</strong> <em>(形容詞)</em> 独立した・インディーの <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>critic</strong> <em>(名詞)</em> 批評家 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-1')" id="toggle-block05-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-1">The story was unique in its structure, and the main character possessed a quiet strength that made the film worthy of a special edition release in my mind.</p>
+        <p class="jp-line">その物語は構成が唯一無二で、主人公は静かな強さを備えており、個人的には特別版リリースに値する映画だと感じた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">unique</span> <span class="u-head">［special類語］</span></p>
+          <p class="u-meaning">意味：世界に一つしかない唯一無二の</p>
+          <p class="u-nuance">ニュアンス：他との比較でなく絶対的な独自性を強調。specialより「代替不可能」なニュアンスが強い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">possess</span> <span class="u-head">［own類語］</span></p>
+          <p class="u-meaning">意味：備えている・所有する</p>
+          <p class="u-nuance">ニュアンス：haveよりフォーマルで、能力・特質・財産を継続的に保有するニュアンス。人の内的な資質に使うことが多い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">special edition</span> <span class="u-head">［special］</span></p>
+          <p class="u-meaning">意味：特別版・限定版</p>
+          <p class="u-nuance">ニュアンス：通常版とは異なる限定的な仕様を表す名詞句。コレクターズアイテムや記念品に頻出</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>structure</strong> <em>(名詞)</em> 構成・構造 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>worthy</strong> <em>(形容詞)</em> 〜に値する・ふさわしい <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-2')" id="toggle-block05-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-2">The mainstream appeal of A24 films has grown recently, but what makes them truly exclusive is how they handle difficult themes with dignity.</p>
+        <p class="jp-line">A24映画の主流での人気は最近高まっているが、それを本当に独自の価値あるものにしているのは、難しいテーマを品格を持って扱う方法だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">mainstream</span> <span class="u-head">［popular類語］</span></p>
+          <p class="u-meaning">意味：社会全体に浸透した主流</p>
+          <p class="u-nuance">ニュアンス：大多数に受け入れられた標準的な流れを表す。popularより「社会への浸透度」が強調される</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">exclusive</span> <span class="u-head">［special類語］</span></p>
+          <p class="u-meaning">意味：限定的・独自の価値がある</p>
+          <p class="u-nuance">ニュアンス：排他性・希少性を強調するポジティブな表現。入手困難なことへの価値を示す</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>appeal</strong> <em>(名詞)</em> 魅力・人気 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>theme</strong> <em>(名詞)</em> テーマ・主題 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>dignity</strong> <em>(名詞)</em> 品格・尊厳 <span class="v-level">準1級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-3')" id="toggle-block05-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-3">Reading is something I do for myself, and the hall of fame of hardboiled fiction — Chandler, Hammett, Ellroy — has shaped the way I think about storytelling.</p>
+        <p class="jp-line">読書は自分のためにすることで、ハードボイルド小説の殿堂——チャンドラー、ハメット、エルロイ——が物語の考え方を形成してきた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">hall of fame</span> <span class="u-head">［famous］</span></p>
+          <p class="u-meaning">意味：殿堂</p>
+          <p class="u-nuance">ニュアンス：その分野で最高の功績を残した人が称えられる名誉の場を指す表現。スポーツ・音楽など幅広い分野で使う</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>fiction</strong> <em>(名詞)</em> フィクション・小説 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>storytelling</strong> <em>(名詞)</em> ストーリーテリング・話法 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-4')" id="toggle-block05-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-4">Popular belief holds that hardboiled fiction is only for older readers, but I find that assumption totally wrong — the themes are timeless.</p>
+        <p class="jp-line">一般的な通説では、ハードボイルド小説は年配の読者だけのものとされているが、その思い込みは全く間違っていると思う——テーマは時代を超えている。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">popular belief</span> <span class="u-head">［popular］</span></p>
+          <p class="u-meaning">意味：一般的な信念・通説</p>
+          <p class="u-nuance">ニュアンス：contrary to popular beliefと対になる表現。通説そのものを主語にして使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">totally</span> <span class="u-head">［難易度副詞］</span></p>
+          <p class="u-meaning">意味：口語的な強調</p>
+          <p class="u-nuance">ニュアンス：カジュアルで感情的な強調に使う副詞。completelyより砕けた印象</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>assumption</strong> <em>(名詞)</em> 思い込み・前提 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>timeless</strong> <em>(形容詞)</em> 時代を超えた・永遠の <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-5')" id="toggle-block05-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-5">Some hardboiled stories deal with characters who have special needs that society ignores — that&#x27;s what makes the genre feel so real and human.</p>
+        <p class="jp-line">ハードボイルド小説の中には、社会に無視された特別なニーズを持つ登場人物を扱うものがある——それがこのジャンルをとてもリアルで人間的に感じさせる理由だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">special needs</span> <span class="u-head">［special］</span></p>
+          <p class="u-meaning">意味：特別なニーズ</p>
+          <p class="u-nuance">ニュアンス：教育・福祉の文脈で特別な支援を必要とする状態を指す専門的な表現。単なるspecialとは異なる固定表現として機能する</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>society</strong> <em>(名詞)</em> 社会 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>genre</strong> <em>(名詞)</em> ジャンル <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-6')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-6')" id="toggle-block05-6">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-6">The pressure is demanding, and making mistakes early on proved costly for my confidence.</p>
+        <p class="jp-line">プレッシャーは過酷で、早い段階でのミスは自信にとって痛い代償となった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">costly</span> <span class="u-head">［expensive類語］</span></p>
+          <p class="u-meaning">意味：高くつく・代償が大きい</p>
+          <p class="u-nuance">ニュアンス：金銭・比喩どちらの代償にも使えるため、mistakeとの組み合わせではcostlyの方がより自然なネイティブ表現。prove costlyの形でよく使われる</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>confidence</strong> <em>(名詞)</em> 自信 <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+</main>
+
+<footer class="page-footer">
+  difficult・expensive・famous・special・own・popular 全65表現収録（5ブロック31文）
+</footer>
+
+<script>
+let speedRate = 1.0;
+let chosenVoice = null;
+function pickVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return;
+  chosenVoice = voices.find(v => v.name === 'Samantha')
+    || voices.find(v => v.name.includes('Google US English'))
+    || voices.find(v => v.lang === 'en-US')
+    || voices[0];
+}
+window.speechSynthesis.onvoiceschanged = pickVoice;
+pickVoice();
+function speakText(text) {
+  if (!text) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = speedRate;
+  if (chosenVoice) u.voice = chosenVoice;
+  window.speechSynthesis.speak(u);
+}
+function speakOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  if (el) speakText(el.textContent);
+}
+function toggleOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  const btn = document.getElementById('toggle-' + sid);
+  el.classList.toggle('is-hidden');
+  btn.textContent = el.classList.contains('is-hidden') ? '見る' : '隠す';
+}
+function setSpeed(v) { speedRate = parseFloat(v); }
+let allENHidden = false;
+function toggleAllEN() {
+  allENHidden = !allENHidden;
+  document.querySelectorAll('.en-line').forEach(el => {
+    if (allENHidden) { el.classList.add('is-hidden'); } else { el.classList.remove('is-hidden'); }
+  });
+  document.querySelectorAll('[id^="toggle-"]').forEach(btn => {
+    btn.textContent = allENHidden ? '見る' : '隠す';
+  });
+  document.getElementById('global-en-toggle').textContent = allENHidden ? '全て英文を見る' : '全て英文を隠す';
+}
+
+// Persistent memo (saved in this browser via localStorage, survives reloads)
+(function () {
+  var MEMO_KEY = 'notes_review_memo__difficult-expensive-famous-special-own-popular-2';
+  var area = document.getElementById('memo-area');
+  var status = document.getElementById('memo-status');
+  if (!area) return;
+  try {
+    var saved = window.localStorage.getItem(MEMO_KEY);
+    if (saved !== null) area.value = saved;
+  } catch (e) { /* storage unavailable, memo just won't persist */ }
+  var timer = null;
+  area.addEventListener('input', function () {
+    if (status) status.textContent = '保存中…';
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(function () {
+      try {
+        window.localStorage.setItem(MEMO_KEY, area.value);
+        if (status) {
+          status.textContent = '保存済み';
+          setTimeout(function () { status.textContent = ''; }, 1500);
+        }
+      } catch (e) {
+        if (status) status.textContent = '保存できません';
+      }
+    }, 400);
+  });
+})();
+</script>
+</body>
+</html>
