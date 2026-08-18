@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Review — mind/common/access/sight/beginning（第4弾）</title>
+<style>
+:root {
+  --bg: #F7F5F0; --bg2: #EEEAE2; --surface: #fff; --border: #D8D3C8;
+  --text: #1A1713; --text-sub: #6B6459; --text-muted: #9C9389;
+  --accent: #2D4A3E; --accent-pale: #E8F0EC;
+  --gold: #B8913A; --gold-pale: #F5EDD9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  line-height: 1.8; padding-bottom: 80px;
+}
+h1, h2 { font-family: Georgia, 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
+header.top { background: var(--accent); color: #fff; padding: 26px 20px 20px; position: sticky; top: 0; z-index: 50; }
+header.top h1 { margin: 0 0 4px; font-size: 22px; font-weight: 400; }
+header.top .subtitle { font-size: 13px; opacity: 0.85; margin: 0 0 14px; }
+.controls-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.controls-bar button, .controls-bar select {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.35); color: #fff;
+  border-radius: 20px; padding: 7px 14px; font-size: 13px; cursor: pointer;
+}
+.controls-bar button:hover { background: rgba(255,255,255,0.22); }
+.controls-bar label { font-size: 12px; opacity: 0.85; margin-right: -4px; }
+.memo-wrap { max-width: 780px; margin: 16px auto 0; padding: 0 20px; }
+.memo-box { background: #FFF9E8; border: 1px solid #E8D9A0; border-radius: 12px; padding: 12px 16px; }
+.memo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.memo-label { font-size: 13px; font-weight: 700; color: #8a6d1a; }
+.memo-status { font-size: 11px; color: #9C9389; }
+.memo-area {
+  width: 100%; min-height: 70px; border: 1px solid #E8D9A0; border-radius: 8px; padding: 8px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-size: 14px; color: #1A1713; background: #fff; resize: vertical; box-sizing: border-box;
+}
+.memo-area:focus { outline: 2px solid #E8D9A0; }
+nav.toc { max-width: 780px; margin: 20px auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+.toc-link {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px;
+  text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600;
+}
+.toc-link:hover { border-color: var(--accent); }
+main { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+.block {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 22px 8px; margin-bottom: 20px; scroll-margin-top: 150px;
+}
+.block-header { border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 6px; }
+.block-header h2 { margin: 0; font-size: 19px; color: var(--accent); font-weight: 400; }
+.block-title-jp { margin: 4px 0 0; font-size: 12.5px; color: var(--text-sub); }
+.sentence-block { padding: 16px 0; border-bottom: 1px dashed var(--border); }
+.sentence-block:last-child { border-bottom: none; }
+.sentence-controls { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+.mini-speak, .mini-toggle {
+  background: var(--accent-pale); color: var(--accent); border: 1px solid var(--accent);
+  border-radius: 14px; font-size: 12px; cursor: pointer; padding: 3px 10px;
+}
+.mini-speak { padding: 3px 8px; font-size: 13px; }
+.mini-speak:hover, .mini-toggle:hover { background: var(--accent); color: #fff; }
+.en-line {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-style: normal; font-size: 17px; font-weight: 500;
+  line-height: 1.6; color: var(--text); margin: 0 0 4px;
+}
+.en-line.is-hidden { display: none; }
+.jp-line { font-size: 14px; line-height: 1.8; color: var(--text-sub); margin: 0 0 10px; }
+.used-box { background: var(--accent-pale); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.used-item { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(45,74,62,0.12); }
+.used-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.u-phrase-line { margin: 0 0 2px; }
+.u-phrase { color: var(--accent); font-weight: 700; font-size: 13px; }
+.u-head { color: var(--text-muted); font-size: 11px; }
+.u-meaning { margin: 0 0 2px; font-size: 12.5px; color: var(--text); }
+.u-nuance { margin: 0; font-size: 12px; color: var(--text-sub); }
+.vocab-box { background: var(--gold-pale); border-radius: 8px; padding: 8px 12px; }
+.vocab-label { display: block; font-size: 11px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.vocab-chip { font-size: 12px; color: var(--text-sub); margin-right: 12px; display: inline-block; margin-bottom: 3px; }
+.vocab-chip strong { color: var(--text); }
+.vocab-chip em { font-style: normal; color: var(--text-muted); }
+.v-level { color: var(--gold); font-weight: 600; }
+footer.page-footer { max-width: 780px; margin: 10px auto 40px; padding: 0 20px; font-size: 12px; color: var(--text-muted); text-align: center; }
+@media (max-width: 640px) {
+  header.top { padding: 18px 14px 14px; }
+  .en-line { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>English Review — mind・common・access・sight・beginning（第4弾）</h1>
+  <p class="subtitle">全31文（3ブロック＋一文コーナー）／使用表現61個（意味＋ニュアンス付き）／語彙注釈49個</p>
+  <div class="controls-bar">
+    <button id="global-en-toggle" onclick="toggleAllEN()">全て英文を隠す</button>
+    <label for="speed">速度</label>
+    <select id="speed" onchange="setSpeed(this.value)">
+      <option value="0.7">遅め 0.7×</option>
+      <option value="1.0" selected>普通 1.0×</option>
+      <option value="1.35">速め 1.35×</option>
+    </select>
+  </div>
+</header>
+
+<div class="memo-wrap">
+  <div class="memo-box">
+    <div class="memo-head">
+      <span class="memo-label">📝 メモ</span>
+      <span class="memo-status" id="memo-status"></span>
+    </div>
+    <textarea id="memo-area" class="memo-area" placeholder="ここに軽くメモできます（このページに自動で保存されます）"></textarea>
+  </div>
+</div>
+
+<nav class="toc">
+<a href="#block-block01" class="toc-link">Block 01</a><a href="#block-block02" class="toc-link">Block 02</a><a href="#block-block03" class="toc-link">Block 03</a><a href="#block-block04" class="toc-link">Block 04</a><a href="#block-block05" class="toc-link">Block 05</a><a href="#block-block06" class="toc-link">Block 06</a>
+</nav>
+
+<main>
+
+    <section class="block" id="block-block01">
+      <div class="block-header">
+        <h2>Block 01</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block01">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-0')" id="toggle-block01-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-0">Before I start making calls this morning, I already have a new sales script in mind. I also have a lot in common with my new coworker, who struggled at first just like I did.</p>
+        <p class="jp-line">今朝電話をかけ始める前に、私はすでに新しいセールストークを頭の中に思い描いている。また、最初は苦労していたという点で、新しい同僚とも共通点がたくさんある。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">have ~ in mind</span> <span class="u-head">［①have~in mindファミリー］</span></p>
+          <p class="u-meaning">意味：〜を考えている・意図している</p>
+          <p class="u-nuance">ニュアンス：頭の中にすでに考え・候補がある状態</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">have a lot in common with</span> <span class="u-head">［②have~in commonファミリー］</span></p>
+          <p class="u-meaning">意味：〜と共通点がたくさんある</p>
+          <p class="u-nuance">ニュアンス：類似点が多いことを強調する</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>script</strong> <em>(名詞)</em> 台本、原稿 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>coworker</strong> <em>(名詞)</em> 同僚 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>struggle</strong> <em>(動詞)</em> 苦労する <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-1')" id="toggle-block01-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-1">Once I have access to the customer list, I feel nervous at the sight of so many unfamiliar names.</p>
+        <p class="jp-line">顧客リストにアクセスできるようになると、見慣れない名前がたくさんあるのを見ただけで緊張してしまう。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">have access to</span> <span class="u-head">［③have access toファミリー］</span></p>
+          <p class="u-meaning">意味：〜を利用できる・〜にアクセスできる</p>
+          <p class="u-nuance">ニュアンス：使える権利・利用できる環境があること。TOEIC・ビジネスで超頻出</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">at the sight of</span> <span class="u-head">［④at the sight ofファミリー］</span></p>
+          <p class="u-meaning">意味：〜を見てすぐに・〜を見ただけで</p>
+          <p class="u-nuance">ニュアンス：見た瞬間に反応するというイメージ</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>unfamiliar</strong> <em>(形容詞)</em> 見慣れない <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-2')" id="toggle-block01-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-2">At the beginning of my shift, I remind myself that today&#x27;s rejections don&#x27;t matter at all.</p>
+        <p class="jp-line">シフトの始めに、今日断られても全く気にしなくていいと自分に言い聞かせる。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">at the beginning of</span> <span class="u-head">［⑤at the beginning ofファミリー］</span></p>
+          <p class="u-meaning">意味：〜の初めに</p>
+          <p class="u-nuance">ニュアンス：ある期間や出来事の最初の部分を指す。一番よく使う表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">否定文 + at all</span> <span class="u-head">［⑥否定の強調ファミリー］</span></p>
+          <p class="u-meaning">意味：全然〜ない</p>
+          <p class="u-nuance">ニュアンス：否定文と一緒に使い意味を強調する</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>shift</strong> <em>(名詞)</em> 交代勤務 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>rejection</strong> <em>(名詞)</em> 拒絶 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>remind</strong> <em>(動詞)</em> 言い聞かせる・思い出させる <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-3')" id="toggle-block01-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-3">In addition to making calls, I try to calm down before dialing the first number.</p>
+        <p class="jp-line">電話をかけることに加えて、最初の番号をダイヤルする前に気持ちを落ち着けるようにしている。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">in addition to</span> <span class="u-head">［⑦in addition toファミリー］</span></p>
+          <p class="u-meaning">意味：〜に加えて</p>
+          <p class="u-nuance">ニュアンス：もっとも基本的な追加表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">calm down</span> <span class="u-head">［⑧その他単発］</span></p>
+          <p class="u-meaning">意味：落ち着く</p>
+          <p class="u-nuance">ニュアンス：高ぶった感情が収まることに焦点を当てる。settle downとの違いは感情に焦点がある点</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>dial</strong> <em>(動詞)</em> ダイヤルする <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-4')" id="toggle-block01-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-4">I keep the monthly target in mind all day, and I quickly realize I have nothing in common with the pushy salesman next to me.</p>
+        <p class="jp-line">一日中月間目標を心に留めておくが、隣の押しの強い営業マンとは全く共通点がないとすぐに気づく。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">keep ~ in mind</span> <span class="u-head">［①have~in mindファミリー］</span></p>
+          <p class="u-meaning">意味：〜を心に留めておく・忘れないようにする</p>
+          <p class="u-nuance">ニュアンス：継続的に忘れないという意味合い。「これからも覚えておいてね」というニュアンス</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">have nothing in common with</span> <span class="u-head">［②have~in commonファミリー］</span></p>
+          <p class="u-meaning">意味：〜と全く共通点がない</p>
+          <p class="u-nuance">ニュアンス：nothingによってゼロであることを強調</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>target</strong> <em>(名詞)</em> 目標 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>pushy</strong> <em>(形容詞)</em> 強引な <span class="v-level">準1級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-5')" id="toggle-block01-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-5">Once I gain access to the new CRM system, I find myself getting excited at the sound of a notification for a new lead.</p>
+        <p class="jp-line">新しいCRMシステムを利用できるようになると、新しい見込み客の通知音を聞くたびに思わずわくわくしてしまう。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">gain access to</span> <span class="u-head">［③have access toファミリー］</span></p>
+          <p class="u-meaning">意味：〜へのアクセス権を得る</p>
+          <p class="u-nuance">ニュアンス：利用できなかった状態から利用できる状態への変化を表す</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">at the sound of</span> <span class="u-head">［④at the sight ofファミリー］</span></p>
+          <p class="u-meaning">意味：〜の音を聞いてすぐに</p>
+          <p class="u-nuance">ニュアンス：耳で聞いたことがきっかけになる</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>notification</strong> <em>(名詞)</em> 通知 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>lead</strong> <em>(名詞)</em> 見込み客 <span class="v-level">準1級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block02">
+      <div class="block-header">
+        <h2>Block 02</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block02">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-0')" id="toggle-block02-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-0">From the beginning of my shift, I&#x27;m not in the least worried about the weather, since I&#x27;ve delivered in the rain many times.</p>
+        <p class="jp-line">シフトの初めから、雨の中何度も配達してきたので天気について少しも心配していない。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">from the beginning</span> <span class="u-head">［⑤at the beginning ofファミリー］</span></p>
+          <p class="u-meaning">意味：最初から</p>
+          <p class="u-nuance">ニュアンス：スタート地点から最後までという意味合い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">not in the least</span> <span class="u-head">［⑥否定の強調ファミリー］</span></p>
+          <p class="u-meaning">意味：少しも〜ない</p>
+          <p class="u-nuance">ニュアンス：not at allと同じ意味だがかなりフォーマル。ニュース・小説・TOEIC頻出</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>deliver</strong> <em>(動詞)</em> 配達する <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-1')" id="toggle-block02-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-1">As well as checking my bike, I also take a moment to settle down before my first pickup.</p>
+        <p class="jp-line">自転車を点検することと同様に、最初のピックアップの前に少し気持ちを落ち着かせる。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">as well as</span> <span class="u-head">［⑦in addition toファミリー］</span></p>
+          <p class="u-meaning">意味：〜と同様に・〜に加えて</p>
+          <p class="u-nuance">ニュアンス：2つの要素を対等に並べる。in addition toより並列感が強い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">settle down</span> <span class="u-head">［⑧その他単発］</span></p>
+          <p class="u-meaning">意味：落ち着く</p>
+          <p class="u-nuance">ニュアンス：生活・状況・騒ぎが落ち着くことに焦点を当てる。calm downとの違いは状況・環境に焦点がある点</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>pickup</strong> <em>(名詞)</em> 受け取り、集荷 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-2')" id="toggle-block02-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-2">I have to bear in mind the delivery time limit, even though I have something in common with customers who order late at night.</p>
+        <p class="jp-line">深夜に注文する顧客と何かしら共通点があるとはいえ、配達の制限時間は常に心に留めておかなければならない。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">bear ~ in mind</span> <span class="u-head">［①have~in mindファミリー］</span></p>
+          <p class="u-meaning">意味：〜を心に留めておく</p>
+          <p class="u-nuance">ニュアンス：keepとほぼ同じ意味だがかなりフォーマル。ニュース・ビジネス・TOEIC頻出。「十分考慮してください」という丁寧な響き</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">have something in common with</span> <span class="u-head">［②have~in commonファミリー］</span></p>
+          <p class="u-meaning">意味：〜と何かしら共通点がある</p>
+          <p class="u-nuance">ニュアンス：「たくさん」ではなく少しはあるという意味</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>limit</strong> <em>(名詞)</em> 制限 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-3')" id="toggle-block02-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-3">I don&#x27;t have easy access to a parking spot downtown, and I panic at the thought of getting a ticket.</p>
+        <p class="jp-line">都心では駐車スペースに簡単にアクセスできず、違反切符を切られることを考えただけで慌ててしまう。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">easy access to</span> <span class="u-head">［③have access toファミリー］</span></p>
+          <p class="u-meaning">意味：〜へ簡単にアクセスできる・利用しやすい</p>
+          <p class="u-nuance">ニュアンス：利用しやすさ・近づきやすさを表す</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">at the thought of</span> <span class="u-head">［④at the sight ofファミリー］</span></p>
+          <p class="u-meaning">意味：〜を考えただけで</p>
+          <p class="u-nuance">ニュアンス：実際に見聞きしなくても頭に思い浮かべただけという意味</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>downtown</strong> <em>(名詞)</em> 都心、繁華街 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>panic</strong> <em>(動詞)</em> 慌てる、パニックになる <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-4')" id="toggle-block02-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-4">At the very beginning, I made a lot of mistakes, but now I&#x27;m not one bit afraid of a difficult order.</p>
+        <p class="jp-line">最初のうちはたくさんミスをしたが、今では難しい注文でも少しも怖くない。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">at the very beginning</span> <span class="u-head">［⑤at the beginning ofファミリー］</span></p>
+          <p class="u-meaning">意味：まさに最初・本当に最初の段階で</p>
+          <p class="u-nuance">ニュアンス：veryが入ることで「本当に最初！」という強調になる</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">not one bit</span> <span class="u-head">［⑥否定の強調ファミリー］</span></p>
+          <p class="u-meaning">意味：全然〜ない</p>
+          <p class="u-nuance">ニュアンス：会話でかなり聞くカジュアルな表現</p>
+        </div></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-5')" id="toggle-block02-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-5">Besides delivering food, I sometimes do customers a favor by checking the restaurant&#x27;s opening hours for them.</p>
+        <p class="jp-line">食べ物を配達することに加えて、お客様のためにレストランの営業時間を確認するというお願いを聞いてあげることもある。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">besides</span> <span class="u-head">［⑦in addition toファミリー］</span></p>
+          <p class="u-meaning">意味：〜に加えて・〜のほかに</p>
+          <p class="u-nuance">ニュアンス：in addition toよりややカジュアル。「それに加えてもう一つ」の追加ニュアンス</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">do me a favor</span> <span class="u-head">［⑧その他単発］</span></p>
+          <p class="u-meaning">意味：頼みを聞いてくれる？・（相手の）頼みを聞く</p>
+          <p class="u-nuance">ニュアンス：相手に行動を求める側の視点。ここでは「顧客のためにお願いを聞く」という形で使用</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>opening hours</strong> <em>(名詞句)</em> 営業時間 <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block03">
+      <div class="block-header">
+        <h2>Block 03</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block03">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-0')" id="toggle-block03-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-0">Whenever I think of my favorite team&#x27;s new signing, I immediately click with how he plays.</p>
+        <p class="jp-line">お気に入りのチームの新加入選手について考えるたびに、彼のプレースタイルとすぐに波長が合う感じがする。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">think of</span> <span class="u-head">［①have~in mindファミリー］</span></p>
+          <p class="u-meaning">意味：〜について考える・思いつく</p>
+          <p class="u-nuance">ニュアンス：have in mindより気軽なイメージ。「思いつく・考えている最中・アイデアを思い浮かべる」</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">click with</span> <span class="u-head">［②have~in commonファミリー］</span></p>
+          <p class="u-meaning">意味：気が合う・意気投合する</p>
+          <p class="u-nuance">ニュアンス：「カチッとはまる」イメージ。性格・話・趣味などが自然に合うこと</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>signing</strong> <em>(名詞)</em> 新加入選手 <span class="v-level">準1級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-1')" id="toggle-block03-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-1">I finally have access to the new streaming app, but I get annoyed at the mention of another schedule change.</p>
+        <p class="jp-line">ついに新しいストリーミングアプリを利用できるようになったが、また日程変更があると聞いただけでイライラする。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">have access to</span> <span class="u-head">［③have access toファミリー］</span></p>
+          <p class="u-meaning">意味：〜を利用できる・〜にアクセスできる</p>
+          <p class="u-nuance">ニュアンス：使える権利・利用できる環境があること。Block01-S2とは異なる文脈で使用</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">at the mention of</span> <span class="u-head">［④at the sight ofファミリー］</span></p>
+          <p class="u-meaning">意味：〜という言葉を聞いただけで</p>
+          <p class="u-nuance">ニュアンス：名前や話題が出ただけで反応するという意味</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>streaming</strong> <em>(名詞)</em> ストリーミング配信 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>annoyed</strong> <em>(形容詞)</em> イライラした <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-2')" id="toggle-block03-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-2">In the beginning of the season, my team was by no means the strongest, but I never lost hope.</p>
+        <p class="jp-line">シーズンの初めのうちは、私のチームは決して最強ではなかったが、希望を失うことはなかった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">in the beginning</span> <span class="u-head">［⑤at the beginning ofファミリー］</span></p>
+          <p class="u-meaning">意味：初めのうちは・当初は</p>
+          <p class="u-nuance">ニュアンス：後に流れが変わることを示唆する。「最初の頃は〜だったが、その後変わった」という文脈で使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">by no means</span> <span class="u-head">［⑥否定の強調ファミリー］</span></p>
+          <p class="u-meaning">意味：決して〜ではない</p>
+          <p class="u-nuance">ニュアンス：かなりフォーマルな否定表現。TOEICでも出る</p>
+        </div></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-3')" id="toggle-block03-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-3">On top of watching the match myself, my brother asks me to do him a favor and record it, in case he misses the kickoff.</p>
+        <p class="jp-line">自分で試合を見ることに加えて、キックオフを見逃した場合に備えて録画してほしいと、弟が頼んでくる。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">on top of</span> <span class="u-head">［⑦in addition toファミリー］</span></p>
+          <p class="u-meaning">意味：〜に加えて（負担・重なりのニュアンス）</p>
+          <p class="u-nuance">ニュアンス：すでにあるものの上に積み重なるイメージ。負担・忙しさが積み重なる含みを持つ口語的な表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">ask me a favor</span> <span class="u-head">［⑧その他単発］</span></p>
+          <p class="u-meaning">意味：お願いをしてもいい？（自分がお願いをする）</p>
+          <p class="u-nuance">ニュアンス：頼みごとをする側の視点。ここではask me to do him a favorの形で弟が頼む側を自然に表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>kickoff</strong> <em>(名詞)</em> キックオフ <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-4')" id="toggle-block03-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-4">I intend to watch every match this season, and I share similarities with my friend who never misses a game either.</p>
+        <p class="jp-line">今シーズンは全試合を見るつもりで、一試合も欠かさない友人とも類似点がある。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">intend</span> <span class="u-head">［①have~in mindファミリー］</span></p>
+          <p class="u-meaning">意味：〜するつもりである・意図する</p>
+          <p class="u-nuance">ニュアンス：「意思が固い」というニュアンス。ビジネス・ニュース・TOEIC頻出</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">share similarities with</span> <span class="u-head">［②have~in commonファミリー］</span></p>
+          <p class="u-meaning">意味：〜と類似点を共有している</p>
+          <p class="u-nuance">ニュアンス：論文・ニュース・TOEICなどで頻出。人よりも国・文化・製品・言語などによく使われる</p>
+        </div></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-5')" id="toggle-block03-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-5">I was granted permission to utilize the club&#x27;s official highlight videos, and there&#x27;s nothing like the thrill the moment you see a last-minute goal.</p>
+        <p class="jp-line">クラブの公式ハイライト動画を利用する許可をもらい、終了間際のゴールを見た瞬間の興奮に勝るものはない。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be granted permission to utilize</span> <span class="u-head">［③have access toファミリー］</span></p>
+          <p class="u-meaning">意味：〜を利用する許可を与えられている</p>
+          <p class="u-nuance">ニュアンス：契約書・規則などで頻出のフォーマル表現。grant＝権限のある人・組織が正式に与える。utilize＝有効に・最大限に活用する</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">the moment you see</span> <span class="u-head">［④at the sight ofファミリー］</span></p>
+          <p class="u-meaning">意味：〜を見た瞬間に</p>
+          <p class="u-nuance">ニュアンス：日常会話で非常によく使われるカジュアルな表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>highlight</strong> <em>(名詞)</em> ハイライト、見どころ <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>thrill</strong> <em>(名詞)</em> 興奮、スリル <span class="v-level">準1級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block04">
+      <div class="block-header">
+        <h2>Block 04</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block04">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-0')" id="toggle-block04-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-0">From beginning to end, last night&#x27;s game was so close that I wondered if we would win at all.</p>
+        <p class="jp-line">最初から最後まで、昨夜の試合はとても接戦で、そもそも勝てるのだろうかと思うほどだった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">beginning to end / from beginning to end</span> <span class="u-head">［⑤at the beginning ofファミリー］</span></p>
+          <p class="u-meaning">意味：最初から最後まで</p>
+          <p class="u-nuance">ニュアンス：映画・本・仕事などでよく使われる慣用表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">at all（疑問文）</span> <span class="u-head">［⑥否定の強調ファミリー］</span></p>
+          <p class="u-meaning">意味：そもそも・一体</p>
+          <p class="u-nuance">ニュアンス：疑問文で使うと強調の意味になる</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>close</strong> <em>(形容詞)</em> 接戦の <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-1')" id="toggle-block04-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-1">Along with following the score updates, I need a flexible schedule so I can watch the playoffs live.</p>
+        <p class="jp-line">スコアの更新を追うことと合わせて、プレーオフをライブで見られるように柔軟なスケジュールが必要だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">along with</span> <span class="u-head">［⑦in addition toファミリー］</span></p>
+          <p class="u-meaning">意味：〜と一緒に・〜に伴って</p>
+          <p class="u-nuance">ニュアンス：同時性・付随性に焦点を当てる。「セットである」というニュアンスが強い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">flexible</span> <span class="u-head">［⑧その他単発］</span></p>
+          <p class="u-meaning">意味：柔軟な・固定されていない・融通が利く</p>
+          <p class="u-nuance">ニュアンス：形容詞として状況への対応力を表す。スケジュール・ルールなどの変更可能性を示す</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>playoff</strong> <em>(名詞)</em> プレーオフ <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>flexible</strong> <em>(形容詞)</em> 柔軟な <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>schedule</strong> <em>(名詞)</em> スケジュール <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-2')" id="toggle-block04-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-2">I always have this year&#x27;s championship on my radar, and both teams share common features, like strong defense.</p>
+        <p class="jp-line">今年の優勝を常に視野に入れていて、両チームとも堅い守備という共通の特徴を持っている。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">have ~ on one&#x27;s radar</span> <span class="u-head">［①have~in mindファミリー］</span></p>
+          <p class="u-meaning">意味：視野に入っている・候補に入っている</p>
+          <p class="u-nuance">ニュアンス：まだ決定ではなく「候補として考えている」感覚。ネイティブ表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">share common features</span> <span class="u-head">［②have~in commonファミリー］</span></p>
+          <p class="u-meaning">意味：共通の特徴を持つ</p>
+          <p class="u-nuance">ニュアンス：人より製品・動物・システムなどに使われる。featureは「特徴・機能」の意味</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>championship</strong> <em>(名詞)</em> 優勝、選手権 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>defense</strong> <em>(名詞)</em> 守備 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-3')" id="toggle-block04-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-3">This app is available to anyone with a subscription, and I feel a rush upon seeing the final score notification.</p>
+        <p class="jp-line">このアプリはサブスクリプションがあれば誰でも利用可能で、最終スコアの通知が来た瞬間、高揚感がぐっと押し寄せてくる。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be available to</span> <span class="u-head">［③have access toファミリー］</span></p>
+          <p class="u-meaning">意味：〜が利用可能である</p>
+          <p class="u-nuance">ニュアンス：サービスや制度の説明で頻出。誰でも使える状態を表す教科書的な表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">upon seeing</span> <span class="u-head">［④at the sight ofファミリー］</span></p>
+          <p class="u-meaning">意味：〜を見るやいなや</p>
+          <p class="u-nuance">ニュアンス：学校英語や英検でよく出るフォーマル表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>subscription</strong> <em>(名詞)</em> 定額制サービス <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>rush</strong> <em>(名詞)</em> 高揚感、急な感情の高まり <span class="v-level">準1級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-4')" id="toggle-block04-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-4">Early in the fourth quarter, I was absolutely not expecting such a huge comeback.</p>
+        <p class="jp-line">第4クォーターの早い段階で、これほど大きな逆転劇があるとは全く予想していなかった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">early in</span> <span class="u-head">［⑤at the beginning ofファミリー］</span></p>
+          <p class="u-meaning">意味：〜の初め頃に・早い時期に</p>
+          <p class="u-nuance">ニュアンス：日常会話でもよく使われるカジュアルな表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">absolutely not</span> <span class="u-head">［⑥否定の強調ファミリー］</span></p>
+          <p class="u-meaning">意味：絶対に〜ない・全然ダメ</p>
+          <p class="u-nuance">ニュアンス：会話で非常によく使われる強い否定表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>comeback</strong> <em>(名詞)</em> 逆転、カムバック <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-5')" id="toggle-block04-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-5">Not to mention the exciting plays, the new rookie&#x27;s speed really attracts everyone&#x27;s attention.</p>
+        <p class="jp-line">見応えのあるプレーは言うまでもなく、新人ルーキーのスピードは本当にみんなの注目を引きつける。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">not to mention</span> <span class="u-head">［⑦in addition toファミリー］</span></p>
+          <p class="u-meaning">意味：〜は言うまでもなく</p>
+          <p class="u-nuance">ニュアンス：すでに挙げた理由へのダメ押しの追加情報</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">attract</span> <span class="u-head">［⑧その他単発］</span></p>
+          <p class="u-meaning">意味：引きつける</p>
+          <p class="u-nuance">ニュアンス：人・注意・興味などを自然に引き寄せる。ラテン語ad-（〜へ）+trahere（引く）が語源</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>rookie</strong> <em>(名詞)</em> 新人選手 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>attract</strong> <em>(動詞)</em> 引きつける <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block05">
+      <div class="block-header">
+        <h2>Block 05</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block05">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-0')" id="toggle-block05-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-0">My favorite rapper and this new artist seem to be on the same wavelength, and I&#x27;m always plugged into the latest releases.</p>
+        <p class="jp-line">お気に入りのラッパーとこの新しいアーティストは波長が合うようで、私はいつも最新のリリース情報に通じている。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be on the same wavelength</span> <span class="u-head">［②have~in commonファミリー］</span></p>
+          <p class="u-meaning">意味：波長が合う</p>
+          <p class="u-nuance">ニュアンス：考え方・笑いのツボ・価値観・感覚が似ているという意味。have a lot in commonより「気が合う」というニュアンスが強い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be plugged into</span> <span class="u-head">［③have access toファミリー］</span></p>
+          <p class="u-meaning">意味：（情報・人脈などに）通じている</p>
+          <p class="u-nuance">ニュアンス：「コンセントにつながっている」イメージから、常に最新情報につながっているという意味。物理的なアクセスではなく情報・人脈について使うことが多い</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>rapper</strong> <em>(名詞)</em> ラッパー <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>release</strong> <em>(名詞)</em> 発売、リリース <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-1')" id="toggle-block05-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-1">The second you lay eyes on this album cover, you can tell it&#x27;s inspired by old-school hip-hop, right at the outset of the tracklist.</p>
+        <p class="jp-line">このアルバムジャケットに初めて目を留めた瞬間、まさにトラックリストの冒頭からオールドスクールなヒップホップに影響を受けているとわかる。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">the second you lay eyes on ~</span> <span class="u-head">［④at the sight ofファミリー］</span></p>
+          <p class="u-meaning">意味：〜に初めて目をとめた、まさにその瞬間に</p>
+          <p class="u-nuance">ニュアンス：「lay eyes on」（見据える・初めて目撃する）と「the second」（まさにその瞬間）が組み合わさったネイティブ表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">at the outset of</span> <span class="u-head">［⑤at the beginning ofファミリー］</span></p>
+          <p class="u-meaning">意味：〜の当初に・開始時点で</p>
+          <p class="u-nuance">ニュアンス：outset＝beginningだがかなりフォーマル。契約・プロジェクト・研究、TOEIC・ビジネスで頻出</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>old-school</strong> <em>(形容詞)</em> 昔ながらの、オールドスクールな <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>inspired</strong> <em>(形容詞)</em> 影響を受けた <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>tracklist</strong> <em>(名詞)</em> トラックリスト・収録曲一覧 <span class="v-level">準1級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-2')" id="toggle-block05-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-2">In no way do I regret buying this hardboiled novel, and for that reason, I recommend it to everyone.</p>
+        <p class="jp-line">このハードボイルド小説を買ったことを決して後悔しておらず、そのためみんなにおすすめしている。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">in no way</span> <span class="u-head">［⑥否定の強調ファミリー］</span></p>
+          <p class="u-meaning">意味：決して〜ない・全く〜ない</p>
+          <p class="u-nuance">ニュアンス：by no meansと非常に近い意味だが、より「いかなる点でも」というニュアンスがある教科書的表現。倒置構文を伴う点に注意</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">for that reason</span> <span class="u-head">［⑧その他単発］</span></p>
+          <p class="u-meaning">意味：そのため・その理由で</p>
+          <p class="u-nuance">ニュアンス：直前で述べた理由を受けて「その結果として」という結論・帰結を導く接続表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>regret</strong> <em>(動詞)</em> 後悔する <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-3')" id="toggle-block05-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-3">This author&#x27;s writing style is still in the early stages of translation into Japanese, and I&#x27;m not by a long shot finished reading the series.</p>
+        <p class="jp-line">この作家の文体はまだ日本語への翻訳が初期段階で、私はシリーズを読み終えるにはほど遠い状態だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">in the early stages of</span> <span class="u-head">［⑤at the beginning ofファミリー］</span></p>
+          <p class="u-meaning">意味：〜の初期段階で</p>
+          <p class="u-nuance">ニュアンス：段階があるもの（研究・計画・病気など）によく使う教科書的表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">not by a long shot</span> <span class="u-head">［⑥否定の強調ファミリー］</span></p>
+          <p class="u-meaning">意味：全然違う・ほど遠い</p>
+          <p class="u-nuance">ニュアンス：ネイティブが会話でよく使うイディオム</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>translation</strong> <em>(名詞)</em> 翻訳 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>series</strong> <em>(名詞)</em> シリーズ・連作 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-4')" id="toggle-block05-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-4">A new record shop is opening near my station — right out of the gate, it&#x27;s stocking a huge vinyl collection.</p>
+        <p class="jp-line">駅の近くに新しいレコード店がオープンしつつある——開店当初からいきなり、大量のレコードコレクションを揃えるらしい。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be opening</span> <span class="u-head">［⑧その他単発］</span></p>
+          <p class="u-meaning">意味：開設しつつある</p>
+          <p class="u-nuance">ニュアンス：openの現在進行形で「今まさに進行中の変化・動き」を表す</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">right out of the gate</span> <span class="u-head">［⑤at the beginning ofファミリー］</span></p>
+          <p class="u-meaning">意味：最初からいきなり</p>
+          <p class="u-nuance">ニュアンス：競馬のスタートゲートが由来のイディオム。単なる「最初に」ではなく、勢いよくスタートするというニュアンス</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>vinyl</strong> <em>(名詞)</em> レコード盤 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>collection</strong> <em>(名詞)</em> コレクション <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-5')" id="toggle-block05-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-5">That means I finally have a reason to apply for a part-time job there.</p>
+        <p class="jp-line">それはつまり、ついにそこでのアルバイトに応募する理由ができたということだ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">that means</span> <span class="u-head">［⑧その他単発］</span></p>
+          <p class="u-meaning">意味：それはつまり〜ということだ</p>
+          <p class="u-nuance">ニュアンス：直前の内容を受けて「それが意味するところは〜だ」と言い換え・具体化する定番のつなぎ表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">apply for ~</span> <span class="u-head">［⑧その他単発］</span></p>
+          <p class="u-meaning">意味：〜に対して正式に申し込む・申請する</p>
+          <p class="u-nuance">ニュアンス：「自分をあるポジション・機会に結びつけようとする」行為。ラテン語applicare（当てはめる）が語源</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>apply</strong> <em>(動詞)</em> 応募する・申請する <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>part-time</strong> <em>(形容詞)</em> パートタイムの <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block06">
+      <div class="block-header">
+        <h2>Block 06</h2>
+        <p class="block-title-jp">1文</p>
+      </div>
+      <div class="passage" id="passage-block06">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block06-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block06-0')" id="toggle-block06-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block06-0">Writing my English diary every day helps me express my feelings more clearly.</p>
+        <p class="jp-line">毎日英語日記を書くことは、自分の気持ちをより明確に表現するのに役立つ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">express</span> <span class="u-head">［⑧その他単発］</span></p>
+          <p class="u-meaning">意味：表現する・述べる</p>
+          <p class="u-nuance">ニュアンス：ラテン語ex-（外へ）+pressare（押す）＝「内側にあるもの（感情・考え）を外に押し出す」。心の中にあるものを言葉・表情・行動などの形で外部に表す</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>express</strong> <em>(動詞)</em> 表現する <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>clearly</strong> <em>(副詞)</em> 明確に <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+</main>
+
+<footer class="page-footer">
+  have~in mind・have~in common・have access to・at the sight of・at the beginning of・否定の強調・in addition to 全61表現収録（6ブロック31文）
+</footer>
+
+<script>
+let speedRate = 1.0;
+let chosenVoice = null;
+function pickVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return;
+  chosenVoice = voices.find(v => v.name === 'Samantha')
+    || voices.find(v => v.name.includes('Google US English'))
+    || voices.find(v => v.lang === 'en-US')
+    || voices[0];
+}
+window.speechSynthesis.onvoiceschanged = pickVoice;
+pickVoice();
+function speakText(text) {
+  if (!text) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = speedRate;
+  if (chosenVoice) u.voice = chosenVoice;
+  window.speechSynthesis.speak(u);
+}
+function speakOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  if (el) speakText(el.textContent);
+}
+function toggleOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  const btn = document.getElementById('toggle-' + sid);
+  el.classList.toggle('is-hidden');
+  btn.textContent = el.classList.contains('is-hidden') ? '見る' : '隠す';
+}
+function setSpeed(v) { speedRate = parseFloat(v); }
+let allENHidden = false;
+function toggleAllEN() {
+  allENHidden = !allENHidden;
+  document.querySelectorAll('.en-line').forEach(el => {
+    if (allENHidden) { el.classList.add('is-hidden'); } else { el.classList.remove('is-hidden'); }
+  });
+  document.querySelectorAll('[id^="toggle-"]').forEach(btn => {
+    btn.textContent = allENHidden ? '見る' : '隠す';
+  });
+  document.getElementById('global-en-toggle').textContent = allENHidden ? '全て英文を見る' : '全て英文を隠す';
+}
+
+// Persistent memo (saved in this browser via localStorage, survives reloads)
+(function () {
+  var MEMO_KEY = 'notes_review_memo__mind-common-access-sight-beginning-4';
+  var area = document.getElementById('memo-area');
+  var status = document.getElementById('memo-status');
+  if (!area) return;
+  try {
+    var saved = window.localStorage.getItem(MEMO_KEY);
+    if (saved !== null) area.value = saved;
+  } catch (e) { /* storage unavailable, memo just won't persist */ }
+  var timer = null;
+  area.addEventListener('input', function () {
+    if (status) status.textContent = '保存中…';
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(function () {
+      try {
+        window.localStorage.setItem(MEMO_KEY, area.value);
+        if (status) {
+          status.textContent = '保存済み';
+          setTimeout(function () { status.textContent = ''; }, 1500);
+        }
+      } catch (e) {
+        if (status) status.textContent = '保存できません';
+      }
+    }, 400);
+  });
+})();
+</script>
+</body>
+</html>
