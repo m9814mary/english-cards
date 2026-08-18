@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Review — cheap/favorite/important/enough/beauty/excite（第2弾）</title>
+<style>
+:root {
+  --bg: #F7F5F0; --bg2: #EEEAE2; --surface: #fff; --border: #D8D3C8;
+  --text: #1A1713; --text-sub: #6B6459; --text-muted: #9C9389;
+  --accent: #2D4A3E; --accent-pale: #E8F0EC;
+  --gold: #B8913A; --gold-pale: #F5EDD9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  line-height: 1.8; padding-bottom: 80px;
+}
+h1, h2 { font-family: Georgia, 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
+header.top { background: var(--accent); color: #fff; padding: 26px 20px 20px; position: sticky; top: 0; z-index: 50; }
+header.top h1 { margin: 0 0 4px; font-size: 22px; font-weight: 400; }
+header.top .subtitle { font-size: 13px; opacity: 0.85; margin: 0 0 14px; }
+.controls-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.controls-bar button, .controls-bar select {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.35); color: #fff;
+  border-radius: 20px; padding: 7px 14px; font-size: 13px; cursor: pointer;
+}
+.controls-bar button:hover { background: rgba(255,255,255,0.22); }
+.controls-bar label { font-size: 12px; opacity: 0.85; margin-right: -4px; }
+.memo-wrap { max-width: 780px; margin: 16px auto 0; padding: 0 20px; }
+.memo-box { background: #FFF9E8; border: 1px solid #E8D9A0; border-radius: 12px; padding: 12px 16px; }
+.memo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.memo-label { font-size: 13px; font-weight: 700; color: #8a6d1a; }
+.memo-status { font-size: 11px; color: #9C9389; }
+.memo-area {
+  width: 100%; min-height: 70px; border: 1px solid #E8D9A0; border-radius: 8px; padding: 8px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-size: 14px; color: #1A1713; background: #fff; resize: vertical; box-sizing: border-box;
+}
+.memo-area:focus { outline: 2px solid #E8D9A0; }
+nav.toc { max-width: 780px; margin: 20px auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+.toc-link {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px;
+  text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600;
+}
+.toc-link:hover { border-color: var(--accent); }
+main { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+.block {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 22px 8px; margin-bottom: 20px; scroll-margin-top: 150px;
+}
+.block-header { border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 6px; }
+.block-header h2 { margin: 0; font-size: 19px; color: var(--accent); font-weight: 400; }
+.block-title-jp { margin: 4px 0 0; font-size: 12.5px; color: var(--text-sub); }
+.sentence-block { padding: 16px 0; border-bottom: 1px dashed var(--border); }
+.sentence-block:last-child { border-bottom: none; }
+.sentence-controls { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+.mini-speak, .mini-toggle {
+  background: var(--accent-pale); color: var(--accent); border: 1px solid var(--accent);
+  border-radius: 14px; font-size: 12px; cursor: pointer; padding: 3px 10px;
+}
+.mini-speak { padding: 3px 8px; font-size: 13px; }
+.mini-speak:hover, .mini-toggle:hover { background: var(--accent); color: #fff; }
+.en-line {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-style: normal; font-size: 17px; font-weight: 500;
+  line-height: 1.6; color: var(--text); margin: 0 0 4px;
+}
+.en-line.is-hidden { display: none; }
+.jp-line { font-size: 14px; line-height: 1.8; color: var(--text-sub); margin: 0 0 10px; }
+.used-box { background: var(--accent-pale); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.used-item { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(45,74,62,0.12); }
+.used-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.u-phrase-line { margin: 0 0 2px; }
+.u-phrase { color: var(--accent); font-weight: 700; font-size: 13px; }
+.u-head { color: var(--text-muted); font-size: 11px; }
+.u-meaning { margin: 0 0 2px; font-size: 12.5px; color: var(--text); }
+.u-nuance { margin: 0; font-size: 12px; color: var(--text-sub); }
+.vocab-box { background: var(--gold-pale); border-radius: 8px; padding: 8px 12px; }
+.vocab-label { display: block; font-size: 11px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.vocab-chip { font-size: 12px; color: var(--text-sub); margin-right: 12px; display: inline-block; margin-bottom: 3px; }
+.vocab-chip strong { color: var(--text); }
+.vocab-chip em { font-style: normal; color: var(--text-muted); }
+.v-level { color: var(--gold); font-weight: 600; }
+footer.page-footer { max-width: 780px; margin: 10px auto 40px; padding: 0 20px; font-size: 12px; color: var(--text-muted); text-align: center; }
+@media (max-width: 640px) {
+  header.top { padding: 18px 14px 14px; }
+  .en-line { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>English Review — cheap・favorite・important・enough・beauty・excite（第2弾）</h1>
+  <p class="subtitle">全29文（3ブロック＋一文コーナー）／使用表現58個（意味＋ニュアンス付き）／語彙注釈61個</p>
+  <div class="controls-bar">
+    <button id="global-en-toggle" onclick="toggleAllEN()">全て英文を隠す</button>
+    <label for="speed">速度</label>
+    <select id="speed" onchange="setSpeed(this.value)">
+      <option value="0.7">遅め 0.7×</option>
+      <option value="1.0" selected>普通 1.0×</option>
+      <option value="1.35">速め 1.35×</option>
+    </select>
+  </div>
+</header>
+
+<div class="memo-wrap">
+  <div class="memo-box">
+    <div class="memo-head">
+      <span class="memo-label">📝 メモ</span>
+      <span class="memo-status" id="memo-status"></span>
+    </div>
+    <textarea id="memo-area" class="memo-area" placeholder="ここに軽くメモできます（このページに自動で保存されます）"></textarea>
+  </div>
+</div>
+
+<nav class="toc">
+<a href="#block-block01" class="toc-link">Block 01</a><a href="#block-block02" class="toc-link">Block 02</a><a href="#block-block03" class="toc-link">Block 03</a><a href="#block-block04" class="toc-link">Block 04</a><a href="#block-block05" class="toc-link">Block 05</a>
+</nav>
+
+<main>
+
+    <section class="block" id="block-block01">
+      <div class="block-header">
+        <h2>Block 01</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block01">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-0')" id="toggle-block01-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-0">Most importantly, I need to be confident enough to handle rejection on cold calls.</p>
+        <p class="jp-line">何よりも重要なのは、テレアポで断られても対処できるだけの自信を持つことだ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">most importantly</span> <span class="u-head">［③important］</span></p>
+          <p class="u-meaning">意味：最も重要なことは・何よりも重要なのは</p>
+          <p class="u-nuance">ニュアンス：一番大事なポイントを述べる際の定番副詞</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">形容詞/副詞 + enough</span> <span class="u-head">［④enough］</span></p>
+          <p class="u-meaning">意味：十分に〜</p>
+          <p class="u-nuance">ニュアンス：enoughは形容詞・副詞の後ろに置く</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>confident</strong> <em>(形容詞)</em> 自信がある <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>rejection</strong> <em>(名詞)</em> 断り・拒絶 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>handle</strong> <em>(動詞)</em> 対処する・扱う <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-1')" id="toggle-block01-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-1">I find it exciting to improve my pitch every day, and the results are starting to become significant.</p>
+        <p class="jp-line">毎日トークを改善していくのはわくわくすることで、その成果もかなり意味のあるものになってきている。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">exciting</span> <span class="u-head">［⑥excite］</span></p>
+          <p class="u-meaning">意味：わくわくさせる・興奮させる</p>
+          <p class="u-nuance">ニュアンス：人を興奮させる「もの・こと」を形容する形容詞</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">significant</span> <span class="u-head">［③important類語］</span></p>
+          <p class="u-meaning">意味：意義深い・かなり重要な</p>
+          <p class="u-nuance">ニュアンス：importantよりフォーマル</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>improve</strong> <em>(動詞)</em> 改善する <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>pitch</strong> <em>(名詞)</em> 営業トーク <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-2')" id="toggle-block01-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-2">Sure enough, my call volume this week was not high enough to hit the target.</p>
+        <p class="jp-line">案の定、今週のコール数は目標を達成するのに十分ではなかった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">sure enough</span> <span class="u-head">［④enough］</span></p>
+          <p class="u-meaning">意味：案の定・やっぱり</p>
+          <p class="u-nuance">ニュアンス：予想通りのことが起きた口語表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">not ~ enough</span> <span class="u-head">［④enough］</span></p>
+          <p class="u-meaning">意味：十分に〜ではない</p>
+          <p class="u-nuance">ニュアンス：「足りない」を表す</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>volume</strong> <em>(名詞)</em> 量・件数 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>target</strong> <em>(名詞)</em> 目標 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-3')" id="toggle-block01-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-3">I had enough of the stress by lunchtime, but staying enthusiastic is crucial for this job.</p>
+        <p class="jp-line">昼食の時間までにはストレスにうんざりしていたが、この仕事では熱意を持ち続けることが決定的に重要だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">enough of ~</span> <span class="u-head">［④enough］</span></p>
+          <p class="u-meaning">意味：〜はもう十分・うんざりだ</p>
+          <p class="u-nuance">ニュアンス：精神的な「もう十分！」を表す</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">enthusiastic</span> <span class="u-head">［⑥excite類語］</span></p>
+          <p class="u-meaning">意味：熱狂的な・意欲的な</p>
+          <p class="u-nuance">ニュアンス：持続的な熱意を表すフォーマルな語</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">crucial</span> <span class="u-head">［③important類語］</span></p>
+          <p class="u-meaning">意味：決定的に重要な</p>
+          <p class="u-nuance">ニュアンス：これがないと成功・失敗が決まる</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>stress</strong> <em>(名詞)</em> ストレス <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-4')" id="toggle-block01-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-4">My preferred approach is to keep calls short, which is affordable in terms of time and energy.</p>
+        <p class="jp-line">私が好む方法は通話を短くすることで、時間とエネルギーの面でも無理なく続けられる。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">preferred</span> <span class="u-head">［②favorite類語］</span></p>
+          <p class="u-meaning">意味：より好まれる・望ましい</p>
+          <p class="u-nuance">ニュアンス：複数の選択肢の中で好まれるフォーマルな表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">affordable</span> <span class="u-head">［①cheap類語］</span></p>
+          <p class="u-meaning">意味：手頃な価格・無理なく続けられる</p>
+          <p class="u-nuance">ニュアンス：自分の予算・余力で無理なく対応できる</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>approach</strong> <em>(名詞)</em> 方法・取り組み方 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>energy</strong> <em>(名詞)</em> エネルギー・体力 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-5')" id="toggle-block01-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-5">Importantly, I made a personal favorite playlist to keep myself motivated during long shifts.</p>
+        <p class="jp-line">重要なことに、長いシフト中にモチベーションを保つために、個人的なお気に入りのプレイリストを作った。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">importantly</span> <span class="u-head">［③important］</span></p>
+          <p class="u-meaning">意味：重要なことに</p>
+          <p class="u-nuance">ニュアンス：文全体を修飾する副詞</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">a personal favorite</span> <span class="u-head">［②favorite］</span></p>
+          <p class="u-meaning">意味：個人的なお気に入り</p>
+          <p class="u-nuance">ニュアンス：人気の有無ではなく自分が特に好き</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>motivated</strong> <em>(形容詞)</em> やる気がある <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>playlist</strong> <em>(名詞)</em> プレイリスト <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>shift</strong> <em>(名詞)</em> シフト・勤務時間 <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block02">
+      <div class="block-header">
+        <h2>Block 02</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block02">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-0')" id="toggle-block02-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-0">My moped is dirt cheap to run, which makes it my top choice for delivery work.</p>
+        <p class="jp-line">私の原付は維持費がびっくりするほど安く、それが配達の仕事での第一候補になっている理由だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">dirt cheap</span> <span class="u-head">［①cheap］</span></p>
+          <p class="u-meaning">意味：格安・びっくりするほど安い</p>
+          <p class="u-nuance">ニュアンス：cheapより程度が強い口語表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">top choice</span> <span class="u-head">［②favorite］</span></p>
+          <p class="u-meaning">意味：第一候補・一番の選択</p>
+          <p class="u-nuance">ニュアンス：ランキング1位のイメージ</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>moped</strong> <em>(名詞)</em> 原付・モペット <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>delivery</strong> <em>(名詞)</em> 配達 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-1')" id="toggle-block02-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-1">It is essential to check the tires before each shift, and it is cheap to do it yourself if you&#x27;re careful enough.</p>
+        <p class="jp-line">シフトごとにタイヤを確認することは不可欠で、十分に注意すれば自分でやっても費用がかからない。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">essential</span> <span class="u-head">［③important類語］</span></p>
+          <p class="u-meaning">意味：不可欠な・必須の</p>
+          <p class="u-nuance">ニュアンス：ないと成立しないという強い必要性</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be cheap to + 動詞</span> <span class="u-head">［①cheap］</span></p>
+          <p class="u-meaning">意味：〜するのに費用がかからない</p>
+          <p class="u-nuance">ニュアンス：形式主語構文</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>tire</strong> <em>(名詞)</em> タイヤ <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>careful</strong> <em>(形容詞)</em> 注意深い <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>shift</strong> <em>(名詞)</em> シフト・勤務時間 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-2')" id="toggle-block02-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-2">I feel full of excitement whenever I find a new route, but I try not to get overexcited and miss a turn.</p>
+        <p class="jp-line">新しいルートを見つけるたびにわくわくでいっぱいになるが、興奮しすぎて曲がり角を見逃さないよう努めている。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">full of excitement</span> <span class="u-head">［⑥excite］</span></p>
+          <p class="u-meaning">意味：わくわくでいっぱい</p>
+          <p class="u-nuance">ニュアンス：興奮・期待が最大限に高まっている状態</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">overexcited</span> <span class="u-head">［⑥excite］</span></p>
+          <p class="u-meaning">意味：興奮しすぎた</p>
+          <p class="u-nuance">ニュアンス：過度な興奮が判断力に悪影響を与える</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>route</strong> <em>(名詞)</em> ルート・経路 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>miss</strong> <em>(動詞)</em> 見逃す <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-3')" id="toggle-block02-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-3">I manage to live on the cheap by cooking at home and avoiding expensive areas, which is also economical in the long run.</p>
+        <p class="jp-line">私は家で料理をして高い地域を避けることで、節約して生活をやりくりしている。それは長期的に見ても経済的だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">on the cheap</span> <span class="u-head">［①cheap］</span></p>
+          <p class="u-meaning">意味：安く・節約して</p>
+          <p class="u-nuance">ニュアンス：予算を切り詰めて何かをする</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">economical</span> <span class="u-head">［①cheap類語］</span></p>
+          <p class="u-meaning">意味：経済的な・コスパが良い</p>
+          <p class="u-nuance">ニュアンス：単に安いのではなく節約になる</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>avoid</strong> <em>(動詞)</em> 避ける <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>expensive</strong> <em>(形容詞)</em> 高価な <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-4')" id="toggle-block02-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-4">I am eager to find ample parking near the drop-off point on busy nights.</p>
+        <p class="jp-line">忙しい夜は、配達先の近くに十分な駐車スペースを見つけたくてたまらない。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">eager</span> <span class="u-head">［⑥excite類語］</span></p>
+          <p class="u-meaning">意味：〜したくてたまらない・熱心な</p>
+          <p class="u-nuance">ニュアンス：be eager to doの形で頻出</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">ample</span> <span class="u-head">［④enough類語］</span></p>
+          <p class="u-meaning">意味：十分すぎるほどある・余裕がある</p>
+          <p class="u-nuance">ニュアンス：enoughより多い</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>parking</strong> <em>(名詞)</em> 駐車スペース <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>drop-off point</strong> <em>(名詞句)</em> 配達先・降車地点 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-5')" id="toggle-block02-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-5">The beauty of this job is the freedom — I can choose my own hours, and that is vital for my lifestyle.</p>
+        <p class="jp-line">この仕事の美しさは自由さにある——自分で時間を選べることが、私の生活スタイルにとって絶対不可欠だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">beauty</span> <span class="u-head">［⑤beauty］</span></p>
+          <p class="u-meaning">意味：美しさ・美・美人</p>
+          <p class="u-nuance">ニュアンス：the beauty of ~の形が最頻出</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">vital</span> <span class="u-head">［③important類語］</span></p>
+          <p class="u-meaning">意味：生命に関わる・絶対不可欠な</p>
+          <p class="u-nuance">ニュアンス：ラテン語vita＝生命が語源</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>freedom</strong> <em>(名詞)</em> 自由 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>lifestyle</strong> <em>(名詞)</em> 生活スタイル <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block03">
+      <div class="block-header">
+        <h2>Block 03</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block03">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-0')" id="toggle-block03-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-0">Arsenal is the favorite to win the league this season, and watching their matches is always thrilling enough to keep me up late.</p>
+        <p class="jp-line">アーセナルは今シーズンのリーグ優勝の本命で、彼らの試合を観ることは夜更かしするのに十分なほど毎回スリリングだ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be the favorite to ~</span> <span class="u-head">［②favorite］</span></p>
+          <p class="u-meaning">意味：〜する本命・優勝候補</p>
+          <p class="u-nuance">ニュアンス：最も有力な候補であることを示す</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">enough to + 動詞</span> <span class="u-head">［④enough］</span></p>
+          <p class="u-meaning">意味：〜するのに十分…</p>
+          <p class="u-nuance">ニュアンス：「十分○○なので〜できる」</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>league</strong> <em>(名詞)</em> リーグ <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>thrilling</strong> <em>(形容詞)</em> スリリングな・手に汗握る <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-1')" id="toggle-block03-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-1">Their attacking style excites me every time, and I watched excitedly as they scored in the final minutes.</p>
+        <p class="jp-line">彼らの攻撃的なスタイルは毎回私をわくわくさせ、終盤に得点した瞬間を興奮して観ていた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">excite + 人</span> <span class="u-head">［⑥excite］</span></p>
+          <p class="u-meaning">意味：（人）を興奮させる・わくわくさせる</p>
+          <p class="u-nuance">ニュアンス：動詞として使う形</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">excitedly</span> <span class="u-head">［⑥excite］</span></p>
+          <p class="u-meaning">意味：興奮して・わくわくして</p>
+          <p class="u-nuance">ニュアンス：どんな様子でという行動の状態を表す副詞</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>attacking</strong> <em>(形容詞)</em> 攻撃的な <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>scored</strong> <em>(動詞（scoreの過去形）)</em> 得点した <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-2')" id="toggle-block03-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-2">It is important for every fan to understand that critical moments in a match can change everything.</p>
+        <p class="jp-line">試合の中の決定的に重大な瞬間がすべてを変えうることを、すべてのファンが理解することが重要だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be important for ~</span> <span class="u-head">［③important］</span></p>
+          <p class="u-meaning">意味：〜にとって重要である</p>
+          <p class="u-nuance">ニュアンス：重要性の対象を明示する構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">critical</span> <span class="u-head">［③important類語］</span></p>
+          <p class="u-meaning">意味：極めて重大な・危機的な</p>
+          <p class="u-nuance">ニュアンス：状況が悪化するか好転するかの瀬戸際</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>moment</strong> <em>(名詞)</em> 瞬間・局面 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-3')" id="toggle-block03-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-3">This fixture is always a firm favorite among fans in my group, and the atmosphere was simply stunning.</p>
+        <p class="jp-line">この対戦カードは私のグループのファンの間でいつも不動の人気があり、その雰囲気はただただ圧倒的だった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">a firm favorite</span> <span class="u-head">［②favorite］</span></p>
+          <p class="u-meaning">意味：不動の人気者・根強い人気があるもの</p>
+          <p class="u-nuance">ニュアンス：長期的に安定した人気があることを示す</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">stunning</span> <span class="u-head">［⑤beauty類語］</span></p>
+          <p class="u-meaning">意味：目を見張るほど美しい・圧倒的な</p>
+          <p class="u-nuance">ニュアンス：視覚的な美しさだけでなく圧倒的な印象全般に使える</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>atmosphere</strong> <em>(名詞)</em> 雰囲気 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>simply</strong> <em>(副詞)</em> ただただ・まさに <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>fixture</strong> <em>(名詞)</em> （定期的な）対戦カード・試合 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-4')" id="toggle-block03-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-4">I bought a replica jersey cheaply online, but the quality was barely adequate for match day.</p>
+        <p class="jp-line">レプリカジャージをオンラインで安く買ったが、試合当日に使うには品質がかろうじて十分な程度だった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">cheaply</span> <span class="u-head">［①cheap］</span></p>
+          <p class="u-meaning">意味：安く</p>
+          <p class="u-nuance">ニュアンス：cheapに-lyをつけた基本形</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">adequate</span> <span class="u-head">［④enough類語］</span></p>
+          <p class="u-meaning">意味：必要最低限は満たしている</p>
+          <p class="u-nuance">ニュアンス：ギリギリ合格ライン</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>replica</strong> <em>(名詞)</em> レプリカ・複製品 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>jersey</strong> <em>(名詞)</em> ジャージ・ユニフォーム <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>barely</strong> <em>(副詞)</em> かろうじて <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block03-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block03-5')" id="toggle-block03-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block03-5">Funnily enough, the team I expected to lose ended up winning, and they played beautifully in the final minutes.</p>
+        <p class="jp-line">面白いことに、負けると思っていたチームが結局勝ち、終盤は見事なプレーを見せた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">funnily enough</span> <span class="u-head">［④enough］</span></p>
+          <p class="u-meaning">意味：面白いことに・不思議なことに</p>
+          <p class="u-nuance">ニュアンス：予想外の出来事に対する驚きを添える</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">beautifully</span> <span class="u-head">［⑤beauty］</span></p>
+          <p class="u-meaning">意味：美しく・見事に</p>
+          <p class="u-nuance">ニュアンス：演奏・プレー・仕事ぶりなどにも使える副詞</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>genuinely</strong> <em>(副詞)</em> 本当に・心から <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>expected</strong> <em>(動詞（expectの過去形）)</em> 予想していた <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>end up ~ing</strong> <em>(動詞句)</em> 結局〜することになる <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block04">
+      <div class="block-header">
+        <h2>Block 04</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block04">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-0')" id="toggle-block04-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-0">The game was of great importance for the playoff race, and the crowd favorite on the court was LeBron as always.</p>
+        <p class="jp-line">その試合はプレーオフ争いにとって非常に重要で、コートでのファンの一番人気はいつも通りレブロンだった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">of great importance</span> <span class="u-head">［③important］</span></p>
+          <p class="u-meaning">意味：非常に重要な</p>
+          <p class="u-nuance">ニュアンス：かなりフォーマルな表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">crowd favorite</span> <span class="u-head">［②favorite］</span></p>
+          <p class="u-meaning">意味：観客・ファンに大人気の存在</p>
+          <p class="u-nuance">ニュアンス：スポーツやライブで頻出</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>playoff</strong> <em>(名詞)</em> プレーオフ <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>court</strong> <em>(名詞)</em> コート <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-1')" id="toggle-block04-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-1">I had plenty of time to watch the game, and I was thrilled when the final buzzer went off.</p>
+        <p class="jp-line">試合を観る時間はたっぷりあり、最後のブザーが鳴った時は感激した。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">plenty of ~</span> <span class="u-head">［④enough類語］</span></p>
+          <p class="u-meaning">意味：たくさんあって困らない・どっさり</p>
+          <p class="u-nuance">ニュアンス：カジュアルで明るい口語表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">thrilled</span> <span class="u-head">［⑥excite類語］</span></p>
+          <p class="u-meaning">意味：とても興奮・感激している</p>
+          <p class="u-nuance">ニュアンス：excitedより強い</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>buzzer</strong> <em>(名詞)</em> ブザー <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-2')" id="toggle-block04-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-2">The all-time favorite track I listen to before games is by Kendrick Lamar, and it always excites interest in the match ahead.</p>
+        <p class="jp-line">試合前に聴く歴代最高のお気に入り曲はケンドリック・ラマーで、それがこれから始まる試合への興味をいつもかき立てる。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">all-time favorite</span> <span class="u-head">［②favorite］</span></p>
+          <p class="u-meaning">意味：歴代最高のお気に入り</p>
+          <p class="u-nuance">ニュアンス：これまでの経験の中で最も好きなもの</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">excite interest in ~</span> <span class="u-head">［⑥excite］</span></p>
+          <p class="u-meaning">意味：〜への興味をかき立てる</p>
+          <p class="u-nuance">ニュアンス：感情・興味を引き出す使い方</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>track</strong> <em>(名詞)</em> 曲・トラック <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>ahead</strong> <em>(副詞)</em> これから・前方に <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-3')" id="toggle-block04-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-3">The lyrics were gorgeous, and I felt a deep feeling of excitement as the beat dropped.</p>
+        <p class="jp-line">その歌詞は最高に美しく、ビートが落ちた瞬間に深いわくわくした気持ちを感じた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">gorgeous</span> <span class="u-head">［⑤beauty類語］</span></p>
+          <p class="u-meaning">意味：とびきり綺麗な・華やかで豪華な</p>
+          <p class="u-nuance">ニュアンス：口語で最大級の褒め言葉</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">a feeling of excitement</span> <span class="u-head">［⑥excite］</span></p>
+          <p class="u-meaning">意味：わくわくした気持ち・興奮した気持ち</p>
+          <p class="u-nuance">ニュアンス：感情そのものを名詞化した表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>lyrics</strong> <em>(名詞)</em> 歌詞 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>beat</strong> <em>(名詞)</em> ビート・リズム <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-4')" id="toggle-block04-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-4">That artist is beloved by fans worldwide, and his style is elegant in a way that most rappers can&#x27;t match.</p>
+        <p class="jp-line">そのアーティストは世界中のファンに深く愛されており、そのスタイルはほとんどのラッパーが及ばないほど上品で洗練されている。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">beloved</span> <span class="u-head">［②favorite類語］</span></p>
+          <p class="u-meaning">意味：深く愛されている・最愛の</p>
+          <p class="u-nuance">ニュアンス：favoriteより感情が強い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">elegant</span> <span class="u-head">［⑤beauty類語］</span></p>
+          <p class="u-meaning">意味：上品な・洗練された</p>
+          <p class="u-nuance">ニュアンス：気品・仕草・育ちの良さを表す</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>worldwide</strong> <em>(副詞)</em> 世界中で <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>match</strong> <em>(動詞)</em> 匹敵する・並ぶ <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block04-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block04-5')" id="toggle-block04-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block04-5">In excitement, I shared the album with a friend who had sufficient knowledge of hip-hop to appreciate it fully.</p>
+        <p class="jp-line">興奮のあまり、そのアルバムをヒップホップについて十分な知識を持つ友人とシェアした。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">in excitement</span> <span class="u-head">［⑥excite］</span></p>
+          <p class="u-meaning">意味：興奮して・興奮のあまり</p>
+          <p class="u-nuance">ニュアンス：行動の様子・きっかけを表す前置詞句</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">sufficient</span> <span class="u-head">［④enough類語］</span></p>
+          <p class="u-meaning">意味：十分な</p>
+          <p class="u-nuance">ニュアンス：enoughのフォーマル版</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>appreciate</strong> <em>(動詞)</em> 真価を理解する・鑑賞する <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>knowledge</strong> <em>(名詞)</em> 知識 <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block05">
+      <div class="block-header">
+        <h2>Block 05</h2>
+        <p class="block-title-jp">5文</p>
+      </div>
+      <div class="passage" id="passage-block05">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-0')" id="toggle-block05-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-0">The film I watched last night was an inexpensive rental, but it turned out to be a breathtaking experience.</p>
+        <p class="jp-line">昨夜観た映画は安価なレンタルだったが、息をのむほど素晴らしい体験だった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">inexpensive</span> <span class="u-head">［①cheap類語］</span></p>
+          <p class="u-meaning">意味：安価な</p>
+          <p class="u-nuance">ニュアンス：cheapのフォーマル版で「品質が悪い」の含みはない</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">breathtaking</span> <span class="u-head">［⑤beauty類語］</span></p>
+          <p class="u-meaning">意味：息をのむほど美しい・壮大な</p>
+          <p class="u-nuance">ニュアンス：大自然の絶景や芸術作品に多い</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>rental</strong> <em>(名詞)</em> レンタル品 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>experience</strong> <em>(名詞)</em> 体験・経験 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-1')" id="toggle-block05-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-1">It was a cherished story about resilience, and the budget production style actually added to its charm.</p>
+        <p class="jp-line">それは回復力についての大切にされてきた物語で、低予算の制作スタイルがかえってその魅力を高めていた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">cherished</span> <span class="u-head">［②favorite類語］</span></p>
+          <p class="u-meaning">意味：大切にされている・愛おしい</p>
+          <p class="u-nuance">ニュアンス：かけがえのない大切なもの</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">budget</span> <span class="u-head">［①cheap類語］</span></p>
+          <p class="u-meaning">意味：低価格向け・格安の</p>
+          <p class="u-nuance">ニュアンス：予算を抑えた商品・サービス</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>resilience</strong> <em>(名詞)</em> 回復力・立ち直る力 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>charm</strong> <em>(名詞)</em> 魅力 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>production</strong> <em>(名詞)</em> 制作 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-2')" id="toggle-block05-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-2">The main character was pretty in a quiet way, and her story was a clear case of enough is enough — a woman who finally said no to being treated badly.</p>
+        <p class="jp-line">主人公は静かな雰囲気で可愛らしく、彼女の物語はまさに「もうたくさんだ」という状況だった——ひどい扱いを受けることについてついにノーと言った女性の話だった。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">pretty</span> <span class="u-head">［⑤beauty類語］</span></p>
+          <p class="u-meaning">意味：可愛らしい・小綺麗な</p>
+          <p class="u-nuance">ニュアンス：beautifulより軽くカジュアル</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">enough is enough</span> <span class="u-head">［④enough］</span></p>
+          <p class="u-meaning">意味：もうたくさんだ・いい加減にしろ</p>
+          <p class="u-nuance">ニュアンス：我慢の限界に達したことを表すイディオム</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>treat</strong> <em>(動詞)</em> 扱う <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-3')" id="toggle-block05-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-3">Beauty is in the eye of the beholder, but this film left me with a deep sense of how important it is to tell honest stories.</p>
+        <p class="jp-line">美は見る人の目の中にあるというが、この映画は正直な物語を伝えることがいかに重要かという深い感覚を残してくれた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">Beauty is in the eye of the beholder</span> <span class="u-head">［⑤beauty］</span></p>
+          <p class="u-meaning">意味：美は見る人の目の中にある</p>
+          <p class="u-nuance">ニュアンス：好みは人それぞれという意味の有名なことわざ</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>honest</strong> <em>(形容詞)</em> 正直な <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>sense</strong> <em>(名詞)</em> 感覚・意識 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block05-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block05-4')" id="toggle-block05-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block05-4">The critic&#x27;s review felt like a cheap shot, since he never engaged with what was crucial to the film&#x27;s message.</p>
+        <p class="jp-line">批評家のレビューは卑劣な批判のように感じられた。彼はその映画のメッセージにとって決定的に重要な部分に、一度も向き合おうとしなかったからだ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">a cheap shot</span> <span class="u-head">［①cheap］</span></p>
+          <p class="u-meaning">意味：卑劣な一撃・ひどい批判</p>
+          <p class="u-nuance">ニュアンス：正々堂々としない攻撃や批判を指す比喩表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">crucial</span> <span class="u-head">［③important類語］</span></p>
+          <p class="u-meaning">意味：決定的に重要な</p>
+          <p class="u-nuance">ニュアンス：これがないと成功・失敗が決まる</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>critic</strong> <em>(名詞)</em> 批評家 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>engage</strong> <em>(動詞)</em> 関わる・取り組む <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+</main>
+
+<footer class="page-footer">
+  cheap・favorite・important・enough・beauty・excite 全58表現収録（5ブロック29文）
+</footer>
+
+<script>
+let speedRate = 1.0;
+let chosenVoice = null;
+function pickVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return;
+  chosenVoice = voices.find(v => v.name === 'Samantha')
+    || voices.find(v => v.name.includes('Google US English'))
+    || voices.find(v => v.lang === 'en-US')
+    || voices[0];
+}
+window.speechSynthesis.onvoiceschanged = pickVoice;
+pickVoice();
+function speakText(text) {
+  if (!text) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = speedRate;
+  if (chosenVoice) u.voice = chosenVoice;
+  window.speechSynthesis.speak(u);
+}
+function speakOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  if (el) speakText(el.textContent);
+}
+function toggleOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  const btn = document.getElementById('toggle-' + sid);
+  el.classList.toggle('is-hidden');
+  btn.textContent = el.classList.contains('is-hidden') ? '見る' : '隠す';
+}
+function setSpeed(v) { speedRate = parseFloat(v); }
+let allENHidden = false;
+function toggleAllEN() {
+  allENHidden = !allENHidden;
+  document.querySelectorAll('.en-line').forEach(el => {
+    if (allENHidden) { el.classList.add('is-hidden'); } else { el.classList.remove('is-hidden'); }
+  });
+  document.querySelectorAll('[id^="toggle-"]').forEach(btn => {
+    btn.textContent = allENHidden ? '見る' : '隠す';
+  });
+  document.getElementById('global-en-toggle').textContent = allENHidden ? '全て英文を見る' : '全て英文を隠す';
+}
+
+// Persistent memo (saved in this browser via localStorage, survives reloads)
+(function () {
+  var MEMO_KEY = 'notes_review_memo__cheap-favorite-important-enough-beauty-excite-2';
+  var area = document.getElementById('memo-area');
+  var status = document.getElementById('memo-status');
+  if (!area) return;
+  try {
+    var saved = window.localStorage.getItem(MEMO_KEY);
+    if (saved !== null) area.value = saved;
+  } catch (e) { /* storage unavailable, memo just won't persist */ }
+  var timer = null;
+  area.addEventListener('input', function () {
+    if (status) status.textContent = '保存中…';
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(function () {
+      try {
+        window.localStorage.setItem(MEMO_KEY, area.value);
+        if (status) {
+          status.textContent = '保存済み';
+          setTimeout(function () { status.textContent = ''; }, 1500);
+        }
+      } catch (e) {
+        if (status) status.textContent = '保存できません';
+      }
+    }, 400);
+  });
+})();
+</script>
+</body>
+</html>
