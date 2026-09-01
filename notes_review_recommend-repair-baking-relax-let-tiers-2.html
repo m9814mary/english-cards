@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Review — recommend/repair/baking/relax/let（Tier別・第2弾）</title>
+<style>
+:root {
+  --bg: #F7F5F0; --bg2: #EEEAE2; --surface: #fff; --border: #D8D3C8;
+  --text: #1A1713; --text-sub: #6B6459; --text-muted: #9C9389;
+  --accent: #2D4A3E; --accent-pale: #E8F0EC;
+  --gold: #B8913A; --gold-pale: #F5EDD9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  line-height: 1.8; padding-bottom: 80px;
+}
+h1, h2 { font-family: Georgia, 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
+header.top { background: var(--accent); color: #fff; padding: 26px 20px 20px; position: sticky; top: 0; z-index: 50; }
+header.top h1 { margin: 0 0 4px; font-size: 22px; font-weight: 400; }
+header.top .subtitle { font-size: 13px; opacity: 0.85; margin: 0 0 14px; }
+.controls-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.controls-bar button, .controls-bar select {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.35); color: #fff;
+  border-radius: 20px; padding: 7px 14px; font-size: 13px; cursor: pointer;
+}
+.controls-bar button:hover { background: rgba(255,255,255,0.22); }
+.controls-bar label { font-size: 12px; opacity: 0.85; margin-right: -4px; }
+.memo-wrap { max-width: 780px; margin: 16px auto 0; padding: 0 20px; }
+.memo-box { background: #FFF9E8; border: 1px solid #E8D9A0; border-radius: 12px; padding: 12px 16px; }
+.memo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.memo-label { font-size: 13px; font-weight: 700; color: #8a6d1a; }
+.memo-status { font-size: 11px; color: #9C9389; }
+.memo-area {
+  width: 100%; min-height: 70px; border: 1px solid #E8D9A0; border-radius: 8px; padding: 8px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-size: 14px; color: #1A1713; background: #fff; resize: vertical; box-sizing: border-box;
+}
+.memo-area:focus { outline: 2px solid #E8D9A0; }
+nav.toc { max-width: 780px; margin: 20px auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+.toc-link {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px;
+  text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600;
+}
+.toc-link:hover { border-color: var(--accent); }
+main { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+.block {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 22px 8px; margin-bottom: 20px; scroll-margin-top: 150px;
+}
+.block-header { border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 6px; }
+.block-header h2 { margin: 0; font-size: 19px; color: var(--accent); font-weight: 400; }
+.block-title-jp { margin: 4px 0 0; font-size: 12.5px; color: var(--text-sub); }
+.sentence-block { padding: 16px 0; border-bottom: 1px dashed var(--border); }
+.sentence-block:last-child { border-bottom: none; }
+.sentence-controls { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+.mini-speak, .mini-toggle {
+  background: var(--accent-pale); color: var(--accent); border: 1px solid var(--accent);
+  border-radius: 14px; font-size: 12px; cursor: pointer; padding: 3px 10px;
+}
+.mini-speak { padding: 3px 8px; font-size: 13px; }
+.mini-speak:hover, .mini-toggle:hover { background: var(--accent); color: #fff; }
+.en-line {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-style: normal; font-size: 17px; font-weight: 500;
+  line-height: 1.6; color: var(--text); margin: 0 0 4px;
+}
+.en-line.is-hidden { display: none; }
+.jp-line { font-size: 14px; line-height: 1.8; color: var(--text-sub); margin: 0 0 10px; }
+.used-box { background: var(--accent-pale); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.used-item { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(45,74,62,0.12); }
+.used-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.u-phrase-line { margin: 0 0 2px; }
+.u-phrase { color: var(--accent); font-weight: 700; font-size: 13px; }
+.u-head { color: var(--text-muted); font-size: 11px; }
+.u-meaning { margin: 0 0 2px; font-size: 12.5px; color: var(--text); }
+.u-nuance { margin: 0; font-size: 12px; color: var(--text-sub); }
+.vocab-box { background: var(--gold-pale); border-radius: 8px; padding: 8px 12px; }
+.vocab-label { display: block; font-size: 11px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.vocab-chip { font-size: 12px; color: var(--text-sub); margin-right: 12px; display: inline-block; margin-bottom: 3px; }
+.vocab-chip strong { color: var(--text); }
+.vocab-chip em { font-style: normal; color: var(--text-muted); }
+.v-level { color: var(--gold); font-weight: 600; }
+footer.page-footer { max-width: 780px; margin: 10px auto 40px; padding: 0 20px; font-size: 12px; color: var(--text-muted); text-align: center; }
+@media (max-width: 640px) {
+  header.top { padding: 18px 14px 14px; }
+  .en-line { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>English Review — recommend・repair・baking・relax・let（Tier別・第2弾）</h1>
+  <p class="subtitle">全18文（Block01・02＋Tier2a・2b・3）／使用表現36個／語彙注釈24個／Tier2b・3は音声なし</p>
+  <div class="controls-bar">
+    <button id="global-en-toggle" onclick="toggleAllEN()">全て英文を隠す</button>
+    <label for="speed">速度</label>
+    <select id="speed" onchange="setSpeed(this.value)">
+      <option value="0.7">遅め 0.7×</option>
+      <option value="1.0" selected>普通 1.0×</option>
+      <option value="1.35">速め 1.35×</option>
+    </select>
+  </div>
+</header>
+
+<div class="memo-wrap">
+  <div class="memo-box">
+    <div class="memo-head">
+      <span class="memo-label">📝 メモ</span>
+      <span class="memo-status" id="memo-status"></span>
+    </div>
+    <textarea id="memo-area" class="memo-area" placeholder="ここに軽くメモできます（このページに自動で保存されます）"></textarea>
+  </div>
+</div>
+
+<nav class="toc">
+<a href="#block-block01" class="toc-link">Block 01</a><a href="#block-block02" class="toc-link">Block 02</a><a href="#block-tier2a" class="toc-link">Tier 2a</a><a href="#block-tier2b" class="toc-link">Tier 2b</a><a href="#block-tier3" class="toc-link">Tier 3</a>
+</nav>
+
+<main>
+
+    <section class="block" id="block-block01">
+      <div class="block-header">
+        <h2>Block 01</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block01">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-0')" id="toggle-block01-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-0">I let the fresh air in before my first call. I recommend starting each shift by relaxing your shoulders a little.</p>
+        <p class="jp-line">最初の電話の前に、新鮮な空気を入れる。各シフトの始めに、少し肩をリラックスさせることから始めるのをお勧めする。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">let + 目的語 + 副詞／前置詞</span> <span class="u-head">［let］</span></p>
+          <p class="u-meaning">意味：〜を入れる・出す・通す</p>
+          <p class="u-nuance">ニュアンス：日常動作を表す基本構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">recommend + V-ing</span> <span class="u-head">［recommend］</span></p>
+          <p class="u-meaning">意味：「〜すること」を勧める</p>
+          <p class="u-nuance">ニュアンス：行動そのものを勧める、日常会話で最も使う形</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">relax + 名詞</span> <span class="u-head">［relax］</span></p>
+          <p class="u-meaning">意味：〜を緩める・和らげる</p>
+          <p class="u-nuance">ニュアンス：緊張・規則・制限などを対象にする他動詞</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>shift</strong> <em>(名詞)</em> シフト・勤務時間 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-1')" id="toggle-block01-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-1">There&#x27;s a bakery near my office that sells freshly baked bread every morning. My old headset finally went beyond repair, so I decided to let go of it.</p>
+        <p class="jp-line">オフィスの近くに、毎朝焼き立てのパンを売っているパン屋がある。古いヘッドセットはついに修理不可能になったので、それを手放すことにした。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">freshly baked</span> <span class="u-head">［baking］</span></p>
+          <p class="u-meaning">意味：焼き立ての</p>
+          <p class="u-nuance">ニュアンス：パン屋や家庭での会話で頻出</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">beyond repair</span> <span class="u-head">［repair］</span></p>
+          <p class="u-meaning">意味：修理できないほど壊れている</p>
+          <p class="u-nuance">ニュアンス：repairの限界を超えている、比喩的にも使う口語表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">let go of ~</span> <span class="u-head">［let］</span></p>
+          <p class="u-meaning">意味：〜を手放す</p>
+          <p class="u-nuance">ニュアンス：物理的にも比喩的にも使う頻出表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>bakery</strong> <em>(名詞)</em> パン屋 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>headset</strong> <em>(名詞)</em> ヘッドセット <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-2')" id="toggle-block01-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-2">I recommend this café to all my coworkers. It&#x27;s the perfect place to relax and unwind, even on a baking hot afternoon.</p>
+        <p class="jp-line">このカフェを同僚全員に勧めている。猛烈に暑い午後でさえ、リラックスしてくつろぐのに最適な場所だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">recommend A to B</span> <span class="u-head">［recommend］</span></p>
+          <p class="u-meaning">意味：AをBに勧める・推薦する</p>
+          <p class="u-nuance">ニュアンス：友人へのおすすめなど、カジュアルな場面でも頻出</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">relax and unwind</span> <span class="u-head">［relax］</span></p>
+          <p class="u-meaning">意味：心身ともにくつろぐ</p>
+          <p class="u-nuance">ニュアンス：リフレッシュを表す定番の口語フレーズ</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">baking hot</span> <span class="u-head">［baking］</span></p>
+          <p class="u-meaning">意味：（天気が）猛烈に暑い</p>
+          <p class="u-nuance">ニュアンス：オーブンで焼かれているような暑さを表す口語表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>coworker</strong> <em>(名詞)</em> 同僚 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-3')" id="toggle-block01-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-3">The building needed some repair work last month. My manager wanted to get it done right away, but I told him to let it be until the busy season ended. I highly recommend patience in situations like that.</p>
+        <p class="jp-line">その建物は先月、いくつかの修理作業が必要だった。マネージャーはすぐに済ませたがっていたが、私は繁忙期が終わるまでそのままにしておくよう伝えた。そのような状況では忍耐を強くお勧めする。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">repair work</span> <span class="u-head">［repair］</span></p>
+          <p class="u-meaning">意味：修理作業</p>
+          <p class="u-nuance">ニュアンス：日常会話でも普通に使う名詞句</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">let it be</span> <span class="u-head">［let］</span></p>
+          <p class="u-meaning">意味：そのままにしておく・放っておく</p>
+          <p class="u-nuance">ニュアンス：有名な歌のタイトルにもなった定番フレーズ</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">highly recommend</span> <span class="u-head">［recommend］</span></p>
+          <p class="u-meaning">意味：強くお勧めする</p>
+          <p class="u-nuance">ニュアンス：感想やレビューでよく使う強調表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>patience</strong> <em>(名詞)</em> 忍耐 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-4')" id="toggle-block01-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-4">This shop always has a relaxed atmosphere. I almost suggested a half-baked idea for a new campaign, but I said, &quot;let me see&quot; and thought it through first.</p>
+        <p class="jp-line">この店はいつもくつろいだ雰囲気がある。新しいキャンペーンについて生煮えのアイデアを提案しそうになったが、「ちょっと考えさせて」と言って、まず最後まで考え抜いた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">relaxed atmosphere</span> <span class="u-head">［relax］</span></p>
+          <p class="u-meaning">意味：和やかな雰囲気・くつろいだ雰囲気</p>
+          <p class="u-nuance">ニュアンス：お店や集まりの様子を描写する際によく使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">half-baked idea</span> <span class="u-head">［baking］</span></p>
+          <p class="u-meaning">意味：生煮えの、中途半端な構想</p>
+          <p class="u-nuance">ニュアンス：パンが半分しか焼けていない比喩、会話で気軽に使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">let me see</span> <span class="u-head">［let］</span></p>
+          <p class="u-meaning">意味：ええと・ちょっと考えさせて</p>
+          <p class="u-nuance">ニュアンス：時間を稼ぐ際の定番の口語表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>campaign</strong> <em>(名詞)</em> キャンペーン <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-5')" id="toggle-block01-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-5">I strongly recommend staying relaxed about small mistakes at work. My manager always lets off some steam by joking around after a hard shift.</p>
+        <p class="jp-line">仕事での小さなミスについては気楽でいることを強くお勧めする。マネージャーはきついシフトの後、いつも冗談を言ってストレスを発散している。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">strongly recommend</span> <span class="u-head">［recommend］</span></p>
+          <p class="u-meaning">意味：強く勧める</p>
+          <p class="u-nuance">ニュアンス：highlyとほぼ同義、口語でも自然に使える</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">relaxed about ~</span> <span class="u-head">［relax］</span></p>
+          <p class="u-meaning">意味：〜に対して気楽である</p>
+          <p class="u-nuance">ニュアンス：神経質でない性格・態度を表す口語表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">let off</span> <span class="u-head">［let］</span></p>
+          <p class="u-meaning">意味：免除する・（爆竹などを）鳴らす</p>
+          <p class="u-nuance">ニュアンス：カジュアルな場面で使う多義的な句動詞</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>joke around</strong> <em>(動詞句)</em> 冗談を言う <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block02">
+      <div class="block-header">
+        <h2>Block 02</h2>
+        <p class="block-title-jp">1文</p>
+      </div>
+      <div class="passage" id="passage-block02">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-0')" id="toggle-block02-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-0">Based on a friend&#x27;s recommendation, I started jogging in the morning. Once the rain lets up, I plan to go for a run today too.</p>
+        <p class="jp-line">友人の勧めで、朝のジョギングを始めた。雨が弱まったら、今日も走りに行くつもりだ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">recommendation</span> <span class="u-head">［recommend］</span></p>
+          <p class="u-meaning">意味：推薦・勧告・おすすめ（名詞）</p>
+          <p class="u-nuance">ニュアンス：「おすすめ教えて」のような会話でも使う基本語</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">let up</span> <span class="u-head">［let］</span></p>
+          <p class="u-meaning">意味：弱まる・和らぐ</p>
+          <p class="u-nuance">ニュアンス：天気や雨の勢いについて会話でよく使う</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>jog</strong> <em>(動詞)</em> ジョギングする <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-tier2a">
+      <div class="block-header">
+        <h2>Tier 2a</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-tier2a">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('tier2a-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('tier2a-0')" id="toggle-tier2a-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2a-0">I recommend this candidate for the manager position. The company plans to bake accessibility features into every new product, and good policies can ease employee concerns.</p>
+        <p class="jp-line">私はこの候補者をマネージャー職に推薦します。その会社は新しい製品すべてにアクセシビリティ機能を最初から組み込む予定であり、良い方針は従業員の懸念を和らげることができます。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">recommend A for B</span> <span class="u-head">［recommend］</span></p>
+          <p class="u-meaning">意味：B（役職・用途・目的）のためにAを推薦する</p>
+          <p class="u-nuance">ニュアンス：「〜に向いている」という適性のニュアンスを含む、面接や紹介の場でも使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">bake into</span> <span class="u-head">［baking］</span></p>
+          <p class="u-meaning">意味：最初から組み込む</p>
+          <p class="u-nuance">ニュアンス：生地に具材を練り込むプロセスが語源、ITやビジネスの会話でも使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">ease + O</span> <span class="u-head">［relax］</span></p>
+          <p class="u-meaning">意味：〜を和らげる・緩和する</p>
+          <p class="u-nuance">ニュアンス：relaxよりやや改まった響き、ニュースや報道でも使われる</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>candidate</strong> <em>(名詞)</em> 候補者 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>accessibility</strong> <em>(名詞)</em> アクセシビリティ・利用しやすさ <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>concerns</strong> <em>(名詞)</em> 懸念 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('tier2a-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('tier2a-1')" id="toggle-tier2a-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2a-1">I recommend her as the new team leader. Let alone her experience, her attitude alone recommends her for the role. Still, I would recommend against rushing the decision.</p>
+        <p class="jp-line">私は彼女を新しいチームリーダーとして推薦します。彼女の経験は言うまでもなく、その姿勢だけでもその役職にふさわしいと言えます。それでも、決断を急ぐことには反対を勧めます。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">recommend A as B</span> <span class="u-head">［recommend］</span></p>
+          <p class="u-meaning">意味：B（資格・肩書・役割）としてAを推薦する</p>
+          <p class="u-nuance">ニュアンス：すでに持つ能力への太鼓判を押すニュアンス</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">let alone ~</span> <span class="u-head">［let］</span></p>
+          <p class="u-meaning">意味：〜は言うまでもなく</p>
+          <p class="u-nuance">ニュアンス：否定文で使い「AすらできないましてBなんて」を強調する、やや修辞的な話し言葉</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">recommend against ~</span> <span class="u-head">［recommend］</span></p>
+          <p class="u-meaning">意味：〜しないよう勧める</p>
+          <p class="u-nuance">ニュアンス：反対というより助言のイメージ、専門家のアドバイスなどで使う</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>attitude</strong> <em>(名詞)</em> 姿勢・態度 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>rushing</strong> <em>(動詞（rushの現在分詞）)</em> 急ぐこと <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('tier2a-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('tier2a-2')" id="toggle-tier2a-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2a-2">The professor agreed to write a letter of recommendation for the student. On his advisor&#x27;s recommendation, he applied to the graduate program.</p>
+        <p class="jp-line">教授はその学生のために推薦状を書くことに同意しました。指導教員の勧めで、彼は大学院プログラムに応募しました。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">letter of recommendation</span> <span class="u-head">［recommend］</span></p>
+          <p class="u-meaning">意味：推薦状</p>
+          <p class="u-nuance">ニュアンス：留学・就職の場面で話題になる、やや改まった名詞句</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">on someone&#x27;s recommendation</span> <span class="u-head">［recommend］</span></p>
+          <p class="u-meaning">意味：〜の勧めで</p>
+          <p class="u-nuance">ニュアンス：ネイティブが会話でもよく使う、経緯を説明する表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>professor</strong> <em>(名詞)</em> 教授 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>advisor</strong> <em>(名詞)</em> 指導教員・助言者 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>graduate program</strong> <em>(名詞句)</em> 大学院プログラム <span class="v-level">準1級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-tier2b">
+      <div class="block-header">
+        <h2>Tier 2b</h2>
+        <p class="block-title-jp">7文</p>
+      </div>
+      <div class="passage" id="passage-tier2b">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-0')" id="toggle-tier2b-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-0">The committee recommends that the policy be reviewed annually.</p>
+        <p class="jp-line">委員会は、その方針を毎年見直すことを勧告している。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">recommend that + 主語 + (should) 動詞の原形</span> <span class="u-head">［recommend］</span></p>
+          <p class="u-meaning">意味：（その人）が〜するよう勧める・提案する</p>
+          <p class="u-nuance">ニュアンス：誰がするかを明示する、仮定法を用いたフォーマルな構文</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>committee</strong> <em>(名詞)</em> 委員会 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>annually</strong> <em>(副詞)</em> 毎年 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-1')" id="toggle-tier2b-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-1">The auditor recommended to management that they update the safety procedures.</p>
+        <p class="jp-line">監査人は経営陣に、安全手順を更新するよう勧告した。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">recommend to 人 that ~</span> <span class="u-head">［recommend］</span></p>
+          <p class="u-meaning">意味：人に〜するよう勧める</p>
+          <p class="u-nuance">ニュアンス：誰に勧めるかを明示する、公式な文章や報告書で使う構文</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>auditor</strong> <em>(名詞)</em> 監査人 <span class="v-level">準1級</span></span><span class="vocab-chip"><strong>procedures</strong> <em>(名詞)</em> 手順 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-2')" id="toggle-tier2b-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-2">The two companies worked to repair their damaged partnership.</p>
+        <p class="jp-line">その2社は、損なわれた提携関係を修復するために取り組んだ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">repair + 人間関係などの名詞</span> <span class="u-head">［repair］</span></p>
+          <p class="u-meaning">意味：人間関係・信頼・評判などを修復する</p>
+          <p class="u-nuance">ニュアンス：物理的な修理ではなく比喩的な回復を表す、文章向きの表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>damaged</strong> <em>(形容詞)</em> 損なわれた <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>partnership</strong> <em>(名詞)</em> 提携関係 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-3')" id="toggle-tier2b-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-3">The organization took several steps to repair its reputation after the scandal.</p>
+        <p class="jp-line">その組織は、スキャンダルの後、評判を回復するためにいくつかの対策を講じた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">repair one&#x27;s reputation</span> <span class="u-head">［repair］</span></p>
+          <p class="u-meaning">意味：評判を回復する</p>
+          <p class="u-nuance">ニュアンス：ニュースや報告文でよく使われる書き言葉的な表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>organization</strong> <em>(名詞)</em> 組織 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>scandal</strong> <em>(名詞)</em> スキャンダル <span class="v-level">準1級</span></span></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-4')" id="toggle-tier2b-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-4">The report noted that the roof was in need of repair.</p>
+        <p class="jp-line">その報告書は、屋根が修理を必要としていると指摘した。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">in need of repair(s)</span> <span class="u-head">［repair］</span></p>
+          <p class="u-meaning">意味：修理が必要である</p>
+          <p class="u-nuance">ニュアンス：報告書や案内文で使うややフォーマルな言い回し</p>
+        </div></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-5')" id="toggle-tier2b-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-5">The city will make repairs to the road next spring.</p>
+        <p class="jp-line">市は来春、その道路の修理を行う予定だ。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">make repairs</span> <span class="u-head">［repair］</span></p>
+          <p class="u-meaning">意味：修理を行う</p>
+          <p class="u-nuance">ニュアンス：橋・道路など大掛かりな修繕に使うフォーマルな表現</p>
+        </div></div>
+      </div>
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-6')" id="toggle-tier2b-6">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-6">The government decided to relax restrictions on remote work.</p>
+        <p class="jp-line">政府は、リモートワークに関する規制を緩和することを決定した。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">relax restrictions</span> <span class="u-head">［relax］</span></p>
+          <p class="u-meaning">意味：制限を緩和する</p>
+          <p class="u-nuance">ニュアンス：政策やルールの変更を伝える、報道・公式文書向きの表現</p>
+        </div></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-tier3">
+      <div class="block-header">
+        <h2>Tier 3</h2>
+        <p class="block-title-jp">1文</p>
+      </div>
+      <div class="passage" id="passage-tier3">
+      <div class="sentence-block">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier3-0')" id="toggle-tier3-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier3-0">In quiet moments, he wondered if his silence recommended him more than his words ever could.</p>
+        <p class="jp-line">静かなひとときに、彼は自分の沈黙が言葉よりも自分自身をよく物語っているのではないかと考えた。</p>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">recommend oneself</span> <span class="u-head">［recommend］</span></p>
+          <p class="u-meaning">意味：自薦する</p>
+          <p class="u-nuance">ニュアンス：自身の資質そのものが推薦の材料になる</p>
+        </div></div>
+      </div>
+      </div>
+    </section>
+</main>
+
+<footer class="page-footer">
+  recommend・repair・baking・relax・let 全36表現収録／Tier2b・Tier3は音声再生ボタンなし（隠す/見るは通常通り）
+</footer>
+
+<script>
+let speedRate = 1.0;
+let chosenVoice = null;
+function pickVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return;
+  chosenVoice = voices.find(v => v.name === 'Samantha')
+    || voices.find(v => v.name.includes('Google US English'))
+    || voices.find(v => v.lang === 'en-US')
+    || voices[0];
+}
+window.speechSynthesis.onvoiceschanged = pickVoice;
+pickVoice();
+function speakText(text) {
+  if (!text) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = speedRate;
+  if (chosenVoice) u.voice = chosenVoice;
+  window.speechSynthesis.speak(u);
+}
+function speakOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  if (el) speakText(el.textContent);
+}
+function toggleOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  const btn = document.getElementById('toggle-' + sid);
+  el.classList.toggle('is-hidden');
+  btn.textContent = el.classList.contains('is-hidden') ? '見る' : '隠す';
+}
+function setSpeed(v) { speedRate = parseFloat(v); }
+let allENHidden = false;
+function toggleAllEN() {
+  allENHidden = !allENHidden;
+  document.querySelectorAll('.en-line').forEach(el => {
+    if (allENHidden) { el.classList.add('is-hidden'); } else { el.classList.remove('is-hidden'); }
+  });
+  document.querySelectorAll('[id^="toggle-"]').forEach(btn => {
+    btn.textContent = allENHidden ? '見る' : '隠す';
+  });
+  document.getElementById('global-en-toggle').textContent = allENHidden ? '全て英文を見る' : '全て英文を隠す';
+}
+
+// Persistent memo (saved in this browser via localStorage, survives reloads)
+(function () {
+  var MEMO_KEY = 'notes_review_memo__recommend-repair-baking-relax-let-tiers-2';
+  var area = document.getElementById('memo-area');
+  var status = document.getElementById('memo-status');
+  if (!area) return;
+  try {
+    var saved = window.localStorage.getItem(MEMO_KEY);
+    if (saved !== null) area.value = saved;
+  } catch (e) { /* storage unavailable, memo just won't persist */ }
+  var timer = null;
+  area.addEventListener('input', function () {
+    if (status) status.textContent = '保存中…';
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(function () {
+      try {
+        window.localStorage.setItem(MEMO_KEY, area.value);
+        if (status) {
+          status.textContent = '保存済み';
+          setTimeout(function () { status.textContent = ''; }, 1500);
+        }
+      } catch (e) {
+        if (status) status.textContent = '保存できません';
+      }
+    }, 400);
+  });
+})();
+</script>
+</body>
+</html>
