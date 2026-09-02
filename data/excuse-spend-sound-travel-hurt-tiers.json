@@ -3,6 +3,9 @@
     "block01-0": {
       "check1": false,
       "memo": ""
+    },
+    "block01-1": {
+      "memo": "skip a call（電話に出ない／通話を飛ばす）"
     }
   },
   "globalMemo": ""
