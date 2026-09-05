@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Review — arrive/borrow/miss/cost（Tier別）</title>
+<style>
+:root {
+  --bg: #F7F5F0; --bg2: #EEEAE2; --surface: #fff; --border: #D8D3C8;
+  --text: #1A1713; --text-sub: #6B6459; --text-muted: #9C9389;
+  --accent: #2D4A3E; --accent-pale: #E8F0EC;
+  --gold: #B8913A; --gold-pale: #F5EDD9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  line-height: 1.8; padding-bottom: 80px;
+}
+h1, h2 { font-family: Georgia, 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
+header.top { background: var(--accent); color: #fff; padding: 26px 20px 20px; position: sticky; top: 0; z-index: 50; }
+header.top h1 { margin: 0 0 4px; font-size: 22px; font-weight: 400; }
+header.top .subtitle { font-size: 13px; opacity: 0.85; margin: 0 0 14px; }
+.controls-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.controls-bar button, .controls-bar select {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.35); color: #fff;
+  border-radius: 20px; padding: 7px 14px; font-size: 13px; cursor: pointer;
+}
+.controls-bar button:hover { background: rgba(255,255,255,0.22); }
+.controls-bar label { font-size: 12px; opacity: 0.85; margin-right: -4px; }
+
+.gh-wrap { max-width: 780px; margin: 16px auto 0; padding: 0 20px; }
+.gh-box { background: #EAF1F7; border: 1px solid #B9CFE0; border-radius: 12px; padding: 12px 16px; }
+.gh-head { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.gh-label { font-size: 13px; font-weight: 700; color: #2C5A82; }
+.gh-status { font-size: 11px; color: #6B6459; }
+.gh-body { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+.gh-body.collapsed { display: none; }
+.gh-body label { font-size: 12px; color: var(--text-sub); display: flex; flex-direction: column; gap: 3px; }
+.gh-body input {
+  border: 1px solid #B9CFE0; border-radius: 6px; padding: 7px 9px; font-size: 13px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+}
+.gh-body button {
+  align-self: flex-start; background: #2C5A82; color: #fff; border: none; border-radius: 16px;
+  padding: 7px 16px; font-size: 13px; cursor: pointer;
+}
+.gh-body button:hover { background: #234968; }
+.gh-note { font-size: 11px; color: var(--text-muted); margin: 2px 0 0; line-height: 1.6; }
+.gh-toggle-link { font-size: 11px; color: #2C5A82; text-decoration: underline; cursor: pointer; }
+
+.memo-wrap { max-width: 780px; margin: 16px auto 0; padding: 0 20px; }
+.memo-box { background: #FFF9E8; border: 1px solid #E8D9A0; border-radius: 12px; padding: 12px 16px; }
+.memo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.memo-label { font-size: 13px; font-weight: 700; color: #8a6d1a; }
+.memo-status { font-size: 11px; color: #9C9389; }
+.memo-area {
+  width: 100%; min-height: 70px; border: 1px solid #E8D9A0; border-radius: 8px; padding: 8px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-size: 14px; color: #1A1713; background: #fff; resize: vertical; box-sizing: border-box;
+}
+.memo-area:focus { outline: 2px solid #E8D9A0; }
+nav.toc { max-width: 780px; margin: 20px auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+.toc-link {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px;
+  text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600;
+}
+.toc-link:hover { border-color: var(--accent); }
+main { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+.block {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 22px 8px; margin-bottom: 20px; scroll-margin-top: 150px;
+}
+.block-header { border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 6px; }
+.block-header h2 { margin: 0; font-size: 19px; color: var(--accent); font-weight: 400; }
+.block-title-jp { margin: 4px 0 0; font-size: 12.5px; color: var(--text-sub); }
+.sentence-block { padding: 16px 0; border-bottom: 1px dashed var(--border); }
+.sentence-block:last-child { border-bottom: none; }
+.sentence-controls { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+.mini-speak, .mini-toggle {
+  background: var(--accent-pale); color: var(--accent); border: 1px solid var(--accent);
+  border-radius: 14px; font-size: 12px; cursor: pointer; padding: 3px 10px;
+}
+.mini-speak { padding: 3px 8px; font-size: 13px; }
+.mini-speak:hover, .mini-toggle:hover { background: var(--accent); color: #fff; }
+.en-line {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-style: normal; font-size: 17px; font-weight: 500;
+  line-height: 1.6; color: var(--text); margin: 0 0 4px;
+}
+.en-line.is-hidden { display: none; }
+.jp-line { font-size: 14px; line-height: 1.8; color: var(--text-sub); margin: 0 0 8px; }
+
+.track-row { display: flex; gap: 6px; margin: 0 0 6px; flex-wrap: wrap; }
+.chk-btn {
+  background: #fff; border: 1px solid var(--border); color: var(--text-sub);
+  border-radius: 12px; font-size: 11.5px; cursor: pointer; padding: 4px 10px;
+}
+.chk-btn[data-key="check1"].active { background: #FBEAEA; border-color: #D98C8C; color: #A33333; }
+.chk-btn[data-key="check2"].active { background: var(--accent-pale); border-color: var(--accent); color: var(--accent); }
+.sent-memo {
+  width: 100%; min-height: 38px; border: 1px solid var(--border); border-radius: 6px;
+  padding: 6px 9px; font-size: 12.5px; color: var(--text); background: #FAFAF7;
+  resize: vertical; box-sizing: border-box; margin-bottom: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+}
+.sent-memo:focus { outline: 1px solid var(--accent); }
+
+.used-box { background: var(--accent-pale); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.used-item { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(45,74,62,0.12); }
+.used-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.u-phrase-line { margin: 0 0 2px; }
+.u-phrase { color: var(--accent); font-weight: 700; font-size: 13px; }
+.u-speak-btn {
+  background: none; border: none; cursor: pointer; font-size: 12px;
+  padding: 0 2px; line-height: 1; vertical-align: middle; opacity: 0.75;
+}
+.u-speak-btn:hover { opacity: 1; }
+.u-head { color: var(--text-muted); font-size: 11px; }
+.u-meaning { margin: 0 0 2px; font-size: 12.5px; color: var(--text); }
+.u-nuance { margin: 0; font-size: 12px; color: var(--text-sub); }
+.vocab-box { background: var(--gold-pale); border-radius: 8px; padding: 8px 12px; }
+.vocab-label { display: block; font-size: 11px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.vocab-chip { font-size: 12px; color: var(--text-sub); margin-right: 12px; display: inline-block; margin-bottom: 3px; }
+.vocab-chip strong { color: var(--text); }
+.vocab-chip em { font-style: normal; color: var(--text-muted); }
+.v-level { color: var(--gold); font-weight: 600; }
+footer.page-footer { max-width: 780px; margin: 10px auto 40px; padding: 0 20px; font-size: 12px; color: var(--text-muted); text-align: center; }
+@media (max-width: 640px) {
+  header.top { padding: 18px 14px 14px; }
+  .en-line { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>English Review — arrive・borrow・miss・cost・rent・order（Tier別）</h1>
+  <p class="subtitle">全19文（Block01＋Tier2a・2b）／使用表現33個／語彙注釈28個／Tier2bは文の音声なし（使用表現ごとの🔊は全体に有効）</p>
+  <div class="controls-bar">
+    <button id="global-en-toggle" onclick="toggleAllEN()">全て英文を隠す</button>
+    <label for="speed">速度</label>
+    <select id="speed" onchange="setSpeed(this.value)">
+      <option value="0.7">遅め 0.7×</option>
+      <option value="1.0" selected>普通 1.0×</option>
+      <option value="1.35">速め 1.35×</option>
+    </select>
+  </div>
+</header>
+
+<div class="gh-wrap">
+  <div class="gh-box">
+    <div class="gh-head" onclick="ghToggleSettings()">
+      <span class="gh-label">🔗 GitHub同期設定</span>
+      <span class="gh-status" id="gh-status">未接続</span>
+    </div>
+    <div class="gh-body" id="gh-body">
+      <label>Personal Access Token（このリポジトリの Contents: Read and write 権限だけを与えたfine-grainedトークンを推奨）
+        <input type="password" id="gh-token-input" placeholder="github_pat_...">
+      </label>
+      <label>リポジトリ（owner/repo）
+        <input type="text" id="gh-repo-input" value="m9814mary/english-cards">
+      </label>
+      <label>保存先ファイルパス
+        <input type="text" id="gh-path-input" value="data/arrive-borrow-miss-cost-tiers.json">
+      </label>
+      <button onclick="ghSaveSettingsAndSync()">保存して同期</button>
+      <p class="gh-note">トークンはこの端末のブラウザ内にのみ保存され、api.github.com への通信以外には送信されません。一度入力すれば、この端末で開く他のEnglish Reviewページでも自動で使われます（保存先ファイルパスはページごとに別々なので、データが混ざる心配はありません）。他の端末で開いた時は、その端末でもう一度だけトークンを入力してください。</p>
+    </div>
+  </div>
+</div>
+
+<div class="memo-wrap">
+  <div class="memo-box">
+    <div class="memo-head">
+      <span class="memo-label">📝 全体メモ</span>
+      <span class="memo-status" id="memo-status"></span>
+    </div>
+    <textarea id="memo-area" class="memo-area" placeholder="ページ全体についてのメモ（GitHub同期に含まれます）"></textarea>
+  </div>
+</div>
+
+<nav class="toc">
+<a href="#block-block01" class="toc-link">Block 01</a><a href="#block-tier2a" class="toc-link">Tier 2a</a><a href="#block-tier2b" class="toc-link">Tier 2b</a>
+</nav>
+
+<main>
+
+    <section class="block" id="block-block01">
+      <div class="block-header">
+        <h2>Block 01</h2>
+        <p class="block-title-jp">5文</p>
+      </div>
+      <div class="passage" id="passage-block01">
+      <div class="sentence-block" data-sid="block01-0">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-0')" id="toggle-block01-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-0">I usually arrive at the station five minutes early. I once had to borrow a helmet from my coworker, and I really don&#x27;t want to miss my train again.</p>
+        <p class="jp-line">いつも駅に5分早く到着するようにしている。以前、同僚からヘルメットを借りなければならなかったことがあり、また電車に乗り遅れることは本当に避けたい。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-0','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-0','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-0', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">arrive at + 狭い場所</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-0-0')" aria-label="play phrase">🔊</button> <span class="u-head">［arrive］</span></p>
+          <span class="u-speak-text" id="up-block01-0-0" hidden>arrive at</span>
+          <p class="u-meaning">意味：〜に到着する</p>
+          <p class="u-nuance">ニュアンス：駅・空港・建物など、比較的狭い地点に使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">borrow + O + from ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-0-1')" aria-label="play phrase">🔊</button> <span class="u-head">［borrow］</span></p>
+          <span class="u-speak-text" id="up-block01-0-1" hidden>borrow from</span>
+          <p class="u-meaning">意味：〜から…を借りる</p>
+          <p class="u-nuance">ニュアンス：貸主を明示する最も基本的な構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">miss + 乗り物</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-0-2')" aria-label="play phrase">🔊</button> <span class="u-head">［miss］</span></p>
+          <span class="u-speak-text" id="up-block01-0-2" hidden>miss</span>
+          <p class="u-meaning">意味：〜に乗り遅れる</p>
+          <p class="u-nuance">ニュアンス：バス・電車・飛行機を逃す、最頻出用法</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>helmet</strong> <em>(名詞)</em> ヘルメット <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="block01-1">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-1')" id="toggle-block01-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-1">This new delivery bag cost me about five thousand yen. My moped was out of order last week, but I still managed to arrive in the city on time.</p>
+        <p class="jp-line">この新しい配達バッグは約5000円かかった。先週原付が故障していたが、それでも時間通りに市内に到着することができた。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-1','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-1','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-1', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">cost + 金額</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-1-0')" aria-label="play phrase">🔊</button> <span class="u-head">［cost］</span></p>
+          <span class="u-speak-text" id="up-block01-1-0" hidden>cost</span>
+          <p class="u-meaning">意味：〜の値段がかかる</p>
+          <p class="u-nuance">ニュアンス：最も基本的な構文、値段を尋ねる会話で頻出</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">out of order</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-1-1')" aria-label="play phrase">🔊</button> <span class="u-head">［out of order］</span></p>
+          <span class="u-speak-text" id="up-block01-1-1" hidden>out of order</span>
+          <p class="u-meaning">意味：故障中・順序が狂っている</p>
+          <p class="u-nuance">ニュアンス：機械の故障を表す日常表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">arrive in + 広い場所</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-1-2')" aria-label="play phrase">🔊</button> <span class="u-head">［arrive］</span></p>
+          <span class="u-speak-text" id="up-block01-1-2" hidden>arrive in</span>
+          <p class="u-meaning">意味：〜に到着する</p>
+          <p class="u-nuance">ニュアンス：都市・国など、広い範囲に使う</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="block01-2">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-2')" id="toggle-block01-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-2">My friend offered to lend me his spare bike. I didn&#x27;t want to miss the local music event, and the ticket price was surprisingly reasonable.</p>
+        <p class="jp-line">友人は予備の自転車を貸してくれると申し出てくれた。地元の音楽イベントを見逃したくなかったし、チケットの価格は驚くほど手頃だった。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-2','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-2','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-2', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">lend</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-2-0')" aria-label="play phrase">🔊</button> <span class="u-head">［lend］</span></p>
+          <span class="u-speak-text" id="up-block01-2-0" hidden>lend</span>
+          <p class="u-meaning">意味：貸す（borrowの反対、貸す側の動詞）</p>
+          <p class="u-nuance">ニュアンス：カジュアル〜中立</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">miss + イベント</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-2-1')" aria-label="play phrase">🔊</button> <span class="u-head">［miss］</span></p>
+          <span class="u-speak-text" id="up-block01-2-1" hidden>miss</span>
+          <p class="u-meaning">意味：〜に参加し損なう</p>
+          <p class="u-nuance">ニュアンス：会議・パーティーなどを逃す</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">price</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-2-2')" aria-label="play phrase">🔊</button> <span class="u-head">［price］</span></p>
+          <span class="u-speak-text" id="up-block01-2-2" hidden>price</span>
+          <p class="u-meaning">意味：価格（名詞）</p>
+          <p class="u-nuance">ニュアンス：costより「値札」的な具体性がある</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>spare</strong> <em>(形容詞)</em> 予備の <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>reasonable</strong> <em>(形容詞)</em> 手頃な <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="block01-3">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-3')" id="toggle-block01-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-3">I always text my manager once I arrive safely. Some riders rent their mopeds instead of buying one, so they don&#x27;t miss out on delivery jobs while saving up.</p>
+        <p class="jp-line">無事に到着したら、いつもマネージャーにメッセージを送る。原付を買う代わりにレンタルするライダーもいて、そうすれば貯金をしながらでも配達の仕事の機会を逃さずに済む。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-3','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-3','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-3', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">arrive safely</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-3-0')" aria-label="play phrase">🔊</button> <span class="u-head">［arrive］</span></p>
+          <span class="u-speak-text" id="up-block01-3-0" hidden>arrive safely</span>
+          <p class="u-meaning">意味：無事に到着する</p>
+          <p class="u-nuance">ニュアンス：旅行の報告や連絡でよく使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">rent</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-3-1')" aria-label="play phrase">🔊</button> <span class="u-head">［rent］</span></p>
+          <span class="u-speak-text" id="up-block01-3-1" hidden>rent</span>
+          <p class="u-meaning">意味：賃借する</p>
+          <p class="u-nuance">ニュアンス：お金を払って借りる、borrowとは無料か有料かの違い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">miss out on ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-3-2')" aria-label="play phrase">🔊</button> <span class="u-head">［miss］</span></p>
+          <span class="u-speak-text" id="up-block01-3-2" hidden>miss out on</span>
+          <p class="u-meaning">意味：〜の機会を逃す</p>
+          <p class="u-nuance">ニュアンス：missに前置詞がついた重要句動詞</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>save up</strong> <em>(動詞句)</em> 貯金する <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="block01-4">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-4')" id="toggle-block01-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-4">Most of my regular customers show up right on time to collect their orders.</p>
+        <p class="jp-line">私の常連客のほとんどは、注文を受け取るためにちょうど時間通りに現れる。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-4','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-4','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-4', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">show up</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-4-0')" aria-label="play phrase">🔊</button> <span class="u-head">［show up］</span></p>
+          <span class="u-speak-text" id="up-block01-4-0" hidden>show up</span>
+          <p class="u-meaning">意味：姿を現す・現れる</p>
+          <p class="u-nuance">ニュアンス：予定の場に来る、というカジュアルな響き</p>
+        </div></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-tier2a">
+      <div class="block-header">
+        <h2>Tier 2a</h2>
+        <p class="block-title-jp">4文</p>
+      </div>
+      <div class="passage" id="passage-tier2a">
+      <div class="sentence-block" data-sid="tier2a-0">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('tier2a-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('tier2a-0')" id="toggle-tier2a-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2a-0">The manager ordered the staff to finish the report by Friday. Critics say the plan misses the point of the original proposal, and this delay could cost the company its reputation.</p>
+        <p class="jp-line">マネージャーはスタッフに金曜日までに報告書を仕上げるよう命じました。批評家たちは、その計画が元の提案の要点を見逃していると言っており、この遅れは会社の評判という代償を払わせる可能性があります。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2a-0','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2a-0','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2a-0', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">order + 人 + to do</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-0-0')" aria-label="play phrase">🔊</button> <span class="u-head">［order］</span></p>
+          <span class="u-speak-text" id="up-tier2a-0-0" hidden>order someone to do</span>
+          <p class="u-meaning">意味：人に〜するよう命令する</p>
+          <p class="u-nuance">ニュアンス：上下関係のある命令、やや強い響き</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">miss the point</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-0-1')" aria-label="play phrase">🔊</button> <span class="u-head">［miss］</span></p>
+          <span class="u-speak-text" id="up-tier2a-0-1" hidden>miss the point</span>
+          <p class="u-meaning">意味：要点を見逃す・的外れである</p>
+          <p class="u-nuance">ニュアンス：議論・説明の文脈で使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">cost + O + O</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-0-2')" aria-label="play phrase">🔊</button> <span class="u-head">［cost］</span></p>
+          <span class="u-speak-text" id="up-tier2a-0-2" hidden>cost</span>
+          <p class="u-meaning">意味：（人）に〜という代償を払わせる</p>
+          <p class="u-nuance">ニュアンス：金銭以外の「犠牲・損失」を表す用法</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>critic</strong> <em>(名詞)</em> 批評家 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>proposal</strong> <em>(名詞)</em> 提案 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>reputation</strong> <em>(名詞)</em> 評判 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2a-1">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('tier2a-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('tier2a-1')" id="toggle-tier2a-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2a-1">The newly arrived shipment was inspected immediately. In order to meet the deadline, workers stayed late, narrowly avoiding what could have been a near miss with the safety inspection.</p>
+        <p class="jp-line">新しく到着した荷物はすぐに検査されました。締め切りに間に合わせるために、作業員たちは遅くまで残り、安全検査における危機一髪の事態をかろうじて回避しました。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2a-1','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2a-1','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2a-1', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">newly arrived</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-1-0')" aria-label="play phrase">🔊</button> <span class="u-head">［arrive］</span></p>
+          <span class="u-speak-text" id="up-tier2a-1-0" hidden>newly arrived</span>
+          <p class="u-meaning">意味：新しく到着した・来たばかりの</p>
+          <p class="u-nuance">ニュアンス：人や物の「到着直後」の状態を表す</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">in order to ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-1-1')" aria-label="play phrase">🔊</button> <span class="u-head">［order］</span></p>
+          <span class="u-speak-text" id="up-tier2a-1-1" hidden>in order to</span>
+          <p class="u-meaning">意味：〜するために</p>
+          <p class="u-nuance">ニュアンス：目的を表す頻出構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">a near miss</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-1-2')" aria-label="play phrase">🔊</button> <span class="u-head">［miss］</span></p>
+          <span class="u-speak-text" id="up-tier2a-1-2" hidden>a near miss</span>
+          <p class="u-meaning">意味：間一髪・危機一髪</p>
+          <p class="u-nuance">ニュアンス：事故などが「ほぼ起きかけた」状況を表す名詞句</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>shipment</strong> <em>(名詞)</em> 積荷・出荷 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>inspect</strong> <em>(動詞)</em> 検査する <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>narrowly</strong> <em>(副詞)</em> かろうじて <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>inspection</strong> <em>(名詞)</em> 検査 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2a-2">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('tier2a-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('tier2a-2')" id="toggle-tier2a-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2a-2">The hotel will charge an additional fee for early check-in. Guests can reach the front desk at any hour, and staff are trained to request identification upon arrival.</p>
+        <p class="jp-line">そのホテルは早期チェックインに追加料金を請求します。宿泊客はいつでもフロントデスクに連絡でき、スタッフは到着時に身分証明書の提示を求めるよう訓練されています。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2a-2','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2a-2','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2a-2', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">charge</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-2-0')" aria-label="play phrase">🔊</button> <span class="u-head">［charge］</span></p>
+          <span class="u-speak-text" id="up-tier2a-2-0" hidden>charge</span>
+          <p class="u-meaning">意味：料金</p>
+          <p class="u-nuance">ニュアンス：サービスに対する請求という側面が強い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">reach</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-2-1')" aria-label="play phrase">🔊</button> <span class="u-head">［reach］</span></p>
+          <span class="u-speak-text" id="up-tier2a-2-1" hidden>reach</span>
+          <p class="u-meaning">意味：到達する</p>
+          <p class="u-nuance">ニュアンス：目的地・目標どちらにも使える、やや意志的</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">request</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-2-2')" aria-label="play phrase">🔊</button> <span class="u-head">［request］</span></p>
+          <span class="u-speak-text" id="up-tier2a-2-2" hidden>request</span>
+          <p class="u-meaning">意味：依頼する</p>
+          <p class="u-nuance">ニュアンス：orderより丁寧で、強制力がない</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>additional</strong> <em>(形容詞)</em> 追加の <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>identification</strong> <em>(名詞)</em> 身分証明（書） <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2a-3">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('tier2a-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('tier2a-3')" id="toggle-tier2a-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2a-3">Investigators later admitted that they had overlooked a key piece of evidence.</p>
+        <p class="jp-line">捜査官たちは後に、重要な証拠を見落としていたことを認めました。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2a-3','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2a-3','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2a-3', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">overlook</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-3-0')" aria-label="play phrase">🔊</button> <span class="u-head">［overlook］</span></p>
+          <span class="u-speak-text" id="up-tier2a-3-0" hidden>overlook</span>
+          <p class="u-meaning">意味：見落とす</p>
+          <p class="u-nuance">ニュアンス：missが「逃す」なのに対し、overlookは「気づかず見過ごす」に近い</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>investigator</strong> <em>(名詞)</em> 捜査官・調査員 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>evidence</strong> <em>(名詞)</em> 証拠 <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-tier2b">
+      <div class="block-header">
+        <h2>Tier 2b</h2>
+        <p class="block-title-jp">10文</p>
+      </div>
+      <div class="passage" id="passage-tier2b">
+      <div class="sentence-block" data-sid="tier2b-0">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-0')" id="toggle-tier2b-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-0">The author borrowed the term from a psychology textbook.</p>
+        <p class="jp-line">その著者は、心理学の教科書からその用語を借用した。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-0','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-0','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-0', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">borrow a term/idea from ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-0-0')" aria-label="play phrase">🔊</button> <span class="u-head">［borrow］</span></p>
+          <span class="u-speak-text" id="up-tier2b-0-0" hidden>borrow a term from</span>
+          <p class="u-meaning">意味：〜から用語・アイデアを借用する</p>
+          <p class="u-nuance">ニュアンス：比喩的用法、学術的な文章で「概念を取り入れる」際に使う</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>psychology</strong> <em>(名詞)</em> 心理学 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>textbook</strong> <em>(名詞)</em> 教科書 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-1">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-1')" id="toggle-tier2b-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-1">The bank agreed to loan the company a significant amount for expansion.</p>
+        <p class="jp-line">その銀行は、拡大のためにその会社にかなりの金額を貸し付けることに合意した。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-1','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-1','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-1', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">loan</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-1-0')" aria-label="play phrase">🔊</button> <span class="u-head">［loan］</span></p>
+          <span class="u-speak-text" id="up-tier2b-1-0" hidden>loan</span>
+          <p class="u-meaning">意味：貸し付ける</p>
+          <p class="u-nuance">ニュアンス：lendのフォーマル版、銀行・金融の文脈</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>significant</strong> <em>(形容詞)</em> かなりの・重要な <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>expansion</strong> <em>(名詞)</em> 拡大 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-2">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-2')" id="toggle-tier2b-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-2">The cost of living in the capital has risen sharply this year.</p>
+        <p class="jp-line">今年、首都の生活費は急激に上昇した。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-2','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-2','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-2', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">the cost of living</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-2-0')" aria-label="play phrase">🔊</button> <span class="u-head">［cost］</span></p>
+          <span class="u-speak-text" id="up-tier2b-2-0" hidden>the cost of living</span>
+          <p class="u-meaning">意味：生活費・物価</p>
+          <p class="u-nuance">ニュアンス：経済ニュースで頻出する名詞句</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>capital</strong> <em>(名詞)</em> 首都 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>sharply</strong> <em>(副詞)</em> 急激に <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-3">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-3')" id="toggle-tier2b-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-3">The new software is far more cost-effective than the previous system.</p>
+        <p class="jp-line">その新しいソフトウェアは、以前のシステムよりもはるかに費用対効果が高い。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-3','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-3','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-3', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">cost-effective</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-3-0')" aria-label="play phrase">🔊</button> <span class="u-head">［cost］</span></p>
+          <span class="u-speak-text" id="up-tier2b-3-0" hidden>cost-effective</span>
+          <p class="u-meaning">意味：費用対効果が高い</p>
+          <p class="u-nuance">ニュアンス：ビジネス文書で頻出する複合形容詞</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-4">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-4')" id="toggle-tier2b-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-4">The company vowed to protect its reputation at all costs.</p>
+        <p class="jp-line">その会社は、何としてでも評判を守ると誓った。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-4','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-4','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-4', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">at all costs</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-4-0')" aria-label="play phrase">🔊</button> <span class="u-head">［cost］</span></p>
+          <span class="u-speak-text" id="up-tier2b-4-0" hidden>at all costs</span>
+          <p class="u-meaning">意味：何としてでも・どんな犠牲を払っても</p>
+          <p class="u-nuance">ニュアンス：強い決意を表すフォーマルな表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>vow</strong> <em>(動詞)</em> 誓う <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>reputation</strong> <em>(名詞)</em> 評判 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-5">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-5')" id="toggle-tier2b-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-5">All travel-related expenses must be reported within thirty days.</p>
+        <p class="jp-line">出張に関連するすべての費用は、30日以内に報告されなければならない。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-5','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-5','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-5', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">expense</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-5-0')" aria-label="play phrase">🔊</button> <span class="u-head">［cost］</span></p>
+          <span class="u-speak-text" id="up-tier2b-5-0" hidden>expense</span>
+          <p class="u-meaning">意味：費用・出費</p>
+          <p class="u-nuance">ニュアンス：ビジネス・経費の文脈で頻出</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-6">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-6')" id="toggle-tier2b-6">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-6">After weeks of debate, the board finally arrived at a decision.</p>
+        <p class="jp-line">何週間もの議論の末、取締役会はついに決定に達した。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-6','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-6','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-6', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">arrive at a decision/conclusion</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-6-0')" aria-label="play phrase">🔊</button> <span class="u-head">［arrive］</span></p>
+          <span class="u-speak-text" id="up-tier2b-6-0" hidden>arrive at a decision</span>
+          <p class="u-meaning">意味：結論・決定に達する</p>
+          <p class="u-nuance">ニュアンス：比喩的用法、「到着する」を思考のプロセスに応用した表現</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>debate</strong> <em>(名詞)</em> 議論 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-7">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-7')" id="toggle-tier2b-7">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-7">Customers can place an order through the company&#x27;s website.</p>
+        <p class="jp-line">顧客は、その会社のウェブサイトを通じて注文をすることができる。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-7','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-7','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-7', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">place an order</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-7-0')" aria-label="play phrase">🔊</button> <span class="u-head">［order］</span></p>
+          <span class="u-speak-text" id="up-tier2b-7-0" hidden>place an order</span>
+          <p class="u-meaning">意味：注文をする</p>
+          <p class="u-nuance">ニュアンス：ビジネス・通販で頻出する定型的な言い方</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-8">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-8')" id="toggle-tier2b-8">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-8">The general commanded his troops to retreat immediately.</p>
+        <p class="jp-line">その将軍は部隊に即座に撤退するよう命じた。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-8','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-8','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-8', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">command</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-8-0')" aria-label="play phrase">🔊</button> <span class="u-head">［order］</span></p>
+          <span class="u-speak-text" id="up-tier2b-8-0" hidden>command</span>
+          <p class="u-meaning">意味：命令する</p>
+          <p class="u-nuance">ニュアンス：orderよりも権威的・軍事的な響き</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>troops</strong> <em>(名詞)</em> 軍隊・部隊 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>retreat</strong> <em>(動詞)</em> 撤退する <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-9">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-9')" id="toggle-tier2b-9">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-9">Employees are instructed to wear protective gear at all times.</p>
+        <p class="jp-line">従業員は常に防護具を着用するよう指示されている。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-9','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-9','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-9', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">instruct</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-9-0')" aria-label="play phrase">🔊</button> <span class="u-head">［order］</span></p>
+          <span class="u-speak-text" id="up-tier2b-9-0" hidden>instruct</span>
+          <p class="u-meaning">意味：指示する</p>
+          <p class="u-nuance">ニュアンス：orderより穏やかで、教育的・業務的な文脈</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>protective</strong> <em>(形容詞)</em> 保護用の <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>gear</strong> <em>(名詞)</em> 装備 <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+</main>
+
+<footer class="page-footer">
+  arrive・borrow・miss・cost・rent・order 全33表現収録／Tier2bは音声再生ボタンなし（隠す/見るは通常通り）／各使用表現にも🔊ボタン付き（英語のみ再生）／チェック・メモはGitHub経由で端末をまたいで同期されます
+</footer>
+
+<script>
+let speedRate = 1.0;
+let chosenVoice = null;
+function pickVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return;
+  chosenVoice = voices.find(v => v.name === 'Samantha')
+    || voices.find(v => v.name.includes('Google US English'))
+    || voices.find(v => v.lang === 'en-US')
+    || voices[0];
+}
+window.speechSynthesis.onvoiceschanged = pickVoice;
+pickVoice();
+function speakText(text) {
+  if (!text) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = speedRate;
+  if (chosenVoice) u.voice = chosenVoice;
+  window.speechSynthesis.speak(u);
+}
+function speakOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  if (el) speakText(el.textContent);
+}
+function speakPhraseElement(elId) {
+  const el = document.getElementById(elId);
+  if (el) speakText(el.textContent);
+}
+function toggleOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  const btn = document.getElementById('toggle-' + sid);
+  el.classList.toggle('is-hidden');
+  btn.textContent = el.classList.contains('is-hidden') ? '見る' : '隠す';
+}
+function setSpeed(v) { speedRate = parseFloat(v); }
+let allENHidden = false;
+function toggleAllEN() {
+  allENHidden = !allENHidden;
+  document.querySelectorAll('.en-line').forEach(el => {
+    if (allENHidden) { el.classList.add('is-hidden'); } else { el.classList.remove('is-hidden'); }
+  });
+  document.querySelectorAll('[id^="toggle-"]').forEach(btn => {
+    btn.textContent = allENHidden ? '見る' : '隠す';
+  });
+  document.getElementById('global-en-toggle').textContent = allENHidden ? '全て英文を見る' : '全て英文を隠す';
+}
+
+// ==================================================================
+// GitHub-backed cross-device sync for checkmarks / per-sentence memo /
+// the global memo box. Everything lives in ONE small JSON file inside
+// a GitHub repo the user already controls. The Personal Access Token
+// is entered once per device and kept ONLY in that device's
+// localStorage -- it is never written into this page's HTML/JS and is
+// sent only directly to api.github.com.
+// ==================================================================
+const GH_STORAGE_KEY = 'ecte_gh_settings__shared';
+const GH_DEFAULT_REPO = 'm9814mary/english-cards';
+const GH_DEFAULT_PATH = 'data/arrive-borrow-miss-cost-tiers.json';
+
+let ghToken = '';
+let ghRepo = GH_DEFAULT_REPO;
+let ghPath = GH_DEFAULT_PATH;
+let ghSha = null;
+let ghState = {};       // sid -> {check1, check2, memo}
+let ghGlobalMemo = '';
+let ghSaveTimer = null;
+
+// Token and repo are shared across every vocab page on this device (one
+// login covers them all). The JSON file PATH is intentionally NOT part of
+// that shared object -- each page always uses its own GH_DEFAULT_PATH, so
+// opening a different vocab page can never accidentally point at (and
+// overwrite) another page's data file.
+function ghLoadSettingsFromLocalStorage() {
+  try {
+    const raw = localStorage.getItem(GH_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      ghToken = parsed.token || '';
+      ghRepo = parsed.repo || GH_DEFAULT_REPO;
+    }
+  } catch (e) { /* ignore corrupt local settings */ }
+  ghPath = GH_DEFAULT_PATH;
+}
+
+function ghPersistSettingsToLocalStorage() {
+  try {
+    localStorage.setItem(GH_STORAGE_KEY, JSON.stringify({ token: ghToken, repo: ghRepo }));
+  } catch (e) { /* storage unavailable */ }
+}
+
+function ghSetStatus(text, isError) {
+  const el = document.getElementById('gh-status');
+  if (!el) return;
+  el.textContent = text;
+  el.style.color = isError ? '#B23A3A' : '#6B6459';
+}
+
+function ghToggleSettings() {
+  const body = document.getElementById('gh-body');
+  if (body) body.classList.toggle('collapsed');
+}
+
+function ghSaveSettingsAndSync() {
+  ghToken = document.getElementById('gh-token-input').value.trim();
+  ghRepo = document.getElementById('gh-repo-input').value.trim() || GH_DEFAULT_REPO;
+  ghPath = document.getElementById('gh-path-input').value.trim() || GH_DEFAULT_PATH;
+  ghPersistSettingsToLocalStorage();
+  ghFetchState();
+}
+
+function ghUtf8ToB64(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function ghB64ToUtf8(b64) {
+  return decodeURIComponent(escape(atob(b64.replace(/\n/g, ''))));
+}
+
+async function ghFetchState() {
+  if (!ghToken) { ghSetStatus('未接続（トークン未入力）', false); return; }
+  ghSetStatus('読み込み中…', false);
+  try {
+    const url = 'https://api.github.com/repos/' + ghRepo + '/contents/' + ghPath;
+    const res = await fetch(url, {
+      headers: {
+        'Authorization': 'token ' + ghToken,
+        'Accept': 'application/vnd.github+json'
+      }
+    });
+    if (res.status === 404) {
+      ghState = {};
+      ghGlobalMemo = '';
+      ghSha = null;
+      ghSetStatus('接続済み（新規ファイル、まだ保存なし）', false);
+      ghApplyStateToUI();
+      return;
+    }
+    if (res.status === 401) {
+      ghSetStatus('トークンが無効です', true);
+      return;
+    }
+    if (!res.ok) {
+      ghSetStatus('読み込み失敗（' + res.status + '）', true);
+      return;
+    }
+    const data = await res.json();
+    ghSha = data.sha;
+    const decoded = ghB64ToUtf8(data.content);
+    const parsed = JSON.parse(decoded);
+    ghState = parsed.sentences || {};
+    ghGlobalMemo = parsed.globalMemo || '';
+    ghApplyStateToUI();
+    ghSetStatus('同期済み', false);
+  } catch (e) {
+    ghSetStatus('読み込みエラー（通信を確認してください）', true);
+  }
+}
+
+function ghApplyStateToUI() {
+  document.querySelectorAll('.sentence-block[data-sid]').forEach(function (card) {
+    const sid = card.getAttribute('data-sid');
+    const s = ghState[sid] || {};
+    const c1 = card.querySelector('.chk-btn[data-key="check1"]');
+    const c2 = card.querySelector('.chk-btn[data-key="check2"]');
+    const memoEl = card.querySelector('.sent-memo');
+    if (c1) c1.classList.toggle('active', !!s.check1);
+    if (c2) c2.classList.toggle('active', !!s.check2);
+    if (memoEl) memoEl.value = s.memo || '';
+  });
+  const gm = document.getElementById('memo-area');
+  if (gm) gm.value = ghGlobalMemo;
+}
+
+function ghQueueSave() {
+  ghSetStatus('保存待ち…', false);
+  clearTimeout(ghSaveTimer);
+  ghSaveTimer = setTimeout(ghSaveState, 900);
+}
+
+async function ghSaveState() {
+  if (!ghToken) { ghSetStatus('未接続（トークン未入力）', true); return; }
+  ghSetStatus('保存中…', false);
+  try {
+    const payload = { sentences: ghState, globalMemo: ghGlobalMemo };
+    const content = ghUtf8ToB64(JSON.stringify(payload, null, 2));
+    const url = 'https://api.github.com/repos/' + ghRepo + '/contents/' + ghPath;
+    const body = { message: 'update review state', content: content };
+    if (ghSha) body.sha = ghSha;
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'token ' + ghToken,
+        'Accept': 'application/vnd.github+json'
+      },
+      body: JSON.stringify(body)
+    });
+    if (res.status === 409) {
+      await ghFetchState();
+      ghSetStatus('他の端末の変更と競合したため再読込しました', true);
+      return;
+    }
+    if (!res.ok) {
+      ghSetStatus('保存失敗（' + res.status + '）', true);
+      return;
+    }
+    const data = await res.json();
+    ghSha = data.content.sha;
+    ghSetStatus('同期済み', false);
+  } catch (e) {
+    ghSetStatus('保存エラー（通信を確認してください）', true);
+  }
+}
+
+function toggleCheck(sid, key) {
+  if (!ghState[sid]) ghState[sid] = {};
+  ghState[sid][key] = !ghState[sid][key];
+  const card = document.querySelector('.sentence-block[data-sid="' + sid + '"]');
+  if (card) {
+    const btn = card.querySelector('.chk-btn[data-key="' + key + '"]');
+    if (btn) btn.classList.toggle('active', !!ghState[sid][key]);
+  }
+  ghQueueSave();
+}
+
+function updateSentMemo(sid, value) {
+  if (!ghState[sid]) ghState[sid] = {};
+  ghState[sid].memo = value;
+  ghQueueSave();
+}
+
+function updateGlobalMemo(value) {
+  ghGlobalMemo = value;
+  ghQueueSave();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  ghLoadSettingsFromLocalStorage();
+  document.getElementById('gh-token-input').value = ghToken;
+  document.getElementById('gh-repo-input').value = ghRepo;
+  document.getElementById('gh-path-input').value = ghPath;
+  if (ghToken) {
+    ghFetchState();
+    document.getElementById('gh-body').classList.add('collapsed');
+  } else {
+    ghSetStatus('未接続（トークンを入力してください）', false);
+  }
+  const gm = document.getElementById('memo-area');
+  if (gm) gm.addEventListener('input', function () { updateGlobalMemo(gm.value); });
+});
+</script>
+</body>
+</html>
