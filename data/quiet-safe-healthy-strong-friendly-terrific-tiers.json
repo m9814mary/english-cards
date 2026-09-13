@@ -17,6 +17,9 @@
     },
     "block01-1": {
       "check1": true
+    },
+    "tier2b-3": {
+      "memo": "describe A as B（動詞句）：AをBと述べる、評する"
     }
   },
   "globalMemo": ""
