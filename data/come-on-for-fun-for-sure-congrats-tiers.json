@@ -1,7 +1,8 @@
 {
   "sentences": {
     "block01-4": {
-      "memo": "set things up」は「準備する、セッティングする」"
+      "memo": "set things up」は「準備する、セッティングする」",
+      "check1": true
     },
     "block01-5": {
       "memo": "that can't be right」は「そんなはずない、それはおかしい"
