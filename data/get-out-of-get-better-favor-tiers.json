@@ -7,7 +7,8 @@
       "memo": "for a moment：「一瞬、少しの間」→ ごく短い時間（数秒〜数十秒レベル）"
     },
     "tier2a-0": {
-      "memo": "affect（動詞）：「〜に影響を与える"
+      "memo": "affect（動詞）：「〜に影響を与える",
+      "check1": true
     },
     "tier2a-1": {
       "memo": "present（動詞）：「〜を提示する、発表する」",
