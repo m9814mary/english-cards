@@ -28,6 +28,9 @@
     },
     "tier2b-6": {
       "check1": true
+    },
+    "block02-0": {
+      "check1": true
     }
   },
   "globalMemo": ""
