@@ -1,7 +1,8 @@
 {
   "sentences": {
     "tier2a-0": {
-      "memo": "review（動詞／名詞） \nreview ＝ 見直す・検討する・評価する／レビュー・評価"
+      "memo": "review（動詞／名詞） \nreview ＝ 見直す・検討する・評価する／レビュー・評価",
+      "check1": true
     },
     "tier2a-1": {
       "memo": "most + 名詞（無冠詞）\t一般論、不特定多数について\nmost of + the/my/these + 名詞\t特定のグループについて"
