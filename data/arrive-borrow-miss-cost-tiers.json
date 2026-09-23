@@ -34,7 +34,8 @@
       "check2": false
     },
     "tier2a-3": {
-      "check2": true
+      "check2": true,
+      "check1": true
     },
     "block01-1": {
       "memo": "何が主語になるか（モノ）」 を考えてから \"cost + 人 + 金額\" の型に当てはめる"
