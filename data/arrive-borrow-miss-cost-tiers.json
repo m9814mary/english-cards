@@ -27,7 +27,8 @@
       "memo": "all costs＝ありとあらゆる代償を払ってでも"
     },
     "tier2b-6": {
-      "check1": true
+      "check1": true,
+      "check2": true
     },
     "block01-2": {
       "memo": "offer（動詞）\nコアイメージ：相手のために「申し出る」「差し出す」（頼まれなくても自分から進んで）",
