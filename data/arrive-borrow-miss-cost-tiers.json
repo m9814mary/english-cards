@@ -28,7 +28,8 @@
     },
     "block01-2": {
       "memo": "offer（動詞）\nコアイメージ：相手のために「申し出る」「差し出す」（頼まれなくても自分から進んで）",
-      "check1": true
+      "check1": true,
+      "check2": true
     },
     "tier2a-3": {
       "check2": true
