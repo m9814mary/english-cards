@@ -4,7 +4,8 @@
       "memo": "a native of + 場所 ＝ 「〜出身の人・〜生まれの人」"
     },
     "block02-0": {
-      "memo": "barely（副詞）＝ かろうじて〜する・ほとんど〜ない"
+      "memo": "barely（副詞）＝ かろうじて〜する・ほとんど〜ない",
+      "check1": true
     },
     "block02-1": {
       "memo": "treat oneself to ~（イディオム的表現）＝ 自分にご褒美として〜を与える・奢る\nAfterward（副詞）＝ その後・それから",
