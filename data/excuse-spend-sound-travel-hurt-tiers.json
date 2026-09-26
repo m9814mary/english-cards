@@ -27,6 +27,9 @@
     },
     "tier2b-2": {
       "memo": "sound as if → 「〜のようだ」「〜らしい」（伝聞・推測のニュアンス"
+    },
+    "block01-4": {
+      "check1": true
     }
   },
   "globalMemo": ""
