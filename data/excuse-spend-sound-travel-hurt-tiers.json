@@ -33,6 +33,9 @@
     },
     "block02-2": {
       "check1": true
+    },
+    "block02-3": {
+      "check1": true
     }
   },
   "globalMemo": ""
