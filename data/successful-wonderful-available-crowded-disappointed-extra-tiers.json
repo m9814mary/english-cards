@@ -32,7 +32,8 @@
       "memo": "be successful at は「習慣的に・能力としてうまくできている」ニュアンスが出やすいです"
     },
     "tier2a-1": {
-      "memo": "〜がないと成り立たない、だから求める」\nrequire は re（強く・再び）＋ quire（求める）。quest（探求）や question、inquire と同じ仲間です。"
+      "memo": "〜がないと成り立たない、だから求める」\nrequire は re（強く・再び）＋ quire（求める）。quest（探求）や question、inquire と同じ仲間です。",
+      "check1": true
     },
     "block01-1": {
       "check1": true
