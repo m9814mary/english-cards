@@ -30,6 +30,9 @@
     },
     "tier2a-1": {
       "memo": "〜がないと成り立たない、だから求める」\nrequire は re（強く・再び）＋ quire（求める）。quest（探求）や question、inquire と同じ仲間です。"
+    },
+    "block01-1": {
+      "check1": true
     }
   },
   "globalMemo": ""
