@@ -23,6 +23,9 @@
     },
     "tier2a-3": {
       "memo": "brief は、英語で「短い」「簡潔な」という意味を持つ単語"
+    },
+    "tier2b-3": {
+      "check1": true
     }
   },
   "globalMemo": ""
