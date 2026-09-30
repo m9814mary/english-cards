@@ -16,6 +16,9 @@
     },
     "tier2b-3": {
       "memo": "abbreviate\n他動〔～を〕簡潔にする、短くする、短縮する、省略する、簡約する、約する"
+    },
+    "tier2b-0": {
+      "check1": true
     }
   },
   "globalMemo": ""
