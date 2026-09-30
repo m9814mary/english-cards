@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Review — glad〜careful（Tier別）</title>
+<style>
+:root {
+  --bg: #F7F5F0; --bg2: #EEEAE2; --surface: #fff; --border: #D8D3C8;
+  --text: #1A1713; --text-sub: #6B6459; --text-muted: #9C9389;
+  --accent: #2D4A3E; --accent-pale: #E8F0EC;
+  --gold: #B8913A; --gold-pale: #F5EDD9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  line-height: 1.8; padding-bottom: 80px;
+}
+h1, h2 { font-family: Georgia, 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
+header.top { background: var(--accent); color: #fff; padding: 26px 20px 20px; position: sticky; top: 0; z-index: 50; }
+header.top h1 { margin: 0 0 4px; font-size: 22px; font-weight: 400; }
+header.top .subtitle { font-size: 13px; opacity: 0.85; margin: 0 0 14px; }
+.controls-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.controls-bar button, .controls-bar select {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.35); color: #fff;
+  border-radius: 20px; padding: 7px 14px; font-size: 13px; cursor: pointer;
+}
+.controls-bar button:hover { background: rgba(255,255,255,0.22); }
+.controls-bar label { font-size: 12px; opacity: 0.85; margin-right: -4px; }
+
+.gh-wrap { max-width: 780px; margin: 16px auto 0; padding: 0 20px; }
+.gh-box { background: #EAF1F7; border: 1px solid #B9CFE0; border-radius: 12px; padding: 12px 16px; }
+.gh-head { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.gh-label { font-size: 13px; font-weight: 700; color: #2C5A82; }
+.gh-status { font-size: 11px; color: #6B6459; }
+.gh-body { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+.gh-body.collapsed { display: none; }
+.gh-body label { font-size: 12px; color: var(--text-sub); display: flex; flex-direction: column; gap: 3px; }
+.gh-body input {
+  border: 1px solid #B9CFE0; border-radius: 6px; padding: 7px 9px; font-size: 13px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+}
+.gh-body button {
+  align-self: flex-start; background: #2C5A82; color: #fff; border: none; border-radius: 16px;
+  padding: 7px 16px; font-size: 13px; cursor: pointer;
+}
+.gh-body button:hover { background: #234968; }
+.gh-note { font-size: 11px; color: var(--text-muted); margin: 2px 0 0; line-height: 1.6; }
+
+.memo-wrap { max-width: 780px; margin: 16px auto 0; padding: 0 20px; }
+.memo-box { background: #FFF9E8; border: 1px solid #E8D9A0; border-radius: 12px; padding: 12px 16px; }
+.memo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.memo-label { font-size: 13px; font-weight: 700; color: #8a6d1a; }
+.memo-status { font-size: 11px; color: #9C9389; }
+.memo-area {
+  width: 100%; min-height: 70px; border: 1px solid #E8D9A0; border-radius: 8px; padding: 8px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-size: 14px; color: #1A1713; background: #fff; resize: vertical; box-sizing: border-box;
+}
+.memo-area:focus { outline: 2px solid #E8D9A0; }
+nav.toc { max-width: 780px; margin: 20px auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+.toc-link {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px;
+  text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600;
+}
+.toc-link:hover { border-color: var(--accent); }
+main { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+.block {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 22px 8px; margin-bottom: 20px; scroll-margin-top: 150px;
+}
+.block-header { border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 6px; }
+.block-header h2 { margin: 0; font-size: 19px; color: var(--accent); font-weight: 400; }
+.block-title-jp { margin: 4px 0 0; font-size: 12.5px; color: var(--text-sub); }
+.sentence-block { padding: 16px 0; border-bottom: 1px dashed var(--border); }
+.sentence-block:last-child { border-bottom: none; }
+.sentence-controls { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+.mini-speak, .mini-toggle {
+  background: var(--accent-pale); color: var(--accent); border: 1px solid var(--accent);
+  border-radius: 14px; font-size: 12px; cursor: pointer; padding: 3px 10px;
+}
+.mini-speak { padding: 3px 8px; font-size: 13px; }
+.mini-speak:hover, .mini-toggle:hover { background: var(--accent); color: #fff; }
+.en-line {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-style: normal; font-size: 17px; font-weight: 500;
+  line-height: 1.6; color: var(--text); margin: 0 0 4px;
+}
+.en-line.is-hidden { display: none; }
+.jp-line { font-size: 14px; line-height: 1.8; color: var(--text-sub); margin: 0 0 8px; }
+
+.track-row { display: flex; gap: 6px; margin: 0 0 6px; flex-wrap: wrap; }
+.chk-btn {
+  background: #fff; border: 1px solid var(--border); color: var(--text-sub);
+  border-radius: 12px; font-size: 11.5px; cursor: pointer; padding: 4px 10px;
+}
+.chk-btn[data-key="check1"].active { background: #FBEAEA; border-color: #D98C8C; color: #A33333; }
+.chk-btn[data-key="check2"].active { background: var(--accent-pale); border-color: var(--accent); color: var(--accent); }
+.sent-memo {
+  width: 100%; min-height: 38px; border: 1px solid var(--border); border-radius: 6px;
+  padding: 6px 9px; font-size: 12.5px; color: var(--text); background: #FAFAF7;
+  resize: vertical; box-sizing: border-box; margin-bottom: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+}
+.sent-memo:focus { outline: 1px solid var(--accent); }
+
+.used-box { background: var(--accent-pale); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.used-item { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(45,74,62,0.12); }
+.used-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.u-phrase-line { margin: 0 0 2px; }
+.u-phrase { color: var(--accent); font-weight: 700; font-size: 13px; }
+.u-speak-btn {
+  background: none; border: none; cursor: pointer; font-size: 12px;
+  padding: 0 2px; line-height: 1; vertical-align: middle; opacity: 0.75;
+}
+.u-speak-btn:hover { opacity: 1; }
+.u-head { color: var(--text-muted); font-size: 11px; }
+.u-meaning { margin: 0 0 2px; font-size: 12.5px; color: var(--text); }
+.u-nuance { margin: 0; font-size: 12px; color: var(--text-sub); }
+.vocab-box { background: var(--gold-pale); border-radius: 8px; padding: 8px 12px; }
+.vocab-label { display: block; font-size: 11px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.vocab-chip { font-size: 12px; color: var(--text-sub); margin-right: 12px; display: inline-block; margin-bottom: 3px; }
+.vocab-chip strong { color: var(--text); }
+.vocab-chip em { font-style: normal; color: var(--text-muted); }
+.v-level { color: var(--gold); font-weight: 600; }
+footer.page-footer { max-width: 780px; margin: 10px auto 40px; padding: 0 20px; font-size: 12px; color: var(--text-muted); text-align: center; }
+@media (max-width: 640px) {
+  header.top { padding: 18px 14px 14px; }
+  .en-line { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>English Review — glad〜careful（Tier別）</h1>
+  <p class="subtitle">全17文（Block01・02＋Tier2a・2b）／使用表現38個／語彙注釈10個／Tier2bは文の音声なし（使用表現ごとの🔊は全体に有効）</p>
+  <div class="controls-bar">
+    <button id="global-en-toggle" onclick="toggleAllEN()">全て英文を隠す</button>
+    <label for="speed">速度</label>
+    <select id="speed" onchange="setSpeed(this.value)">
+      <option value="0.7">遅め 0.7×</option>
+      <option value="1.0" selected>普通 1.0×</option>
+      <option value="1.35">速め 1.35×</option>
+    </select>
+  </div>
+</header>
+
+<div class="gh-wrap">
+  <div class="gh-box">
+    <div class="gh-head" onclick="ghToggleSettings()">
+      <span class="gh-label">🔗 GitHub同期設定</span>
+      <span class="gh-status" id="gh-status">未接続</span>
+    </div>
+    <div class="gh-body" id="gh-body">
+      <label>Personal Access Token（このリポジトリの Contents: Read and write 権限だけを与えたfine-grainedトークンを推奨）
+        <input type="password" id="gh-token-input" placeholder="github_pat_...">
+      </label>
+      <label>リポジトリ（owner/repo）
+        <input type="text" id="gh-repo-input" value="m9814mary/english-cards">
+      </label>
+      <label>保存先ファイルパス
+        <input type="text" id="gh-path-input" value="data/glad-hungry-possible-several-warm-careful-tiers.json">
+      </label>
+      <button onclick="ghSaveSettingsAndSync()">保存して同期</button>
+      <p class="gh-note">トークンはこの端末のブラウザ内にのみ保存され、api.github.com への通信以外には送信されません。一度入力すれば、この端末で開く他のEnglish Reviewページでも自動で使われます（保存先ファイルパスはページごとに別々なので、データが混ざる心配はありません）。他の端末で開いた時は、その端末でもう一度だけトークンを入力してください。</p>
+    </div>
+  </div>
+</div>
+
+<div class="memo-wrap">
+  <div class="memo-box">
+    <div class="memo-head">
+      <span class="memo-label">📝 全体メモ</span>
+      <span class="memo-status" id="memo-status"></span>
+    </div>
+    <textarea id="memo-area" class="memo-area" placeholder="ページ全体についてのメモ（GitHub同期に含まれます）"></textarea>
+  </div>
+</div>
+
+<nav class="toc">
+<a href="#block-block01" class="toc-link">Block 01</a><a href="#block-block02" class="toc-link">Block 02</a><a href="#block-tier2a" class="toc-link">Tier 2a</a><a href="#block-tier2b" class="toc-link">Tier 2b</a>
+</nav>
+
+<main>
+
+    <section class="block" id="block-block01">
+      <div class="block-header">
+        <h2>Block 01</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block01">
+      <div class="sentence-block" data-sid="block01-0">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-0')" id="toggle-block01-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-0">I try to be careful with sharp knives when I cook. I&#x27;ve broken several plates in the past. I&#x27;m glad to finally have a proper kitchen now.</p>
+        <p class="jp-line">料理をするときは鋭いナイフの扱いに気をつけるようにしている。これまで何枚か皿を割ってしまったことがある。今はちゃんとしたキッチンがあってようやく嬉しい。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-0','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-0','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-0', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be careful with ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-0-0')" aria-label="play phrase">🔊</button> <span class="u-head">［careful］</span></p>
+          <span class="u-speak-text" id="up-block01-0-0" hidden>be careful with</span>
+          <p class="u-meaning">意味：〜を気をつけて扱う</p>
+          <p class="u-nuance">ニュアンス：対象を明示する最頻出用法</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">several + 複数名詞</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-0-1')" aria-label="play phrase">🔊</button> <span class="u-head">［several］</span></p>
+          <span class="u-speak-text" id="up-block01-0-1" hidden>several</span>
+          <p class="u-meaning">意味：いくつかの〜</p>
+          <p class="u-nuance">ニュアンス：3つ以上、多くはない数を表す最も基本的な用法</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be glad to + 動詞</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-0-2')" aria-label="play phrase">🔊</button> <span class="u-head">［glad］</span></p>
+          <span class="u-speak-text" id="up-block01-0-2" hidden>be glad to</span>
+          <p class="u-meaning">意味：〜して嬉しい</p>
+          <p class="u-nuance">ニュアンス：何かをすること・した結果に対する喜びを表す最頻出構文</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>proper</strong> <em>(形容詞)</em> きちんとした・適切な <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="block01-1">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-1')" id="toggle-block01-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-1">It is possible to feel warm outside if you wear a good jacket. After my long walk, I was hungry for a hot meal.</p>
+        <p class="jp-line">良いジャケットを着れば、外にいても暖かく感じられる。長い散歩のあと、温かい食事が食べたくてたまらなかった。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-1','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-1','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-1', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">It is possible to + 動詞</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-1-0')" aria-label="play phrase">🔊</button> <span class="u-head">［possible］</span></p>
+          <span class="u-speak-text" id="up-block01-1-0" hidden>It is possible to</span>
+          <p class="u-meaning">意味：〜することが可能だ</p>
+          <p class="u-nuance">ニュアンス：形式主語itを使った最も基本的な構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">feel warm</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-1-1')" aria-label="play phrase">🔊</button> <span class="u-head">［warm］</span></p>
+          <span class="u-speak-text" id="up-block01-1-1" hidden>feel warm</span>
+          <p class="u-meaning">意味：暖かく感じる</p>
+          <p class="u-nuance">ニュアンス：気温・体感を表す最も基本的な用法</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be hungry for ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-1-2')" aria-label="play phrase">🔊</button> <span class="u-head">［hungry］</span></p>
+          <span class="u-speak-text" id="up-block01-1-2" hidden>be hungry for</span>
+          <p class="u-meaning">意味：〜を渇望している</p>
+          <p class="u-nuance">ニュアンス：比喩的に「切望する」という意味でも使う構文</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="block01-2">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-2')" id="toggle-block01-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-2">I&#x27;m careful of scams when I shop online. Several of my friends have been tricked before. I&#x27;m glad that I always check reviews first.</p>
+        <p class="jp-line">ネットで買い物をするときは詐欺に気をつけている。友人たちのうち何人かは以前だまされたことがある。いつもレビューを先に確認していることを嬉しく思う。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-2','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-2','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-2', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be careful of ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-2-0')" aria-label="play phrase">🔊</button> <span class="u-head">［careful］</span></p>
+          <span class="u-speak-text" id="up-block01-2-0" hidden>be careful of</span>
+          <p class="u-meaning">意味：〜に気をつける</p>
+          <p class="u-nuance">ニュアンス：危険や注意すべき対象を示す構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">several of + 限定詞 + 名詞</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-2-1')" aria-label="play phrase">🔊</button> <span class="u-head">［several］</span></p>
+          <span class="u-speak-text" id="up-block01-2-1" hidden>several of</span>
+          <p class="u-meaning">意味：〜のうちのいくつか</p>
+          <p class="u-nuance">ニュアンス：特定のグループの中の一部を指す構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be glad that ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-2-2')" aria-label="play phrase">🔊</button> <span class="u-head">［glad］</span></p>
+          <span class="u-speak-text" id="up-block01-2-2" hidden>be glad that</span>
+          <p class="u-meaning">意味：〜ということが嬉しい</p>
+          <p class="u-nuance">ニュアンス：that節で理由を説明する構文</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>scam</strong> <em>(名詞)</em> 詐欺 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>trick</strong> <em>(動詞)</em> だます <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>review</strong> <em>(名詞)</em> レビュー・評価・批評 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="block01-3">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-3')" id="toggle-block01-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-3">I try to warm up as quickly as possible before I go running. By the time I finish, I&#x27;m usually starving.</p>
+        <p class="jp-line">走る前はできるだけ早くウォーミングアップをするようにしている。終わる頃には、たいてい猛烈にお腹が空いている。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-3','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-3','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-3', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">as ~ as possible</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-3-0')" aria-label="play phrase">🔊</button> <span class="u-head">［possible］</span></p>
+          <span class="u-speak-text" id="up-block01-3-0" hidden>as quickly as possible</span>
+          <p class="u-meaning">意味：できるだけ〜</p>
+          <p class="u-nuance">ニュアンス：程度を最大限にする頻出構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">warm up</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-3-1')" aria-label="play phrase">🔊</button> <span class="u-head">［warm］</span></p>
+          <span class="u-speak-text" id="up-block01-3-1" hidden>warm up</span>
+          <p class="u-meaning">意味：暖まる・ウォーミングアップする</p>
+          <p class="u-nuance">ニュアンス：運動前の準備、または食べ物を温める際にも使う多義的な句動詞</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">starving</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-3-2')" aria-label="play phrase">🔊</button> <span class="u-head">［hungry］</span></p>
+          <span class="u-speak-text" id="up-block01-3-2" hidden>starving</span>
+          <p class="u-meaning">意味：極度に空腹な・餓えた</p>
+          <p class="u-nuance">ニュアンス：hungryより誇張・強調が強い、口語で頻出</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="block01-4">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-4')" id="toggle-block01-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-4">I was careful to check my slides several times before the meeting. I was glad to hear that everyone understood my presentation.</p>
+        <p class="jp-line">会議の前に、スライドを何度か確認するよう気をつけた。皆が私のプレゼンを理解してくれたと聞いて嬉しかった。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-4','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-4','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-4', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be careful to + 動詞</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-4-0')" aria-label="play phrase">🔊</button> <span class="u-head">［careful］</span></p>
+          <span class="u-speak-text" id="up-block01-4-0" hidden>be careful to</span>
+          <p class="u-meaning">意味：気をつけて〜する</p>
+          <p class="u-nuance">ニュアンス：特定の行動を慎重に行うことを表す構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">several times</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-4-1')" aria-label="play phrase">🔊</button> <span class="u-head">［several］</span></p>
+          <span class="u-speak-text" id="up-block01-4-1" hidden>several times</span>
+          <p class="u-meaning">意味：数回・何度か</p>
+          <p class="u-nuance">ニュアンス：頻度を表す非常によく使う組み合わせ</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be glad to hear ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-4-2')" aria-label="play phrase">🔊</button> <span class="u-head">［glad］</span></p>
+          <span class="u-speak-text" id="up-block01-4-2" hidden>be glad to hear</span>
+          <p class="u-meaning">意味：〜と聞いて嬉しい</p>
+          <p class="u-nuance">ニュアンス：良い知らせに対する反応として頻出</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>slide</strong> <em>(名詞)</em> スライド <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>presentation</strong> <em>(名詞)</em> 発表・プレゼンテーション <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="block01-5">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-5')" id="toggle-block01-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-5">If possible, I like to stay home on rainy days. My blanket makes the room feel cozy. I&#x27;m careful not to fall asleep too early, though.</p>
+        <p class="jp-line">可能であれば、雨の日は家にいるのが好きだ。毛布のおかげで部屋が居心地よく感じられる。それでも、早く眠りすぎないように気をつけている。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-5','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-5','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-5', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">if possible</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-5-0')" aria-label="play phrase">🔊</button> <span class="u-head">［possible］</span></p>
+          <span class="u-speak-text" id="up-block01-5-0" hidden>if possible</span>
+          <p class="u-meaning">意味：可能であれば</p>
+          <p class="u-nuance">ニュアンス：依頼・提案に添える定番の前置き</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">cozy</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-5-1')" aria-label="play phrase">🔊</button> <span class="u-head">［warm］</span></p>
+          <span class="u-speak-text" id="up-block01-5-1" hidden>cozy</span>
+          <p class="u-meaning">意味：こじんまりして居心地の良い</p>
+          <p class="u-nuance">ニュアンス：warmより「快適さ・くつろぎ」に焦点</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">be careful not to + 動詞</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-5-2')" aria-label="play phrase">🔊</button> <span class="u-head">［careful］</span></p>
+          <span class="u-speak-text" id="up-block01-5-2" hidden>be careful not to</span>
+          <p class="u-meaning">意味：〜しないように気をつける</p>
+          <p class="u-nuance">ニュアンス：避けるべき行動を明示する頻出構文</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>blanket</strong> <em>(名詞)</em> 毛布 <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block02">
+      <div class="block-header">
+        <h2>Block 02</h2>
+        <p class="block-title-jp">2文</p>
+      </div>
+      <div class="passage" id="passage-block02">
+      <div class="sentence-block" data-sid="block02-0">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-0')" id="toggle-block02-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-0">I moved to this city several years ago. I still feel happy whenever I walk around my neighborhood. Today, I was extra careful with my umbrella in the wind.</p>
+        <p class="jp-line">私は数年前にこの街に引っ越してきた。近所を歩くたびに、今でも幸せを感じる。今日は風が強かったので、傘の扱いに特に気をつけた。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block02-0','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block02-0','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block02-0', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">several years ago</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block02-0-0')" aria-label="play phrase">🔊</button> <span class="u-head">［several］</span></p>
+          <span class="u-speak-text" id="up-block02-0-0" hidden>several years ago</span>
+          <p class="u-meaning">意味：数年前</p>
+          <p class="u-nuance">ニュアンス：時間の言及で頻出</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">happy</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block02-0-1')" aria-label="play phrase">🔊</button> <span class="u-head">［glad］</span></p>
+          <span class="u-speak-text" id="up-block02-0-1" hidden>happy</span>
+          <p class="u-meaning">意味：嬉しい・幸せ</p>
+          <p class="u-nuance">ニュアンス：gladより広く一般的な喜びを表す、日常会話で最頻出</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">extra careful</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block02-0-2')" aria-label="play phrase">🔊</button> <span class="u-head">［careful］</span></p>
+          <span class="u-speak-text" id="up-block02-0-2" hidden>extra careful</span>
+          <p class="u-meaning">意味：特に注意深い</p>
+          <p class="u-nuance">ニュアンス：いつもより一段と気をつける</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>neighborhood</strong> <em>(名詞)</em> 近所・地域 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="block02-1">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-1')" id="toggle-block02-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-1">I only need a few more minutes to finish this. &quot;Careful! The floor is wet,&quot; my coworker warned me.</p>
+        <p class="jp-line">これを終えるのに、あと少しの時間しか必要ない。「気をつけて!床が濡れているよ」と同僚が私に注意してくれた。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block02-1','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block02-1','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block02-1', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">a few</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block02-1-0')" aria-label="play phrase">🔊</button> <span class="u-head">［several］</span></p>
+          <span class="u-speak-text" id="up-block02-1-0" hidden>a few</span>
+          <p class="u-meaning">意味：少数の</p>
+          <p class="u-nuance">ニュアンス：severalより少ない数を示唆、日常会話で最頻出</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">Careful!（単独）</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block02-1-1')" aria-label="play phrase">🔊</button> <span class="u-head">［careful］</span></p>
+          <span class="u-speak-text" id="up-block02-1-1" hidden>Careful</span>
+          <p class="u-meaning">意味：気をつけて!</p>
+          <p class="u-nuance">ニュアンス：危険を知らせる際の間投詞的な使い方</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>coworker</strong> <em>(名詞)</em> 同僚 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>warn</strong> <em>(動詞)</em> 警告する・注意する <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-tier2a">
+      <div class="block-header">
+        <h2>Tier 2a</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-tier2a">
+      <div class="sentence-block" data-sid="tier2a-0">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('tier2a-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('tier2a-0')" id="toggle-tier2a-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2a-0">It is possible that the new policy will change next year. The visiting delegation received a warm welcome from the staff. Successful events always require careful planning.</p>
+        <p class="jp-line">新しい方針は来年変わる可能性がある。訪問団はスタッフから温かい歓迎を受けた。成功するイベントには必ず慎重な計画が必要だ。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2a-0','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2a-0','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2a-0', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">It is possible that ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-0-0')" aria-label="play phrase">🔊</button> <span class="u-head">［possible］</span></p>
+          <span class="u-speak-text" id="up-tier2a-0-0" hidden>It is possible that</span>
+          <p class="u-meaning">意味：〜ということがあり得る</p>
+          <p class="u-nuance">ニュアンス：可能性・推測を表すthat節構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">a warm welcome</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-0-1')" aria-label="play phrase">🔊</button> <span class="u-head">［warm］</span></p>
+          <span class="u-speak-text" id="up-tier2a-0-1" hidden>a warm welcome</span>
+          <p class="u-meaning">意味：温かい歓迎</p>
+          <p class="u-nuance">ニュアンス：人柄・雰囲気の温かさを表す頻出コロケーション</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">careful planning</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-0-2')" aria-label="play phrase">🔊</button> <span class="u-head">［careful］</span></p>
+          <span class="u-speak-text" id="up-tier2a-0-2" hidden>careful planning</span>
+          <p class="u-meaning">意味：慎重な計画</p>
+          <p class="u-nuance">ニュアンス：ビジネス・プロジェクトの文脈で頻出</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2a-1">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('tier2a-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('tier2a-1')" id="toggle-tier2a-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2a-1">I&#x27;d be glad to answer any questions after the presentation. The committee considered various options before deciding. We explored every possible solution to the problem.</p>
+        <p class="jp-line">発表の後、どんな質問にも喜んでお答えします。委員会は決定する前にさまざまな選択肢を検討した。私たちはその問題に対して考えられる限りすべての解決策を探った。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2a-1','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2a-1','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2a-1', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">I&#x27;d be glad to ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-1-0')" aria-label="play phrase">🔊</button> <span class="u-head">［glad］</span></p>
+          <span class="u-speak-text" id="up-tier2a-1-0" hidden>I&#x27;d be glad to</span>
+          <p class="u-meaning">意味：喜んで〜します</p>
+          <p class="u-nuance">ニュアンス：申し出・承諾を丁寧に伝える会話の定番表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">various</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-1-1')" aria-label="play phrase">🔊</button> <span class="u-head">［several］</span></p>
+          <span class="u-speak-text" id="up-tier2a-1-1" hidden>various</span>
+          <p class="u-meaning">意味：さまざまな</p>
+          <p class="u-nuance">ニュアンス：severalが「数」に焦点なのに対し、variousは「種類の多様性」に焦点</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">every possible ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-1-2')" aria-label="play phrase">🔊</button> <span class="u-head">［possible］</span></p>
+          <span class="u-speak-text" id="up-tier2a-1-2" hidden>every possible</span>
+          <p class="u-meaning">意味：あらゆる可能な〜</p>
+          <p class="u-nuance">ニュアンス：「考えられる限りすべての」という強調表現</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2a-2">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('tier2a-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('tier2a-2')" id="toggle-tier2a-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2a-2">The weather this weekend is expected to be mild. Investors remained cautious despite the positive report. The new product shows great potential for growth.</p>
+        <p class="jp-line">今週末の天気は穏やかになると予想されている。好調な報告にもかかわらず、投資家たちは慎重な姿勢を崩さなかった。その新製品は成長に向けた大きな可能性を秘めている。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2a-2','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2a-2','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2a-2', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">mild</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-2-0')" aria-label="play phrase">🔊</button> <span class="u-head">［warm］</span></p>
+          <span class="u-speak-text" id="up-tier2a-2-0" hidden>mild</span>
+          <p class="u-meaning">意味：穏やかな・温暖な</p>
+          <p class="u-nuance">ニュアンス：warmより控えめで、気候の話題で使うフォーマルな語</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">cautious</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-2-1')" aria-label="play phrase">🔊</button> <span class="u-head">［careful］</span></p>
+          <span class="u-speak-text" id="up-tier2a-2-1" hidden>cautious</span>
+          <p class="u-meaning">意味：慎重な</p>
+          <p class="u-nuance">ニュアンス：carefulよりも「リスクを避ける」という警戒心が強い</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">potential（形容詞）</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-2-2')" aria-label="play phrase">🔊</button> <span class="u-head">［possible］</span></p>
+          <span class="u-speak-text" id="up-tier2a-2-2" hidden>potential</span>
+          <p class="u-meaning">意味：潜在的な・可能性を秘めた</p>
+          <p class="u-nuance">ニュアンス：possibleより「まだ実現していないが見込みがある」というニュアンス</p>
+        </div></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-tier2b">
+      <div class="block-header">
+        <h2>Tier 2b</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-tier2b">
+      <div class="sentence-block" data-sid="tier2b-0">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-0')" id="toggle-tier2b-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-0">The manager was pleased with the team&#x27;s performance this quarter.</p>
+        <p class="jp-line">経営陣は今四半期のチームの成果に満足していた。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-0','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-0','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-0', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">pleased</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-0-0')" aria-label="play phrase">🔊</button> <span class="u-head">［glad］</span></p>
+          <span class="u-speak-text" id="up-tier2b-0-0" hidden>pleased</span>
+          <p class="u-meaning">意味：満足している・嬉しい</p>
+          <p class="u-nuance">ニュアンス：gladよりフォーマルで、ビジネスメールなどで頻出</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-1">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-1')" id="toggle-tier2b-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-1">The organizers were delighted to welcome guests from around the world.</p>
+        <p class="jp-line">主催者たちは、世界中からのゲストを迎えることができて大喜びだった。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-1','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-1','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-1', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">delighted</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-1-0')" aria-label="play phrase">🔊</button> <span class="u-head">［glad］</span></p>
+          <span class="u-speak-text" id="up-tier2b-1-0" hidden>delighted</span>
+          <p class="u-meaning">意味：大喜びしている</p>
+          <p class="u-nuance">ニュアンス：gladよりも強い喜び、招待状やお礼状で使う上品な語</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-2">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-2')" id="toggle-tier2b-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-2">During the drought, many families were forced to go hungry.</p>
+        <p class="jp-line">干ばつの間、多くの家族が食べずに過ごすことを余儀なくされた。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-2','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-2','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-2', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">go hungry</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-2-0')" aria-label="play phrase">🔊</button> <span class="u-head">［hungry］</span></p>
+          <span class="u-speak-text" id="up-tier2b-2-0" hidden>go hungry</span>
+          <p class="u-meaning">意味：食べずに過ごす・お腹を空かせたままでいる</p>
+          <p class="u-nuance">ニュアンス：貧困・食糧不足の文脈でも使う</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-3">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-3')" id="toggle-tier2b-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-3">Engineers confirmed that the new design is technically feasible.</p>
+        <p class="jp-line">技術者たちは、その新しい設計が技術的に実行可能であることを確認した。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-3','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-3','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-3', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">feasible</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-3-0')" aria-label="play phrase">🔊</button> <span class="u-head">［possible］</span></p>
+          <span class="u-speak-text" id="up-tier2b-3-0" hidden>feasible</span>
+          <p class="u-meaning">意味：実行可能な</p>
+          <p class="u-nuance">ニュアンス：possibleより「実際にできるかどうか」という実用性に焦点、ビジネス頻出</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-4">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-4')" id="toggle-tier2b-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-4">The company needs a viable plan to reduce its debt.</p>
+        <p class="jp-line">その会社は、負債を減らすための実行可能な計画を必要としている。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-4','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-4','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-4', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">viable</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-4-0')" aria-label="play phrase">🔊</button> <span class="u-head">［possible］</span></p>
+          <span class="u-speak-text" id="up-tier2b-4-0" hidden>viable</span>
+          <p class="u-meaning">意味：実行可能な・存続可能な</p>
+          <p class="u-nuance">ニュアンス：feasibleと近いが、長期的に成り立つかという含みがある</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-5">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-5')" id="toggle-tier2b-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-5">The report lists numerous examples of successful projects.</p>
+        <p class="jp-line">その報告書には、成功したプロジェクトの多数の例が記載されている。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-5','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-5','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-5', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">numerous</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-5-0')" aria-label="play phrase">🔊</button> <span class="u-head">［several］</span></p>
+          <span class="u-speak-text" id="up-tier2b-5-0" hidden>numerous</span>
+          <p class="u-meaning">意味：多数の</p>
+          <p class="u-nuance">ニュアンス：severalよりずっと多い数を表すフォーマルな語</p>
+        </div></div>
+      </div>
+      </div>
+    </section>
+</main>
+
+<footer class="page-footer">
+  glad・hungry・possible・several・warm・careful 全38表現収録／Tier2bは音声再生ボタンなし（隠す/見るは通常通り）／各使用表現にも🔊ボタン付き（英語のみ再生）／チェック・メモはGitHub経由で端末をまたいで同期されます
+</footer>
+
+<script>
+let speedRate = 1.0;
+let chosenVoice = null;
+function pickVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return;
+  chosenVoice = voices.find(v => v.name === 'Samantha')
+    || voices.find(v => v.name.includes('Google US English'))
+    || voices.find(v => v.lang === 'en-US')
+    || voices[0];
+}
+window.speechSynthesis.onvoiceschanged = pickVoice;
+pickVoice();
+function speakText(text) {
+  if (!text) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = speedRate;
+  if (chosenVoice) u.voice = chosenVoice;
+  window.speechSynthesis.speak(u);
+}
+function speakOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  if (el) speakText(el.textContent);
+}
+function speakPhraseElement(elId) {
+  const el = document.getElementById(elId);
+  if (el) speakText(el.textContent);
+}
+function toggleOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  const btn = document.getElementById('toggle-' + sid);
+  el.classList.toggle('is-hidden');
+  btn.textContent = el.classList.contains('is-hidden') ? '見る' : '隠す';
+}
+function setSpeed(v) { speedRate = parseFloat(v); }
+let allENHidden = false;
+function toggleAllEN() {
+  allENHidden = !allENHidden;
+  document.querySelectorAll('.en-line').forEach(el => {
+    if (allENHidden) { el.classList.add('is-hidden'); } else { el.classList.remove('is-hidden'); }
+  });
+  document.querySelectorAll('[id^="toggle-"]').forEach(btn => {
+    btn.textContent = allENHidden ? '見る' : '隠す';
+  });
+  document.getElementById('global-en-toggle').textContent = allENHidden ? '全て英文を見る' : '全て英文を隠す';
+}
+
+// ==================================================================
+// GitHub-backed cross-device sync for checkmarks / per-sentence memo /
+// the global memo box. Token and repo are shared across every vocab
+// page on this device (one login covers them all, via a shared
+// localStorage key). The JSON file PATH is intentionally NOT part of
+// that shared object -- each page always uses its own GH_DEFAULT_PATH,
+// so opening a different vocab page can never accidentally point at
+// (and overwrite) another page's data file. The token is kept ONLY in
+// this device's localStorage and is sent only directly to api.github.com.
+const GH_STORAGE_KEY = 'ecte_gh_settings__shared';
+const GH_DEFAULT_REPO = 'm9814mary/english-cards';
+const GH_DEFAULT_PATH = 'data/glad-hungry-possible-several-warm-careful-tiers.json';
+
+let ghToken = '';
+let ghRepo = GH_DEFAULT_REPO;
+let ghPath = GH_DEFAULT_PATH;
+let ghSha = null;
+let ghState = {};       // sid -> {check1, check2, memo}
+let ghGlobalMemo = '';
+let ghSaveTimer = null;
+
+function ghLoadSettingsFromLocalStorage() {
+  try {
+    const raw = localStorage.getItem(GH_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      ghToken = parsed.token || '';
+      ghRepo = parsed.repo || GH_DEFAULT_REPO;
+    }
+  } catch (e) { /* ignore corrupt local settings */ }
+  ghPath = GH_DEFAULT_PATH;
+}
+
+function ghPersistSettingsToLocalStorage() {
+  try {
+    localStorage.setItem(GH_STORAGE_KEY, JSON.stringify({ token: ghToken, repo: ghRepo }));
+  } catch (e) { /* storage unavailable */ }
+}
+
+function ghSetStatus(text, isError) {
+  const el = document.getElementById('gh-status');
+  if (!el) return;
+  el.textContent = text;
+  el.style.color = isError ? '#B23A3A' : '#6B6459';
+}
+
+function ghToggleSettings() {
+  const body = document.getElementById('gh-body');
+  if (body) body.classList.toggle('collapsed');
+}
+
+function ghSaveSettingsAndSync() {
+  ghToken = document.getElementById('gh-token-input').value.trim();
+  ghRepo = document.getElementById('gh-repo-input').value.trim() || GH_DEFAULT_REPO;
+  ghPath = document.getElementById('gh-path-input').value.trim() || GH_DEFAULT_PATH;
+  ghPersistSettingsToLocalStorage();
+  ghFetchState();
+}
+
+function ghUtf8ToB64(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function ghB64ToUtf8(b64) {
+  return decodeURIComponent(escape(atob(b64.replace(/\n/g, ''))));
+}
+
+async function ghFetchState() {
+  if (!ghToken) { ghSetStatus('未接続（トークン未入力）', false); return; }
+  ghSetStatus('読み込み中…', false);
+  try {
+    const url = 'https://api.github.com/repos/' + ghRepo + '/contents/' + ghPath;
+    const res = await fetch(url, {
+      headers: {
+        'Authorization': 'token ' + ghToken,
+        'Accept': 'application/vnd.github+json'
+      }
+    });
+    if (res.status === 404) {
+      ghState = {};
+      ghGlobalMemo = '';
+      ghSha = null;
+      ghSetStatus('接続済み（新規ファイル、まだ保存なし）', false);
+      ghApplyStateToUI();
+      return;
+    }
+    if (res.status === 401) {
+      ghSetStatus('トークンが無効です', true);
+      return;
+    }
+    if (!res.ok) {
+      ghSetStatus('読み込み失敗（' + res.status + '）', true);
+      return;
+    }
+    const data = await res.json();
+    ghSha = data.sha;
+    const decoded = ghB64ToUtf8(data.content);
+    const parsed = JSON.parse(decoded);
+    ghState = parsed.sentences || {};
+    ghGlobalMemo = parsed.globalMemo || '';
+    ghApplyStateToUI();
+    ghSetStatus('同期済み', false);
+  } catch (e) {
+    ghSetStatus('読み込みエラー（通信を確認してください）', true);
+  }
+}
+
+function ghApplyStateToUI() {
+  document.querySelectorAll('.sentence-block[data-sid]').forEach(function (card) {
+    const sid = card.getAttribute('data-sid');
+    const s = ghState[sid] || {};
+    const c1 = card.querySelector('.chk-btn[data-key="check1"]');
+    const c2 = card.querySelector('.chk-btn[data-key="check2"]');
+    const memoEl = card.querySelector('.sent-memo');
+    if (c1) c1.classList.toggle('active', !!s.check1);
+    if (c2) c2.classList.toggle('active', !!s.check2);
+    if (memoEl) memoEl.value = s.memo || '';
+  });
+  const gm = document.getElementById('memo-area');
+  if (gm) gm.value = ghGlobalMemo;
+}
+
+function ghQueueSave() {
+  ghSetStatus('保存待ち…', false);
+  clearTimeout(ghSaveTimer);
+  ghSaveTimer = setTimeout(ghSaveState, 900);
+}
+
+async function ghSaveState() {
+  if (!ghToken) { ghSetStatus('未接続（トークン未入力）', true); return; }
+  ghSetStatus('保存中…', false);
+  try {
+    const payload = { sentences: ghState, globalMemo: ghGlobalMemo };
+    const content = ghUtf8ToB64(JSON.stringify(payload, null, 2));
+    const url = 'https://api.github.com/repos/' + ghRepo + '/contents/' + ghPath;
+    const body = { message: 'update review state', content: content };
+    if (ghSha) body.sha = ghSha;
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'token ' + ghToken,
+        'Accept': 'application/vnd.github+json'
+      },
+      body: JSON.stringify(body)
+    });
+    if (res.status === 409) {
+      await ghFetchState();
+      ghSetStatus('他の端末の変更と競合したため再読込しました', true);
+      return;
+    }
+    if (!res.ok) {
+      ghSetStatus('保存失敗（' + res.status + '）', true);
+      return;
+    }
+    const data = await res.json();
+    ghSha = data.content.sha;
+    ghSetStatus('同期済み', false);
+  } catch (e) {
+    ghSetStatus('保存エラー（通信を確認してください）', true);
+  }
+}
+
+function toggleCheck(sid, key) {
+  if (!ghState[sid]) ghState[sid] = {};
+  ghState[sid][key] = !ghState[sid][key];
+  const card = document.querySelector('.sentence-block[data-sid="' + sid + '"]');
+  if (card) {
+    const btn = card.querySelector('.chk-btn[data-key="' + key + '"]');
+    if (btn) btn.classList.toggle('active', !!ghState[sid][key]);
+  }
+  ghQueueSave();
+}
+
+function updateSentMemo(sid, value) {
+  if (!ghState[sid]) ghState[sid] = {};
+  ghState[sid].memo = value;
+  ghQueueSave();
+}
+
+function updateGlobalMemo(value) {
+  ghGlobalMemo = value;
+  ghQueueSave();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  ghLoadSettingsFromLocalStorage();
+  document.getElementById('gh-token-input').value = ghToken;
+  document.getElementById('gh-repo-input').value = ghRepo;
+  document.getElementById('gh-path-input').value = ghPath;
+  if (ghToken) {
+    ghFetchState();
+    document.getElementById('gh-body').classList.add('collapsed');
+  } else {
+    ghSetStatus('未接続（トークンを入力してください）', false);
+  }
+  const gm = document.getElementById('memo-area');
+  if (gm) gm.addEventListener('input', function () { updateGlobalMemo(gm.value); });
+});
+</script>
+</body>
+</html>
