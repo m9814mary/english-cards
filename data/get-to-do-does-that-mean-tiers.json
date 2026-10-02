@@ -5,7 +5,8 @@
       "check1": true
     },
     "tier2b-0": {
-      "memo": "fail to + 動詞の原形＝「〜できない／〜しない（期待されていたのに）"
+      "memo": "fail to + 動詞の原形＝「〜できない／〜しない（期待されていたのに）",
+      "check1": true
     },
     "tier2b-2": {
       "memo": "prove (to be) + 形容詞／名詞の形で、turn out とほぼ同じ働きをします。\nturn out は「（実は）〜だと分かった」、end up は「結局〜することになった」"
