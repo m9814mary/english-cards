@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Review — come out〜Either will do（Tier別）</title>
+<style>
+:root {
+  --bg: #F7F5F0; --bg2: #EEEAE2; --surface: #fff; --border: #D8D3C8;
+  --text: #1A1713; --text-sub: #6B6459; --text-muted: #9C9389;
+  --accent: #2D4A3E; --accent-pale: #E8F0EC;
+  --gold: #B8913A; --gold-pale: #F5EDD9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  line-height: 1.8; padding-bottom: 80px;
+}
+h1, h2 { font-family: Georgia, 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
+header.top { background: var(--accent); color: #fff; padding: 26px 20px 20px; position: sticky; top: 0; z-index: 50; }
+header.top h1 { margin: 0 0 4px; font-size: 22px; font-weight: 400; }
+header.top .subtitle { font-size: 13px; opacity: 0.85; margin: 0 0 14px; }
+.controls-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.controls-bar button, .controls-bar select {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.35); color: #fff;
+  border-radius: 20px; padding: 7px 14px; font-size: 13px; cursor: pointer;
+}
+.controls-bar button:hover { background: rgba(255,255,255,0.22); }
+.controls-bar label { font-size: 12px; opacity: 0.85; margin-right: -4px; }
+
+.gh-wrap { max-width: 780px; margin: 16px auto 0; padding: 0 20px; }
+.gh-box { background: #EAF1F7; border: 1px solid #B9CFE0; border-radius: 12px; padding: 12px 16px; }
+.gh-head { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.gh-label { font-size: 13px; font-weight: 700; color: #2C5A82; }
+.gh-status { font-size: 11px; color: #6B6459; }
+.gh-body { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+.gh-body.collapsed { display: none; }
+.gh-body label { font-size: 12px; color: var(--text-sub); display: flex; flex-direction: column; gap: 3px; }
+.gh-body input {
+  border: 1px solid #B9CFE0; border-radius: 6px; padding: 7px 9px; font-size: 13px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+}
+.gh-body button {
+  align-self: flex-start; background: #2C5A82; color: #fff; border: none; border-radius: 16px;
+  padding: 7px 16px; font-size: 13px; cursor: pointer;
+}
+.gh-body button:hover { background: #234968; }
+.gh-note { font-size: 11px; color: var(--text-muted); margin: 2px 0 0; line-height: 1.6; }
+
+.memo-wrap { max-width: 780px; margin: 16px auto 0; padding: 0 20px; }
+.memo-box { background: #FFF9E8; border: 1px solid #E8D9A0; border-radius: 12px; padding: 12px 16px; }
+.memo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.memo-label { font-size: 13px; font-weight: 700; color: #8a6d1a; }
+.memo-status { font-size: 11px; color: #9C9389; }
+.memo-area {
+  width: 100%; min-height: 70px; border: 1px solid #E8D9A0; border-radius: 8px; padding: 8px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-size: 14px; color: #1A1713; background: #fff; resize: vertical; box-sizing: border-box;
+}
+.memo-area:focus { outline: 2px solid #E8D9A0; }
+nav.toc { max-width: 780px; margin: 20px auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+.toc-link {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px;
+  text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600;
+}
+.toc-link:hover { border-color: var(--accent); }
+main { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+.block {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 22px 8px; margin-bottom: 20px; scroll-margin-top: 150px;
+}
+.block-header { border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 6px; }
+.block-header h2 { margin: 0; font-size: 19px; color: var(--accent); font-weight: 400; }
+.block-title-jp { margin: 4px 0 0; font-size: 12.5px; color: var(--text-sub); }
+.sentence-block { padding: 16px 0; border-bottom: 1px dashed var(--border); }
+.sentence-block:last-child { border-bottom: none; }
+.sentence-controls { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+.mini-speak, .mini-toggle {
+  background: var(--accent-pale); color: var(--accent); border: 1px solid var(--accent);
+  border-radius: 14px; font-size: 12px; cursor: pointer; padding: 3px 10px;
+}
+.mini-speak { padding: 3px 8px; font-size: 13px; }
+.mini-speak:hover, .mini-toggle:hover { background: var(--accent); color: #fff; }
+.en-line {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+  font-style: normal; font-size: 17px; font-weight: 500;
+  line-height: 1.6; color: var(--text); margin: 0 0 4px;
+}
+.en-line.is-hidden { display: none; }
+.jp-line { font-size: 14px; line-height: 1.8; color: var(--text-sub); margin: 0 0 8px; }
+
+.track-row { display: flex; gap: 6px; margin: 0 0 6px; flex-wrap: wrap; }
+.chk-btn {
+  background: #fff; border: 1px solid var(--border); color: var(--text-sub);
+  border-radius: 12px; font-size: 11.5px; cursor: pointer; padding: 4px 10px;
+}
+.chk-btn[data-key="check1"].active { background: #FBEAEA; border-color: #D98C8C; color: #A33333; }
+.chk-btn[data-key="check2"].active { background: var(--accent-pale); border-color: var(--accent); color: var(--accent); }
+.sent-memo {
+  width: 100%; min-height: 38px; border: 1px solid var(--border); border-radius: 6px;
+  padding: 6px 9px; font-size: 12.5px; color: var(--text); background: #FAFAF7;
+  resize: vertical; box-sizing: border-box; margin-bottom: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', Roboto, sans-serif;
+}
+.sent-memo:focus { outline: 1px solid var(--accent); }
+
+.used-box { background: var(--accent-pale); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.used-item { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(45,74,62,0.12); }
+.used-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.u-phrase-line { margin: 0 0 2px; }
+.u-phrase { color: var(--accent); font-weight: 700; font-size: 13px; }
+.u-speak-btn {
+  background: none; border: none; cursor: pointer; font-size: 12px;
+  padding: 0 2px; line-height: 1; vertical-align: middle; opacity: 0.75;
+}
+.u-speak-btn:hover { opacity: 1; }
+.u-head { color: var(--text-muted); font-size: 11px; }
+.u-meaning { margin: 0 0 2px; font-size: 12.5px; color: var(--text); }
+.u-nuance { margin: 0; font-size: 12px; color: var(--text-sub); }
+.vocab-box { background: var(--gold-pale); border-radius: 8px; padding: 8px 12px; }
+.vocab-label { display: block; font-size: 11px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.vocab-chip { font-size: 12px; color: var(--text-sub); margin-right: 12px; display: inline-block; margin-bottom: 3px; }
+.vocab-chip strong { color: var(--text); }
+.vocab-chip em { font-style: normal; color: var(--text-muted); }
+.v-level { color: var(--gold); font-weight: 600; }
+footer.page-footer { max-width: 780px; margin: 10px auto 40px; padding: 0 20px; font-size: 12px; color: var(--text-muted); text-align: center; }
+@media (max-width: 640px) {
+  header.top { padding: 18px 14px 14px; }
+  .en-line { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>English Review — come out〜Either will do（Tier別）</h1>
+  <p class="subtitle">全18文（Block01・02＋Tier2a・2b）／使用表現39個／語彙注釈9個／Tier2bは文の音声なし（使用表現ごとの🔊は全体に有効）</p>
+  <div class="controls-bar">
+    <button id="global-en-toggle" onclick="toggleAllEN()">全て英文を隠す</button>
+    <label for="speed">速度</label>
+    <select id="speed" onchange="setSpeed(this.value)">
+      <option value="0.7">遅め 0.7×</option>
+      <option value="1.0" selected>普通 1.0×</option>
+      <option value="1.35">速め 1.35×</option>
+    </select>
+  </div>
+</header>
+
+<div class="gh-wrap">
+  <div class="gh-box">
+    <div class="gh-head" onclick="ghToggleSettings()">
+      <span class="gh-label">🔗 GitHub同期設定</span>
+      <span class="gh-status" id="gh-status">未接続</span>
+    </div>
+    <div class="gh-body" id="gh-body">
+      <label>Personal Access Token（このリポジトリの Contents: Read and write 権限だけを与えたfine-grainedトークンを推奨）
+        <input type="password" id="gh-token-input" placeholder="github_pat_...">
+      </label>
+      <label>リポジトリ（owner/repo）
+        <input type="text" id="gh-repo-input" value="m9814mary/english-cards">
+      </label>
+      <label>保存先ファイルパス
+        <input type="text" id="gh-path-input" value="data/come-out-either-will-do-tiers.json">
+      </label>
+      <button onclick="ghSaveSettingsAndSync()">保存して同期</button>
+      <p class="gh-note">トークンはこの端末のブラウザ内にのみ保存され、api.github.com への通信以外には送信されません。一度入力すれば、この端末で開く他のEnglish Reviewページでも自動で使われます（保存先ファイルパスはページごとに別々なので、データが混ざる心配はありません）。他の端末で開いた時は、その端末でもう一度だけトークンを入力してください。</p>
+    </div>
+  </div>
+</div>
+
+<div class="memo-wrap">
+  <div class="memo-box">
+    <div class="memo-head">
+      <span class="memo-label">📝 全体メモ</span>
+      <span class="memo-status" id="memo-status"></span>
+    </div>
+    <textarea id="memo-area" class="memo-area" placeholder="ページ全体についてのメモ（GitHub同期に含まれます）"></textarea>
+  </div>
+</div>
+
+<nav class="toc">
+<a href="#block-block01" class="toc-link">Block 01</a><a href="#block-block02" class="toc-link">Block 02</a><a href="#block-tier2a" class="toc-link">Tier 2a</a><a href="#block-tier2b" class="toc-link">Tier 2b</a>
+</nav>
+
+<main>
+
+    <section class="block" id="block-block01">
+      <div class="block-header">
+        <h2>Block 01</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-block01">
+      <div class="sentence-block" data-sid="block01-0">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-0')" id="toggle-block01-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-0">The exam results will come out next Monday. Either will do — chicken or fish, I&#x27;m not picky about lunch today. I want to arrive in time for the opening ceremony.</p>
+        <p class="jp-line">試験の結果は来週の月曜日に発表される。どちらでもいい——鶏肉でも魚でも、今日のランチは好みがない。開会式に間に合うように到着したい。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-0','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-0','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-0', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">come out（物理的）</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-0-0')" aria-label="play phrase">🔊</button> <span class="u-head">［come out］</span></p>
+          <span class="u-speak-text" id="up-block01-0-0" hidden>come out</span>
+          <p class="u-meaning">意味：外に出てくる</p>
+          <p class="u-nuance">ニュアンス：人や物が内側から外に現れることを表す最も基本的な用法</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">Either will do.</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-0-1')" aria-label="play phrase">🔊</button> <span class="u-head">［Either/That will do］</span></p>
+          <span class="u-speak-text" id="up-block01-0-1" hidden>Either will do</span>
+          <p class="u-meaning">意味：どちらでもいいです</p>
+          <p class="u-nuance">ニュアンス：2つの選択肢のどちらでも問題ないことを伝える定型句</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">in time for ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-0-2')" aria-label="play phrase">🔊</button> <span class="u-head">［in time］</span></p>
+          <span class="u-speak-text" id="up-block01-0-2" hidden>in time for the opening ceremony</span>
+          <p class="u-meaning">意味：〜に間に合って</p>
+          <p class="u-nuance">ニュアンス：期限・イベントに間に合うことを表す最頻出構文</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>ceremony</strong> <em>(名詞)</em> 式典 <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>picky</strong> <em>(形容詞)</em> 好みがうるさい <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="block01-1">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-1')" id="toggle-block01-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-1">Don&#x27;t worry about the noise outside. My dream of visiting Paris finally came true last summer. I need to come up with a good idea for my presentation.</p>
+        <p class="jp-line">外の騒音は気にしないで。パリを訪れるという私の夢は、去年の夏ついに実現した。プレゼンのための良いアイデアを思いつく必要がある。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-1','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-1','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-1', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">Don&#x27;t worry about ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-1-0')" aria-label="play phrase">🔊</button> <span class="u-head">［Don&#x27;t worry about］</span></p>
+          <span class="u-speak-text" id="up-block01-1-0" hidden>Don&#x27;t worry about the noise outside</span>
+          <p class="u-meaning">意味：〜について心配しないで</p>
+          <p class="u-nuance">ニュアンス：心配の対象を明示する頻出構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">S + come(s) true</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-1-1')" aria-label="play phrase">🔊</button> <span class="u-head">［come true］</span></p>
+          <span class="u-speak-text" id="up-block01-1-1" hidden>came true</span>
+          <p class="u-meaning">意味：（Sが）実現する</p>
+          <p class="u-nuance">ニュアンス：夢・願望が現実になることを表す最頻出構文、主語は夢や予言など</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">come up with + O（アイデア）</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-1-2')" aria-label="play phrase">🔊</button> <span class="u-head">［come up with］</span></p>
+          <span class="u-speak-text" id="up-block01-1-2" hidden>come up with a good idea</span>
+          <p class="u-meaning">意味：〜（アイデア）を思いつく</p>
+          <p class="u-nuance">ニュアンス：考え・計画をひねり出す最頻出用法</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>presentation</strong> <em>(名詞)</em> 発表・プレゼンテーション <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="block01-2">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-2')" id="toggle-block01-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-2">In other words, the plan changed completely at the last minute. In a way, I&#x27;m glad we had to adapt quickly. My photos from the trip came out really well.</p>
+        <p class="jp-line">言い換えると、計画は土壇場で完全に変わった。ある意味、素早く対応しなければならなかったことは良かったと思う。旅行の写真は本当にうまく仕上がった。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-2','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-2','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-2', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">In other words, ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-2-0')" aria-label="play phrase">🔊</button> <span class="u-head">［In other words］</span></p>
+          <span class="u-speak-text" id="up-block01-2-0" hidden>In other words</span>
+          <p class="u-meaning">意味：言い換えると〜</p>
+          <p class="u-nuance">ニュアンス：前の内容をわかりやすく言い直す最頻出構文、文頭で使う</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">in a way</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-2-1')" aria-label="play phrase">🔊</button> <span class="u-head">［In a sense］</span></p>
+          <span class="u-speak-text" id="up-block01-2-1" hidden>in a way</span>
+          <p class="u-meaning">意味：ある意味で</p>
+          <p class="u-nuance">ニュアンス：in a senseよりカジュアルで会話に頻出</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">come out well</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-2-2')" aria-label="play phrase">🔊</button> <span class="u-head">［come out］</span></p>
+          <span class="u-speak-text" id="up-block01-2-2" hidden>came out really well</span>
+          <p class="u-meaning">意味：うまくいく・良い結果になる</p>
+          <p class="u-nuance">ニュアンス：写真や作業の出来栄えを評価する際に使う</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>adapt</strong> <em>(動詞)</em> 適応する <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="block01-3">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-3')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-3')" id="toggle-block01-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-3">That will do for now — we can fix the rest later. I got to the airport just in time to catch my flight. No worries if you&#x27;re running a few minutes late.</p>
+        <p class="jp-line">それで今のところは十分だ——残りは後で直せる。空港に到着したのは、ちょうどフライトに間に合うぎりぎりのタイミングだった。数分遅れても気にしないで。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-3','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-3','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-3', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">~ will do.</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-3-0')" aria-label="play phrase">🔊</button> <span class="u-head">［Either/That will do］</span></p>
+          <span class="u-speak-text" id="up-block01-3-0" hidden>That will do for now</span>
+          <p class="u-meaning">意味：〜で十分・〜で構わない</p>
+          <p class="u-nuance">ニュアンス：willのあとにdoを置き「それで事足りる」ことを表す構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">in time to + 動詞</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-3-1')" aria-label="play phrase">🔊</button> <span class="u-head">［in time］</span></p>
+          <span class="u-speak-text" id="up-block01-3-1" hidden>just in time to catch my flight</span>
+          <p class="u-meaning">意味：〜するのに間に合って</p>
+          <p class="u-nuance">ニュアンス：動作に間に合うタイミングを表す構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">No worries</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-3-2')" aria-label="play phrase">🔊</button> <span class="u-head">［Don&#x27;t worry about］</span></p>
+          <span class="u-speak-text" id="up-block01-3-2" hidden>No worries</span>
+          <p class="u-meaning">意味：大丈夫だよ・気にしないで</p>
+          <p class="u-nuance">ニュアンス：Don&#x27;t worryよりカジュアルで、豪州・米で特に頻出</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="block01-4">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-4')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-4')" id="toggle-block01-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-4">Winning the scholarship was truly a dream come true for her. I tried to come up with a better excuse, but nothing came to mind. The soup from this café always comes out well.</p>
+        <p class="jp-line">奨学金を獲得したことは、彼女にとって本当に夢のようなことだった。もっと良い言い訳を考え出そうとしたが、何も思いつかなかった。このカフェのスープはいつもうまく仕上がる。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-4','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-4','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-4', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">a dream come true</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-4-0')" aria-label="play phrase">🔊</button> <span class="u-head">［come true］</span></p>
+          <span class="u-speak-text" id="up-block01-4-0" hidden>a dream come true</span>
+          <p class="u-meaning">意味：夢が実現したもの・まさに夢のよう</p>
+          <p class="u-nuance">ニュアンス：非常によく使われる名詞句的な決まり文句</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">come up with an excuse</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-4-1')" aria-label="play phrase">🔊</button> <span class="u-head">［come up with］</span></p>
+          <span class="u-speak-text" id="up-block01-4-1" hidden>come up with a better excuse</span>
+          <p class="u-meaning">意味：言い訳を考え出す</p>
+          <p class="u-nuance">ニュアンス：excuseファミリーとも関連する表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">come out well</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-4-2')" aria-label="play phrase">🔊</button> <span class="u-head">［come out］</span></p>
+          <span class="u-speak-text" id="up-block01-4-2" hidden>comes out well</span>
+          <p class="u-meaning">意味：うまくいく・良い結果になる</p>
+          <p class="u-nuance">ニュアンス：写真や作業の出来栄えを評価する際に使う</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>scholarship</strong> <em>(名詞)</em> 奨学金 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="block01-5">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block01-5')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block01-5')" id="toggle-block01-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-block01-5">That will do perfectly for today&#x27;s lunch order. I arrived just in time before the store closed. Take it easy this weekend — you deserve some rest.</p>
+        <p class="jp-line">それが今日のランチの注文としてぴったりだ。店が閉まる直前、ぎりぎりのところで到着した。今週末は気楽に過ごして——あなたには休息が必要だよ。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block01-5','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block01-5','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block01-5', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">That will do.</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-5-0')" aria-label="play phrase">🔊</button> <span class="u-head">［Either/That will do］</span></p>
+          <span class="u-speak-text" id="up-block01-5-0" hidden>That will do perfectly</span>
+          <p class="u-meaning">意味：それで十分です</p>
+          <p class="u-nuance">ニュアンス：提示されたものに満足・了承する際の定番フレーズ</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">just in time</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-5-1')" aria-label="play phrase">🔊</button> <span class="u-head">［in time］</span></p>
+          <span class="u-speak-text" id="up-block01-5-1" hidden>just in time</span>
+          <p class="u-meaning">意味：ぎりぎり間に合って</p>
+          <p class="u-nuance">ニュアンス：「あとちょっとで遅れるところだった」という緊迫感を含む</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">Take it easy</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block01-5-2')" aria-label="play phrase">🔊</button> <span class="u-head">［Don&#x27;t worry about］</span></p>
+          <span class="u-speak-text" id="up-block01-5-2" hidden>Take it easy</span>
+          <p class="u-meaning">意味：気楽にいこう</p>
+          <p class="u-nuance">ニュアンス：Don&#x27;t worryより「リラックスして」という広い意味を含む</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>deserve</strong> <em>(動詞)</em> 〜に値する <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-block02">
+      <div class="block-header">
+        <h2>Block 02</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-block02">
+      <div class="sentence-block" data-sid="block02-0">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-0')" id="toggle-block02-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-0">A new book by my favorite author comes out next week. Any one will do — I just need a snack before my meeting. I always try to leave the office on time.</p>
+        <p class="jp-line">お気に入りの作家の新刊が来週発売される。どれでもいい——会議の前に軽食が必要なだけだ。私はいつもオフィスを時間通りに出るようにしている。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block02-0','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block02-0','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block02-0', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">a new book comes out</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block02-0-0')" aria-label="play phrase">🔊</button> <span class="u-head">［come out］</span></p>
+          <span class="u-speak-text" id="up-block02-0-0" hidden>A new book comes out</span>
+          <p class="u-meaning">意味：新刊が発売される</p>
+          <p class="u-nuance">ニュアンス：映画・本・製品の発売を表す頻出表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">Any one will do.</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block02-0-1')" aria-label="play phrase">🔊</button> <span class="u-head">［Either/That will do］</span></p>
+          <span class="u-speak-text" id="up-block02-0-1" hidden>Any one will do</span>
+          <p class="u-meaning">意味：どれでもいいです</p>
+          <p class="u-nuance">ニュアンス：3つ以上の選択肢がある場合に使う類似表現</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">on time</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block02-0-2')" aria-label="play phrase">🔊</button> <span class="u-head">［in time］</span></p>
+          <span class="u-speak-text" id="up-block02-0-2" hidden>on time</span>
+          <p class="u-meaning">意味：時間通りに</p>
+          <p class="u-nuance">ニュアンス：in timeとは異なり「遅れずちょうどその時刻に」を表す、混同注意</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>author</strong> <em>(名詞)</em> 著者・作家 <span class="v-level">準2級</span></span></div>
+      </div>
+      <div class="sentence-block" data-sid="block02-1">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-1')" id="toggle-block02-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-1">It&#x27;s okay if the meeting runs a little long today. My younger brother finally came out of his shell after joining the club. Either is fine with me — morning or afternoon.</p>
+        <p class="jp-line">今日の会議が少し長引いても大丈夫だ。弟はクラブに入った後、ついに殻を破って打ち解けるようになった。どちらでも私はいいよ——午前でも午後でも。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block02-1','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block02-1','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block02-1', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">It&#x27;s okay / It&#x27;s fine</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block02-1-0')" aria-label="play phrase">🔊</button> <span class="u-head">［Don&#x27;t worry about］</span></p>
+          <span class="u-speak-text" id="up-block02-1-0" hidden>It&#x27;s okay</span>
+          <p class="u-meaning">意味：大丈夫だよ</p>
+          <p class="u-nuance">ニュアンス：Don&#x27;t worryより「結果そのものが問題ない」ことを伝える</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">come out of one&#x27;s shell</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block02-1-1')" aria-label="play phrase">🔊</button> <span class="u-head">［come out］</span></p>
+          <span class="u-speak-text" id="up-block02-1-1" hidden>came out of his shell</span>
+          <p class="u-meaning">意味：殻を破る・打ち解けるようになる</p>
+          <p class="u-nuance">ニュアンス：内向的だった人が社交的になることを表す比喩的イディオム</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">Either is fine.</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block02-1-2')" aria-label="play phrase">🔊</button> <span class="u-head">［Either/That will do］</span></p>
+          <span class="u-speak-text" id="up-block02-1-2" hidden>Either is fine with me</span>
+          <p class="u-meaning">意味：どちらでも大丈夫です</p>
+          <p class="u-nuance">ニュアンス：Either will doとほぼ同義、より会話的でシンプル</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="block02-2">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('block02-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('block02-2')" id="toggle-block02-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-block02-2">The project turned out better than we expected. It doesn&#x27;t matter which route we take home tonight.</p>
+        <p class="jp-line">そのプロジェクトは、私たちが期待していたよりも良い結果になった。今夜、家までどちらのルートを通っても問題ない。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('block02-2','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('block02-2','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('block02-2', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">turn out</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block02-2-0')" aria-label="play phrase">🔊</button> <span class="u-head">［come out］</span></p>
+          <span class="u-speak-text" id="up-block02-2-0" hidden>turned out</span>
+          <p class="u-meaning">意味：〜という結果になる</p>
+          <p class="u-nuance">ニュアンス：come outの「結果」の意味に近く、より会話で頻出</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">It doesn&#x27;t matter which.</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-block02-2-1')" aria-label="play phrase">🔊</button> <span class="u-head">［Either/That will do］</span></p>
+          <span class="u-speak-text" id="up-block02-2-1" hidden>It doesn&#x27;t matter which route we take</span>
+          <p class="u-meaning">意味：どちらでも問題ない</p>
+          <p class="u-nuance">ニュアンス：Either will doより「違いがない」ことを直接的に述べる</p>
+        </div></div>
+        <div class="vocab-box"><span class="vocab-label">語彙注釈（準2級以上）</span><span class="vocab-chip"><strong>expect</strong> <em>(動詞)</em> 予想する・期待する <span class="v-level">準2級</span></span><span class="vocab-chip"><strong>route</strong> <em>(名詞)</em> 道順・ルート <span class="v-level">準2級</span></span></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-tier2a">
+      <div class="block-header">
+        <h2>Tier 2a</h2>
+        <p class="block-title-jp">3文</p>
+      </div>
+      <div class="passage" id="passage-tier2a">
+      <div class="sentence-block" data-sid="tier2a-0">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('tier2a-0')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('tier2a-0')" id="toggle-tier2a-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2a-0">In time, the full truth will be revealed, even if it takes years. In a sense, every decision we make shapes our future. New details about the merger are expected to come out this week.</p>
+        <p class="jp-line">やがて、たとえ何年かかったとしても、すべての真実が明らかになるでしょう。ある意味では、私たちが下す決断はすべて未来を形作ります。合併に関する新たな詳細が、今週中に公になると見られています。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2a-0','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2a-0','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2a-0', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">in time（単独、「やがて」）</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-0-0')" aria-label="play phrase">🔊</button> <span class="u-head">［in time］</span></p>
+          <span class="u-speak-text" id="up-tier2a-0-0" hidden>In time</span>
+          <p class="u-meaning">意味：やがて・そのうちに</p>
+          <p class="u-nuance">ニュアンス：時間が経てば自然とそうなる、という意味の独立した用法</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">In a sense, ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-0-1')" aria-label="play phrase">🔊</button> <span class="u-head">［In a sense］</span></p>
+          <span class="u-speak-text" id="up-tier2a-0-1" hidden>In a sense</span>
+          <p class="u-meaning">意味：ある意味では〜</p>
+          <p class="u-nuance">ニュアンス：断定を避け、一面的な見方であることを示す構文</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">come out（情報）</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-0-2')" aria-label="play phrase">🔊</button> <span class="u-head">［come out］</span></p>
+          <span class="u-speak-text" id="up-tier2a-0-2" hidden>come out</span>
+          <p class="u-meaning">意味：公になる・発表される</p>
+          <p class="u-nuance">ニュアンス：秘密や真実、新商品などが世に出ることを表す用法</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2a-1">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('tier2a-1')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('tier2a-1')" id="toggle-tier2a-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2a-1">The committee was asked to come up with a solution before the next meeting. To put it another way, the current approach simply isn&#x27;t working. The negotiations will eventually lead to a new agreement.</p>
+        <p class="jp-line">委員会は、次の会議までに解決策を考え出すよう求められました。別の言い方をすれば、現在のアプローチはうまくいっていないということです。交渉は、最終的には新しい合意へとつながるでしょう。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2a-1','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2a-1','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2a-1', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">come up with + O（解決策）</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-1-0')" aria-label="play phrase">🔊</button> <span class="u-head">［come up with］</span></p>
+          <span class="u-speak-text" id="up-tier2a-1-0" hidden>come up with a solution</span>
+          <p class="u-meaning">意味：〜（解決策）を考え出す</p>
+          <p class="u-nuance">ニュアンス：問題への対処法を編み出すことを表す用法</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">to put it another way</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-1-1')" aria-label="play phrase">🔊</button> <span class="u-head">［In other words］</span></p>
+          <span class="u-speak-text" id="up-tier2a-1-1" hidden>To put it another way</span>
+          <p class="u-meaning">意味：別の言い方をすれば</p>
+          <p class="u-nuance">ニュアンス：in other wordsとほぼ同義、ややくだけた前置き</p>
+        </div><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">eventually</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-1-2')" aria-label="play phrase">🔊</button> <span class="u-head">［in time］</span></p>
+          <span class="u-speak-text" id="up-tier2a-1-2" hidden>eventually</span>
+          <p class="u-meaning">意味：最終的には</p>
+          <p class="u-nuance">ニュアンス：in timeの「やがて」の意味に近く、より書き言葉的</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2a-2">
+        <div class="sentence-controls">
+          <button class="mini-speak" onclick="speakOne('tier2a-2')" aria-label="play">🔊</button>
+          <button class="mini-toggle" onclick="toggleOne('tier2a-2')" id="toggle-tier2a-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2a-2">To some extent, the outcome depended on factors beyond our control.</p>
+        <p class="jp-line">ある程度は、その結果は私たちにはどうすることもできない要因に左右されました。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2a-2','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2a-2','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2a-2', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">to some extent</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2a-2-0')" aria-label="play phrase">🔊</button> <span class="u-head">［In a sense］</span></p>
+          <span class="u-speak-text" id="up-tier2a-2-0" hidden>To some extent</span>
+          <p class="u-meaning">意味：ある程度は</p>
+          <p class="u-nuance">ニュアンス：in a senseより「度合い・程度」に焦点を当てた表現</p>
+        </div></div>
+      </div>
+      </div>
+    </section>
+    <section class="block" id="block-tier2b">
+      <div class="block-header">
+        <h2>Tier 2b</h2>
+        <p class="block-title-jp">6文</p>
+      </div>
+      <div class="passage" id="passage-tier2b">
+      <div class="sentence-block" data-sid="tier2b-0">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-0')" id="toggle-tier2b-0">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-0">New evidence has emerged that challenges the original findings.</p>
+        <p class="jp-line">元の調査結果に異議を唱える新たな証拠が浮上した。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-0','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-0','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-0', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">emerge</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-0-0')" aria-label="play phrase">🔊</button> <span class="u-head">［come out］</span></p>
+          <span class="u-speak-text" id="up-tier2b-0-0" hidden>emerged</span>
+          <p class="u-meaning">意味：現れる・浮上する</p>
+          <p class="u-nuance">ニュアンス：come outよりフォーマルで、書き言葉・ニュースで頻出</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-1">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-1')" id="toggle-tier2b-1">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-1">The company&#x27;s long-term vision finally became a reality after a decade of planning.</p>
+        <p class="jp-line">その会社の長期的なビジョンは、10年にわたる計画の末についに現実のものとなった。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-1','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-1','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-1', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">become a reality</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-1-0')" aria-label="play phrase">🔊</button> <span class="u-head">［come true］</span></p>
+          <span class="u-speak-text" id="up-tier2b-1-0" hidden>became a reality</span>
+          <p class="u-meaning">意味：現実のものとなる</p>
+          <p class="u-nuance">ニュアンス：come trueよりフォーマルで、計画やビジョンの実現に使う</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-2">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-2')" id="toggle-tier2b-2">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-2">The proposed partnership never materialized due to budget constraints.</p>
+        <p class="jp-line">提案されたパートナーシップは、予算の制約により決して実現しなかった。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-2','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-2','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-2', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">materialize</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-2-0')" aria-label="play phrase">🔊</button> <span class="u-head">［come true］</span></p>
+          <span class="u-speak-text" id="up-tier2b-2-0" hidden>materialized</span>
+          <p class="u-meaning">意味：実現する・具現化する</p>
+          <p class="u-nuance">ニュアンス：come trueよりかなり書き言葉的で、抽象的な計画が形になることを表す</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-3">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-3')" id="toggle-tier2b-3">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-3">The engineers devised a new method to reduce production costs.</p>
+        <p class="jp-line">技術者たちは、生産コストを削減するための新しい方法を考案した。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-3','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-3','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-3', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">devise</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-3-0')" aria-label="play phrase">🔊</button> <span class="u-head">［come up with］</span></p>
+          <span class="u-speak-text" id="up-tier2b-3-0" hidden>devised</span>
+          <p class="u-meaning">意味：考案する</p>
+          <p class="u-nuance">ニュアンス：come up withよりかなりフォーマルで、計画的に工夫して作り出すニュアンス</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-4">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-4')" id="toggle-tier2b-4">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-4">The workshop was designed to generate new ideas among the staff.</p>
+        <p class="jp-line">そのワークショップは、スタッフの間で新しいアイデアを生み出すために企画された。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-4','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-4','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-4', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">generate（アイデアを）</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-4-0')" aria-label="play phrase">🔊</button> <span class="u-head">［come up with］</span></p>
+          <span class="u-speak-text" id="up-tier2b-4-0" hidden>generate</span>
+          <p class="u-meaning">意味：生み出す</p>
+          <p class="u-nuance">ニュアンス：come up withよりシステム的・大量に発想するニュアンス</p>
+        </div></div>
+      </div>
+      <div class="sentence-block" data-sid="tier2b-5">
+        <div class="sentence-controls">
+          <button class="mini-toggle" onclick="toggleOne('tier2b-5')" id="toggle-tier2b-5">隠す</button>
+        </div>
+        <p class="en-line" id="en-tier2b-5">In one sense, the merger benefited both companies equally.</p>
+        <p class="jp-line">ある一つの見方をすれば、その合併は両社に等しく利益をもたらした。</p>
+        <div class="track-row">
+          <button class="chk-btn" data-key="check1" onclick="toggleCheck('tier2b-5','check1')">🔴 苦手</button>
+          <button class="chk-btn" data-key="check2" onclick="toggleCheck('tier2b-5','check2')">🔁 復習したい</button>
+        </div>
+        <textarea class="sent-memo" placeholder="この文についてのメモ" oninput="updateSentMemo('tier2b-5', this.value)"></textarea>
+        <div class="used-box"><div class="used-item">
+          <p class="u-phrase-line"><span class="u-phrase">In one sense, ~</span> <button class="u-speak-btn" onclick="speakPhraseElement('up-tier2b-5-0')" aria-label="play phrase">🔊</button> <span class="u-head">［In a sense］</span></p>
+          <span class="u-speak-text" id="up-tier2b-5-0" hidden>In one sense</span>
+          <p class="u-meaning">意味：ある一つの見方をすれば〜</p>
+          <p class="u-nuance">ニュアンス：in a senseとほぼ同義、やや強調したニュアンス</p>
+        </div></div>
+      </div>
+      </div>
+    </section>
+</main>
+
+<footer class="page-footer">
+  come out・come true・come up with・in time・In other words・In a sense・Don't worry about・Either/That will do 全39表現収録／Tier2bは音声再生ボタンなし（隠す/見るは通常通り）／各使用表現にも🔊ボタン付き（英語のみ再生）／チェック・メモはGitHub経由で端末をまたいで同期されます
+</footer>
+
+<script>
+let speedRate = 1.0;
+let chosenVoice = null;
+function pickVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return;
+  chosenVoice = voices.find(v => v.name === 'Samantha')
+    || voices.find(v => v.name.includes('Google US English'))
+    || voices.find(v => v.lang === 'en-US')
+    || voices[0];
+}
+window.speechSynthesis.onvoiceschanged = pickVoice;
+pickVoice();
+function speakText(text) {
+  if (!text) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = speedRate;
+  if (chosenVoice) u.voice = chosenVoice;
+  window.speechSynthesis.speak(u);
+}
+function speakOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  if (el) speakText(el.textContent);
+}
+function speakPhraseElement(elId) {
+  const el = document.getElementById(elId);
+  if (el) speakText(el.textContent);
+}
+function toggleOne(sid) {
+  const el = document.getElementById('en-' + sid);
+  const btn = document.getElementById('toggle-' + sid);
+  el.classList.toggle('is-hidden');
+  btn.textContent = el.classList.contains('is-hidden') ? '見る' : '隠す';
+}
+function setSpeed(v) { speedRate = parseFloat(v); }
+let allENHidden = false;
+function toggleAllEN() {
+  allENHidden = !allENHidden;
+  document.querySelectorAll('.en-line').forEach(el => {
+    if (allENHidden) { el.classList.add('is-hidden'); } else { el.classList.remove('is-hidden'); }
+  });
+  document.querySelectorAll('[id^="toggle-"]').forEach(btn => {
+    btn.textContent = allENHidden ? '見る' : '隠す';
+  });
+  document.getElementById('global-en-toggle').textContent = allENHidden ? '全て英文を見る' : '全て英文を隠す';
+}
+
+// ==================================================================
+// GitHub-backed cross-device sync for checkmarks / per-sentence memo /
+// the global memo box. Token and repo are shared across every vocab
+// page on this device (one login covers them all, via a shared
+// localStorage key). The JSON file PATH is intentionally NOT part of
+// that shared object -- each page always uses its own GH_DEFAULT_PATH,
+// so opening a different vocab page can never accidentally point at
+// (and overwrite) another page's data file. The token is kept ONLY in
+// this device's localStorage and is sent only directly to api.github.com.
+const GH_STORAGE_KEY = 'ecte_gh_settings__shared';
+const GH_DEFAULT_REPO = 'm9814mary/english-cards';
+const GH_DEFAULT_PATH = 'data/come-out-either-will-do-tiers.json';
+
+let ghToken = '';
+let ghRepo = GH_DEFAULT_REPO;
+let ghPath = GH_DEFAULT_PATH;
+let ghSha = null;
+let ghState = {};       // sid -> {check1, check2, memo}
+let ghGlobalMemo = '';
+let ghSaveTimer = null;
+
+function ghLoadSettingsFromLocalStorage() {
+  try {
+    const raw = localStorage.getItem(GH_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      ghToken = parsed.token || '';
+      ghRepo = parsed.repo || GH_DEFAULT_REPO;
+    }
+  } catch (e) { /* ignore corrupt local settings */ }
+  ghPath = GH_DEFAULT_PATH;
+}
+
+function ghPersistSettingsToLocalStorage() {
+  try {
+    localStorage.setItem(GH_STORAGE_KEY, JSON.stringify({ token: ghToken, repo: ghRepo }));
+  } catch (e) { /* storage unavailable */ }
+}
+
+function ghSetStatus(text, isError) {
+  const el = document.getElementById('gh-status');
+  if (!el) return;
+  el.textContent = text;
+  el.style.color = isError ? '#B23A3A' : '#6B6459';
+}
+
+function ghToggleSettings() {
+  const body = document.getElementById('gh-body');
+  if (body) body.classList.toggle('collapsed');
+}
+
+function ghSaveSettingsAndSync() {
+  ghToken = document.getElementById('gh-token-input').value.trim();
+  ghRepo = document.getElementById('gh-repo-input').value.trim() || GH_DEFAULT_REPO;
+  ghPath = document.getElementById('gh-path-input').value.trim() || GH_DEFAULT_PATH;
+  ghPersistSettingsToLocalStorage();
+  ghFetchState();
+}
+
+function ghUtf8ToB64(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function ghB64ToUtf8(b64) {
+  return decodeURIComponent(escape(atob(b64.replace(/\n/g, ''))));
+}
+
+async function ghFetchState() {
+  if (!ghToken) { ghSetStatus('未接続（トークン未入力）', false); return; }
+  ghSetStatus('読み込み中…', false);
+  try {
+    const url = 'https://api.github.com/repos/' + ghRepo + '/contents/' + ghPath;
+    const res = await fetch(url, {
+      headers: {
+        'Authorization': 'token ' + ghToken,
+        'Accept': 'application/vnd.github+json'
+      }
+    });
+    if (res.status === 404) {
+      ghState = {};
+      ghGlobalMemo = '';
+      ghSha = null;
+      ghSetStatus('接続済み（新規ファイル、まだ保存なし）', false);
+      ghApplyStateToUI();
+      return;
+    }
+    if (res.status === 401) {
+      ghSetStatus('トークンが無効です', true);
+      return;
+    }
+    if (!res.ok) {
+      ghSetStatus('読み込み失敗（' + res.status + '）', true);
+      return;
+    }
+    const data = await res.json();
+    ghSha = data.sha;
+    const decoded = ghB64ToUtf8(data.content);
+    const parsed = JSON.parse(decoded);
+    ghState = parsed.sentences || {};
+    ghGlobalMemo = parsed.globalMemo || '';
+    ghApplyStateToUI();
+    ghSetStatus('同期済み', false);
+  } catch (e) {
+    ghSetStatus('読み込みエラー（通信を確認してください）', true);
+  }
+}
+
+function ghApplyStateToUI() {
+  document.querySelectorAll('.sentence-block[data-sid]').forEach(function (card) {
+    const sid = card.getAttribute('data-sid');
+    const s = ghState[sid] || {};
+    const c1 = card.querySelector('.chk-btn[data-key="check1"]');
+    const c2 = card.querySelector('.chk-btn[data-key="check2"]');
+    const memoEl = card.querySelector('.sent-memo');
+    if (c1) c1.classList.toggle('active', !!s.check1);
+    if (c2) c2.classList.toggle('active', !!s.check2);
+    if (memoEl) memoEl.value = s.memo || '';
+  });
+  const gm = document.getElementById('memo-area');
+  if (gm) gm.value = ghGlobalMemo;
+}
+
+function ghQueueSave() {
+  ghSetStatus('保存待ち…', false);
+  clearTimeout(ghSaveTimer);
+  ghSaveTimer = setTimeout(ghSaveState, 900);
+}
+
+async function ghSaveState() {
+  if (!ghToken) { ghSetStatus('未接続（トークン未入力）', true); return; }
+  ghSetStatus('保存中…', false);
+  try {
+    const payload = { sentences: ghState, globalMemo: ghGlobalMemo };
+    const content = ghUtf8ToB64(JSON.stringify(payload, null, 2));
+    const url = 'https://api.github.com/repos/' + ghRepo + '/contents/' + ghPath;
+    const body = { message: 'update review state', content: content };
+    if (ghSha) body.sha = ghSha;
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'token ' + ghToken,
+        'Accept': 'application/vnd.github+json'
+      },
+      body: JSON.stringify(body)
+    });
+    if (res.status === 409) {
+      await ghFetchState();
+      ghSetStatus('他の端末の変更と競合したため再読込しました', true);
+      return;
+    }
+    if (!res.ok) {
+      ghSetStatus('保存失敗（' + res.status + '）', true);
+      return;
+    }
+    const data = await res.json();
+    ghSha = data.content.sha;
+    ghSetStatus('同期済み', false);
+  } catch (e) {
+    ghSetStatus('保存エラー（通信を確認してください）', true);
+  }
+}
+
+function toggleCheck(sid, key) {
+  if (!ghState[sid]) ghState[sid] = {};
+  ghState[sid][key] = !ghState[sid][key];
+  const card = document.querySelector('.sentence-block[data-sid="' + sid + '"]');
+  if (card) {
+    const btn = card.querySelector('.chk-btn[data-key="' + key + '"]');
+    if (btn) btn.classList.toggle('active', !!ghState[sid][key]);
+  }
+  ghQueueSave();
+}
+
+function updateSentMemo(sid, value) {
+  if (!ghState[sid]) ghState[sid] = {};
+  ghState[sid].memo = value;
+  ghQueueSave();
+}
+
+function updateGlobalMemo(value) {
+  ghGlobalMemo = value;
+  ghQueueSave();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  ghLoadSettingsFromLocalStorage();
+  document.getElementById('gh-token-input').value = ghToken;
+  document.getElementById('gh-repo-input').value = ghRepo;
+  document.getElementById('gh-path-input').value = ghPath;
+  if (ghToken) {
+    ghFetchState();
+    document.getElementById('gh-body').classList.add('collapsed');
+  } else {
+    ghSetStatus('未接続（トークンを入力してください）', false);
+  }
+  const gm = document.getElementById('memo-area');
+  if (gm) gm.addEventListener('input', function () { updateGlobalMemo(gm.value); });
+});
+</script>
+</body>
+</html>
