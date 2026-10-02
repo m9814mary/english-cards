@@ -21,6 +21,9 @@
     },
     "tier2b-1": {
       "memo": "「operate on 〜」＝「〜に基づいて稼働する・〜で動いている"
+    },
+    "tier2b-2": {
+      "check1": true
     }
   },
   "globalMemo": ""
