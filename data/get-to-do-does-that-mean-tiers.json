@@ -1,7 +1,8 @@
 {
   "sentences": {
     "tier2a-1": {
-      "memo": "persuade + 人 + to do\n「（人）を説得して〜させる」\ngoing forward：今後は（ビジネス・ニュースでよく使われる）"
+      "memo": "persuade + 人 + to do\n「（人）を説得して〜させる」\ngoing forward：今後は（ビジネス・ニュースでよく使われる）",
+      "check1": true
     },
     "tier2b-0": {
       "memo": "fail to + 動詞の原形＝「〜できない／〜しない（期待されていたのに）"
