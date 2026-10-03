@@ -27,6 +27,9 @@
     },
     "tier2b-4": {
       "memo": "follow up on ～” は、「～を確認する」「～のその後の対応をする」「～の進み具合を追いかける」という意味"
+    },
+    "tier2b-5": {
+      "check1": true
     }
   },
   "globalMemo": ""
