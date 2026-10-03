@@ -4,7 +4,8 @@
       "memo": "picky」とは、日本語で「えり好みする」「好き嫌いが激しい」「こだわりが強い」という意味の英語の形容詞"
     },
     "block01-3": {
-      "memo": "be running late で「（予定より）遅れている」"
+      "memo": "be running late で「（予定より）遅れている」",
+      "check1": true
     },
     "block01-4": {
       "memo": "come to mind は「（考え・アイデアが）頭に浮かぶ」",
