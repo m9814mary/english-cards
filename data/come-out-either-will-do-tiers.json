@@ -10,6 +10,9 @@
     "block01-4": {
       "memo": "come to mind は「（考え・アイデアが）頭に浮かぶ」",
       "check1": true
+    },
+    "block01-5": {
+      "check1": true
     }
   },
   "globalMemo": ""
