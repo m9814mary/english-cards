@@ -7,7 +7,8 @@
       "memo": "be running late で「（予定より）遅れている」"
     },
     "block01-4": {
-      "memo": "come to mind は「（考え・アイデアが）頭に浮かぶ」"
+      "memo": "come to mind は「（考え・アイデアが）頭に浮かぶ」",
+      "check1": true
     }
   },
   "globalMemo": ""
