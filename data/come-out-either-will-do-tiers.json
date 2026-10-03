@@ -33,7 +33,8 @@
       "check1": true
     },
     "tier2b-0": {
-      "memo": "challenge：「挑戦する」ではなく、「異議を唱える」「疑問を投げかける」という意味です。"
+      "memo": "challenge：「挑戦する」ではなく、「異議を唱える」「疑問を投げかける」という意味です。",
+      "check1": true
     }
   },
   "globalMemo": ""
