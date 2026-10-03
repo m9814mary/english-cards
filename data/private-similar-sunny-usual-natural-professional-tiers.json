@@ -2,6 +2,9 @@
   "sentences": {
     "block01-1": {
       "memo": "separate は動詞ではなく 形容詞（分かれた・別々の）"
+    },
+    "block01-2": {
+      "check1": true
     }
   },
   "globalMemo": ""
