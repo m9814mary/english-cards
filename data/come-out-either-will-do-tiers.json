@@ -19,7 +19,8 @@
       "memo": "run は「（会議などが）続く・進む」という意味で、run long で「予定より長引く」"
     },
     "block02-2": {
-      "memo": "take ＋ route（道を選んで進む） と home（家へ）"
+      "memo": "take ＋ route（道を選んで進む） と home（家へ）",
+      "check1": true
     },
     "tier2a-0": {
       "memo": "merge（マージ）」は、日本語で「合併する」「統合する」「融合する」「一体化する」\nreveal は「（隠れていたものを）明らかにする」という意味で、ここでは will be revealed（明らかにされる） という受け身の形です。\nコアイメージ：reveal ＝「かぶせてあった覆いを取って、中身を見せる」\n形：even if ＋ 現在形, will ～\n意味：たとえ～でも",
