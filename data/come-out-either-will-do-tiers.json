@@ -32,7 +32,8 @@
       "check1": true
     },
     "tier2a-2": {
-      "check1": true
+      "check1": true,
+      "memo": "extent は、英語で「範囲」「広がり」「程度」を意味する名詞"
     },
     "tier2b-0": {
       "memo": "challenge：「挑戦する」ではなく、「異議を唱える」「疑問を投げかける」という意味です。",
