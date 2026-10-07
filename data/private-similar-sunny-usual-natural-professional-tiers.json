@@ -17,7 +17,8 @@
       "check1": true
     },
     "tier2a-2": {
-      "check1": true
+      "check1": true,
+      "memo": "used to は「昔はそうだったけど今は違う」という対比が強く、once は「かつて一度は〜だった」と過去の一時点をシンプルに示します"
     },
     "tier2b-2": {
       "check1": true
