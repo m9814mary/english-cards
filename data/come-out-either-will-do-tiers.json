@@ -42,6 +42,9 @@
     },
     "tier2b-5": {
       "memo": "evenly は「偏りなく平ら（均等）」、equally は「価値や権利が対等（平等）」"
+    },
+    "block01-2": {
+      "check1": true
     }
   },
   "globalMemo": ""
