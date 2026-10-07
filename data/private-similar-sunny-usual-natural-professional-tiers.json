@@ -8,7 +8,8 @@
       "check1": true
     },
     "block01-4": {
-      "check1": true
+      "check1": true,
+      "memo": "look like は「AがBに似ている」と片方を主語にし、alike は「AとBが似ている」と両方をまとめて主語にします。"
     },
     "tier2a-1": {
       "check2": false,
