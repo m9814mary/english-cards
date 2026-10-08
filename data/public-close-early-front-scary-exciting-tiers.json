@@ -14,6 +14,9 @@
     },
     "tier2b-5": {
       "memo": "offer：物・機会・条件を差し出す（受け取るかは相手が決める）"
+    },
+    "block01-0": {
+      "check1": true
     }
   },
   "globalMemo": ""
