@@ -30,6 +30,9 @@
     "tier2a-0": {
       "check1": true,
       "memo": "fill inは「空いている部分を埋める」、fill outは「書類を最後まで書き上げる」というイメージです。"
+    },
+    "block02-3": {
+      "memo": "pack は「整えて詰める」、stuff は「ぎゅうぎゅうに押し込む」です。"
     }
   },
   "globalMemo": ""
