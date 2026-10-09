@@ -32,6 +32,9 @@
     },
     "block01-3": {
       "memo": "on：中で立ったり歩いたりできる大きな乗り物\n→ train, bus, plane, ship, subway"
+    },
+    "block02-0": {
+      "check1": true
     }
   },
   "globalMemo": ""
