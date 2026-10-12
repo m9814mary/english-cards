@@ -29,7 +29,8 @@
     },
     "tier2a-0": {
       "check1": true,
-      "memo": "意味はほぼ同じ「違う、異なる」ですが、be different は会話でよく使う普通の表現で、differ は少し硬く書き言葉寄りの動詞"
+      "memo": "意味はほぼ同じ「違う、異なる」ですが、be different は会話でよく使う普通の表現で、differ は少し硬く書き言葉寄りの動詞",
+      "check2": true
     },
     "tier2b-4": {
       "check1": true
