@@ -1,7 +1,7 @@
 {
   "sentences": {
     "block01-0": {
-      "check1": false,
+      "check1": true,
       "memo": ""
     },
     "block01-1": {
