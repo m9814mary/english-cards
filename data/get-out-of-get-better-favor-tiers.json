@@ -10,7 +10,8 @@
     },
     "tier2a-0": {
       "memo": "affect（動詞）：「〜に影響を与える",
-      "check1": true
+      "check1": true,
+      "check2": true
     },
     "tier2a-1": {
       "memo": "present（動詞）：「〜を提示する、発表する」",
