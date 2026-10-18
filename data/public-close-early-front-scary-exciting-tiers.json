@@ -34,7 +34,8 @@
       "check2": true
     },
     "tier2b-6": {
-      "check1": true
+      "check1": true,
+      "check2": true
     },
     "tier2a-0": {
       "check1": true
