@@ -37,6 +37,9 @@
     },
     "tier2a-0": {
       "check1": true
+    },
+    "tier2a-2": {
+      "memo": "well は「上手に」ではなく、「かなり・十分に」という強調の副詞です。後ろの前置詞句や比較表現を強めます。\n\nwell ahead of schedule ＝ 予定よりかなり早く"
     }
   },
   "globalMemo": ""
