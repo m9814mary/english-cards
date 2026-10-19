@@ -14,7 +14,8 @@
     },
     "tier2b-0": {
       "memo": "ポイントは respect に「尊敬」だけでなく 「点・側面」 という意味があること",
-      "check1": true
+      "check1": true,
+      "check2": true
     },
     "block02-0": {
       "check1": true
