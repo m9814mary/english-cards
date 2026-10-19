@@ -32,7 +32,8 @@
       "check1": true
     },
     "block01-2": {
-      "check1": true
+      "check1": true,
+      "memo": "日常会話なら join がほぼ万能。participate はややかたく、「（積極的に）参加する・関わる」の意味が強いです"
     }
   },
   "globalMemo": ""
