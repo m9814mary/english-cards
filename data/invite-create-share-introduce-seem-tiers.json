@@ -40,7 +40,8 @@
       "check1": true
     },
     "tier2a-1": {
-      "check1": true
+      "check1": true,
+      "memo": "foster は「時間をかけて育てる・育む」という意味です"
     }
   },
   "globalMemo": ""
