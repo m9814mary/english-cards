@@ -28,7 +28,8 @@
       "check1": true
     },
     "tier2b-1": {
-      "check1": true
+      "check1": true,
+      "memo": "substance：物質そのもの・成分\nmaterial：材料・素材\naccording to：〜によると／〜に従って\nin accordance with：規則・基準に準拠して"
     },
     "block01-0": {
       "check1": true
