@@ -20,6 +20,9 @@
     },
     "tier2b-2": {
       "memo": "be met with ～＝「～で迎えられる・～という反応を受ける」"
+    },
+    "tier2b-3": {
+      "check1": true
     }
   },
   "globalMemo": ""
