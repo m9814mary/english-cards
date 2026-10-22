@@ -29,6 +29,9 @@
     "tier2b-3": {
       "check1": true,
       "memo": "written は write（書く）の過去分詞で、ここでは形容詞として「書かれた → 書面の」という意味"
+    },
+    "tier2a-1": {
+      "check1": true
     }
   },
   "globalMemo": ""
