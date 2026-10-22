@@ -32,6 +32,9 @@
     },
     "tier2a-1": {
       "check1": true
+    },
+    "tier2b-1": {
+      "check1": true
     }
   },
   "globalMemo": ""
