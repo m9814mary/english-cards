@@ -1,7 +1,8 @@
 {
   "sentences": {
     "block01-2": {
-      "check1": true
+      "check1": true,
+      "memo": "give a speech：最も一般的で自然。迷ったらこれ。\n\t•\tmake a speech：これも正しく、イギリス英語でよく使われます。\n\t•\tdeliver a speech：少しフォーマル（ニュースや書き言葉向き）。"
     }
   },
   "globalMemo": ""
