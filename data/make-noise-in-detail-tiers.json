@@ -21,7 +21,8 @@
       "check1": true
     },
     "tier2b-0": {
-      "check1": true
+      "check1": true,
+      "memo": "about（日常）＜ regarding ≒ concerning（改まった場面）＜ with regard to（かなり硬い）"
     }
   },
   "globalMemo": "be going to：自分の意思・兆候からの予測（日常会話の基本）\nplan to：計画を立てている（少し改まった言い方）\nbe scheduled to：公式の日程に入っている\nbe expected to：周りからそう見込まれて"
