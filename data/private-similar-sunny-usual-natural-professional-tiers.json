@@ -22,7 +22,8 @@
       "check2": true
     },
     "tier2b-2": {
-      "check1": true
+      "check1": true,
+      "check2": true
     },
     "block01-3": {
       "check1": true,
