@@ -34,7 +34,8 @@
       "memo": "expected（暗黙の期待）＜ required（ルール上の義務）"
     },
     "tier2b-1": {
-      "check1": true
+      "check1": true,
+      "check2": true
     }
   },
   "globalMemo": ""
